@@ -1,0 +1,33 @@
+<div>
+  <div class="main-container">
+    <app-partial></app-partial>
+    <div class="state">
+      <h4>stateValue</h4>
+      <pre class="data">{{ stateValue | json }}</pre>
+    </div>
+    <div class="state">
+      <h4>stateObservable</h4>
+      <pre class="data">{{ stateObservable | async | json }}</pre>
+    </div>
+    <div class="state">
+      <h4>stateSignal</h4>
+      <pre class="data">{{ stateSignal() | json }}</pre>
+    </div>
+  </div>
+  <div class="buttons">
+    <button (click)="onClick('dispatch')">Dispatch Action</button>
+    <button (click)="onClick('set')">Set Data</button>
+    <button (click)="onClick('extend')">Extend Data</button>
+    <button (click)="onClick('refresh')">Refresh Value</button>
+    <button (click)="onClick('unset')">Unset Data</button>
+  </div>
+</div>
+<div class="actions-log">
+  <ng-container *ngFor="let log of logs">
+    <div class="log">
+      <div class="action">{{ log.action }}</div>
+      <div class="type">{{ log.type }}</div>
+      <pre class="data">{{ log.data | json }}</pre>
+    </div>
+  </ng-container>
+</div>

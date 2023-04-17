@@ -1,23 +1,52 @@
 {
-  "name": "ng-signals",
+  "name": "@smoosee/ng-signals",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+  "description": "Plug-N-Play manager for Angular Signals.",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smoosee/ng-signals.git"
   },
-  "private": true,
+  "keywords": [
+    "smoosee",
+    "angular",
+    "signals",
+    "facade",
+    "manager"
+  ],
+  "author": "Mostafa Sherif",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smoosee/ng-signals/issues"
+  },
+  "homepage": "https://github.com/smoosee/ng-signals#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "scripts": {
+    "************* DEV ****************": "",
+    "start": "ng serve demo",
+    "watch": "npm run build -- --watch",
+    "test": "ng test",
+    "************* BUILD ****************": "",
+    "prebuild": "indeps pkgVersion",
+    "build": "ng build @smoosee/ng-signals",
+    "************* RELEASE ****************": "",
+    "docs": "typedoc --plugin typedoc-plugin-markdown --out docs lib/src/index.ts",
+    "release": "auto shipit",
+    "prepack": "indeps prepack",
+    "postpack": "indeps postpack"
+  },
   "dependencies": {
-    "@angular/animations": "^16.0.0-next.0",
-    "@angular/common": "^16.0.0-next.0",
-    "@angular/compiler": "^16.0.0-next.0",
-    "@angular/core": "^16.0.0-next.0",
-    "@angular/forms": "^16.0.0-next.0",
-    "@angular/platform-browser": "^16.0.0-next.0",
-    "@angular/platform-browser-dynamic": "^16.0.0-next.0",
-    "@angular/router": "^16.0.0-next.0",
+    "@angular/animations": "^16.0.0-next.7",
+    "@angular/common": "^16.0.0-next.7",
+    "@angular/compiler": "^16.0.0-next.7",
+    "@angular/core": "^16.0.0-next.7",
+    "@angular/forms": "^16.0.0-next.7",
+    "@angular/platform-browser": "^16.0.0-next.7",
+    "@angular/platform-browser-dynamic": "^16.0.0-next.7",
+    "@angular/router": "^16.0.0-next.7",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
@@ -25,14 +54,19 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.0.0-next.7",
     "@angular/cli": "~16.0.0-next.7",
-    "@angular/compiler-cli": "^16.0.0-next.0",
+    "@angular/compiler-cli": "^16.0.0-next.7",
+    "@smoosee/indeps": "^1.0.29",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
+    "jsdoc-to-markdown": "^8.0.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "ng-packagr": "^16.0.0-next.1",
+    "typedoc": "^0.24.1",
+    "typedoc-plugin-markdown": "^3.15.1",
     "typescript": "~5.0.2"
   }
 }

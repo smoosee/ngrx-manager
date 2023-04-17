@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/@smoosee/indeps/schema.json",
+  "library": {
+    "name": "@smoosee/indeps",
+    "version": "0.0.0"
+  },
+  "build": {
+    "srcPath": "lib",
+    "version": {
+      "increment": "patch"
+    }
+  }
+}

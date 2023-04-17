@@ -1,27 +1,276 @@
-# NgSignals
+<div align="center">
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0-next.7.
+<h1> @smoosee/ng-signals </h1>
+<p>Plug-N-Play State Manager for Angular Signals</p>
 
-## Development server
+[![][img.release]][link.release]
+[![][img.license]][link.license]
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![][img.node]
+![][img.npm]
+![][img.downloads]
 
-## Code scaffolding
+[![][img.banner]][link.npm]
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+</div>
 
-## Build
+<h2>Table of Contents</h2>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- [Install](#install)
+- [Usage](#usage)
+  - [Exported Configuration Types](#exported-configuration-types)
+    - [StoreOptions](#storeoptions)
+    - [StateConfig](#stateconfig)
+    - [StateAction](#stateaction)
+    - [StateReducer](#statereducer)
+  - [Setup The Store](#setup-the-store)
+    - [forRoot](#forroot)
+    - [forChild](#forchild)
+    - [initialize](#initialize)
+  - [Creating States Dynamically](#creating-states-dynamically)
+  - [Dispatching Actions](#dispatching-actions)
+  - [Listening To State Changes](#listening-to-state-changes)
 
-## Running unit tests
+## Install
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```shell
+yarn add @smoosee/ng-signals
 
-## Running end-to-end tests
+# OR
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+npm install @smoosee/ng-signals
+```
 
-## Further help
+## Usage
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Exported Configuration Types
+
+#### StoreOptions
+
+- **app** - `string` (_Optional_) : a name that is used to group states.
+- **prefix** - `string` (_Optional_) : a prefix that is used to group apps.
+- **storage** - `string` (_Optional_) : optional value of `session`, `local` or `none` that determines if we will use `sessionStorage` or `localStorage` to hold the store data.
+
+#### StateConfig
+
+- **name** - `string` (_Required_) : a name that identifies the state.
+- **initial** - `object` (_Optional_) : initial value of the state.
+- **actions** - `StateAction[]` (_Optional_) : list of actions that will be executed against the state.
+- **options** - `StoreOptions` (_Optional_) : override global `StoreOptions`.
+- **reducers** - `StateReducer[]` (_Optional_) : list of reducers that will be used to map the state data.
+
+#### StateAction
+
+- **name** - `string` (_Required_) : a name that identifies the action.
+- **service** - `any` (_Required_) : the service class that will be injected for this action.
+- **method** - `string` (_Required_) : the method name that will be called inside the `service`.
+
+#### StateReducer
+
+- **mapReduce** - (`state`: `StateConfig`, `value`: `any`, `action?`: `ExtendedAction`) => `any`
+
+### Setup The Store
+
+You can setup the store using multiple methods available thru different exported items depending on your needs.
+
+#### forRoot
+
+- This method is used to setup the Store globally.
+- This is helpful if you have a single entry application.
+- In case if you have module-federation setup, jump to `forChild`.
+
+```typescript
+// app.module.ts
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { SignalsModule } from "@smoosee/ng-signals";
+
+import { AppComponent } from "./app.component";
+
+import { StoreOptions, StatesConfigs } from "./app.store";
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, SignalsModule.forRoot(StoreOptions, StatesConfigs)],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+#### forChild
+
+- This method is used to setup feature States.
+- This is typically helpful if you have module-federation or modules with different states that you need to setup separately.
+
+```typescript
+// app.module.ts
+import { NgModule } from "@angular/core";
+import { SignalsModule } from "@smoosee/ng-signals";
+
+import { PageComponent } from "./page.component";
+
+import { StoreOptions, StatesConfigs } from "./page.store";
+
+@NgModule({
+  declarations: [PageComponent],
+  imports: [SignalsModule.forChild(StoreOptions, StatesConfigs)],
+})
+export class PageModule {}
+```
+
+#### initialize
+
+- This method resides inside the `SignalsManager` service.
+- You can use this to setup the Store manually if you like to skip using the `SignalsModule`.
+- This is typically helpful if you have a standalone component application.
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from "@angular/core";
+import { SignalsManager } from "@smoosee/ng-signals";
+
+import { StoreOptions, StatesConfigs } from "./app.store";
+
+@Component({
+  selector: "app-root",
+  template: ` <h1>App</h1> `,
+  standalone: true,
+  providers: [SignalsManager],
+})
+export class AppComponent implements OnInit {
+  constructor(private signalsManager: SignalsManager) {
+    this.signalsManager.initialize(StatesConfigs, StoreOptions);
+  }
+
+  ngOnInit() {}
+}
+```
+
+### Adding States Dynamically
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from "@angular/core";
+import { SignalsManager } from "@smoosee/ng-signals";
+
+import { StoreOptions, StatesConfigs } from "./app.store";
+
+@Component({
+  selector: "app-root",
+  template: ` <h1>App</h1> `,
+  standalone: true,
+  providers: [SignalsManager],
+})
+export class AppComponent implements OnInit {
+  constructor(private signalsManager: SignalsManager) {
+    // This will add `App` state to the store.
+    manager.addState("App");
+
+    // This will add an action to the last added State.
+    // in this case, it will be `App` state.
+    manager.addAction({
+      name: "increment",
+      service: TestService,
+      method: "increment",
+    });
+
+    // You can also chain the commands.
+    // This will add `Test` state to the store.
+    // And add the action to the same state.
+    manager
+      .addState({
+        name: "Test",
+        initial: { count: 0 },
+        options: { storage: "none" },
+      })
+      .addAction({
+        name: "increment",
+        service: TestService,
+        method: "increment",
+      });
+
+    // You can also add the action to a specific state.
+    manager.addAction({
+      name: "decrement",
+      service: TestService,
+      method: "decrement",
+      state: "App",
+    });
+  }
+
+  ngOnInit() {}
+}
+```
+
+### Dispatching Actions
+
+To communicate with the Store, you have to use the `SignalsFacade` service.
+
+```typescript
+    // inject the `SignalsFacade` service by using it in the constructor
+    constructor(private signalsFacade: SignalsFacade) {}
+    // OR
+    signalsFacade = inject(SignalsFacade);
+
+
+    // dispatch action to the store
+    // will trigger the `increment` action
+    // for the `Test` state
+    this.signalsFacade.dispatch("Test", "increment");
+
+    // dispatch action to the store
+    // will trigger the `SET` action
+    // for the `App` state
+    this.signalsFacade.setData("App", { name: "smoosee" });
+
+    // dispatch action to the store
+    // will trigger the `UNSET` action
+    // for the `App` state
+    this.signalsFacade.unsetData("App");
+
+    // clear all data from the store
+    // this will trigger the `UNSET` action
+    // for all states
+    this.signalsFacade.clear();
+```
+
+### Listening To State Changes
+
+To listen to state changes, you have to use the `SignalsFacade` service.
+
+```typescript
+// app.component.ts
+import { Component, OnInit } from "@angular/core";
+import { SignalsFacade } from "@smoosee/ng-signals";
+
+@Component({
+  selector: "app-root",
+  template: `
+    <div>value: {{ stateValue | json }}</div>
+    <div>observable: {{ sateObservable | async | json }}</div>
+    <div>signal: {{ stateSignal() | json }}</div>
+  `,
+})
+export class AppComponent implements OnInit {
+  // retrieve value of the state synchronously
+  stateValue = this.facade.select<StoreData>("App");
+  // retrieve value of the state asynchronously as Observable
+  stateObservable = this.facade.select<StoreData>("App", true);
+  // retrieve value of the state asynchronously as Signal
+  stateSignal = this.facade.select<StoreData>("App", false);
+
+  constructor(private facade: SignalsFacade) {}
+
+  ngOnInit() {}
+}
+```
+
+[img.release]: https://img.shields.io/github/actions/workflow/status/smoosee/vite-plugin-angular/release.yml?logo=github&label=release
+[img.license]: https://img.shields.io/github/license/smoosee/vite-plugin-angular?logo=github
+[img.node]: https://img.shields.io/node/v/@smoosee/vite-plugin-angular?logo=node.js&logoColor=white&labelColor=339933&color=grey&label=
+[img.npm]: https://img.shields.io/npm/v/@smoosee/vite-plugin-angular?logo=npm&logoColor=white&labelColor=CB3837&color=grey&label=
+[img.downloads]: https://img.shields.io/npm/dt/@smoosee/vite-plugin-angular?logo=docusign&logoColor=white&labelColor=purple&color=grey&label=
+[img.banner]: https://nodei.co/npm/@smoosee/vite-plugin-angular.png
+[link.release]: https://github.com/smoosee/vite-plugin-angular/actions/workflows/release.yml
+[link.license]: https://github.com/smoosee/vite-plugin-angular/blob/master/LICENSE
+[link.npm]: https://npmjs.org/package/@smoosee/vite-plugin-angular

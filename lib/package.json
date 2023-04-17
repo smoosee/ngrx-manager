@@ -1,0 +1,35 @@
+{
+    "name": "@smoosee/ng-signals",
+    "version": "0.0.1",
+    "description": "Plug-N-Play manager for Angular Signals.",
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/smoosee/ng-signals.git"
+    },
+    "keywords": [
+        "smoosee",
+        "angular",
+        "signals",
+        "facade",
+        "manager"
+    ],
+    "author": "Mostafa Sherif",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/smoosee/ng-signals/issues"
+    },
+    "homepage": "https://github.com/smoosee/ng-signals#readme",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org",
+        "access": "public"
+    },
+    "peerDependencies": {
+        "@angular/common": "^16.0.0-next.7",
+        "@angular/core": "^16.0.0-next.7"
+    },
+    "dependencies": {
+        "tslib": "^2.3.0"
+    },
+    "sideEffects": false
+}
