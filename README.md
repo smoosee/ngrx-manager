@@ -47,27 +47,37 @@ npm install @smoosee/ng-signals
 
 #### StoreOptions
 
-- **app** - `string` (_Optional_) : a name that is used to group states.
-- **prefix** - `string` (_Optional_) : a prefix that is used to group apps.
-- **storage** - `string` (_Optional_) : optional value of `session`, `local` or `none` that determines if we will use `sessionStorage` or `localStorage` to hold the store data.
+| key       | type     | default  | constraint | description                                                                                                                              |
+| --------- | -------- | -------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `app`     | `string` | `null`   | Optional   | a name that is used to group states.                                                                                                     |
+| `prefix`  | `string` | `null`   | Optional   | a prefix that is used to group apps.                                                                                                     |
+| `storage` | `string` | `"none"` | Optional   | optional value of `session`, `local` or `none` that determines if we will use `sessionStorage` or `localStorage` to hold the store data. |
 
 #### StateConfig
 
-- **name** - `string` (_Required_) : a name that identifies the state.
-- **initial** - `object` (_Optional_) : initial value of the state.
-- **actions** - `StateAction[]` (_Optional_) : list of actions that will be executed against the state.
-- **options** - `StoreOptions` (_Optional_) : override global `StoreOptions`.
-- **reducers** - `StateReducer[]` (_Optional_) : list of reducers that will be used to map the state data.
+| key          | type             | default | constraint | description                                                 |
+| ------------ | ---------------- | ------- | ---------- | ----------------------------------------------------------- |
+| `name`       | `string`         | `null`  | Required   | a name that identifies the state.                           |
+| `initial`    | `object`         | `{}`    | Optional   | initial value of the state.                                 |
+| `actions`    | `StateAction[]`  | `[]`    | Optional   | list of actions that will be executed against the state.    |
+| `options`    | `StoreOptions`   | `{}`    | Optional   | override global `StoreOptions`.                             |
+| `reducers`   | `StateReducer[]` | `[]`    | Optional   | list of reducers that will be used to map the state data.   |
+| `signal`     | `Signal`         | `null`  | Readonly   | a signal that will be used to listen to state changes.      |
+| `observable` | `Observable`     | `null`  | Readonly   | an observable that will be used to listen to state changes. |
 
 #### StateAction
 
-- **name** - `string` (_Required_) : a name that identifies the action.
-- **service** - `any` (_Required_) : the service class that will be injected for this action.
-- **method** - `string` (_Required_) : the method name that will be called inside the `service`.
+| key       | type     | default | constraint | description                                               |
+| --------- | -------- | ------- | ---------- | --------------------------------------------------------- |
+| `name`    | `string` | `null`  | Required   | a name that identifies the action.                        |
+| `service` | `any`    | `null`  | Required   | the service class that will be injected for this action.  |
+| `method`  | `string` | `null`  | Required   | the method name that will be called inside the `service`. |
 
 #### StateReducer
 
-- **mapReduce** - (`state`: `StateConfig`, `value`: `any`, `action?`: `ExtendedAction`) => `any`
+| key         | type                                                                           | default | constraint | description                                                     |
+| ----------- | ------------------------------------------------------------------------------ | ------- | ---------- | --------------------------------------------------------------- |
+| `mapReduce` | (`state`: `StateConfig`, `value`: `any`, `action?`: `ExtendedAction`) => `any` | `null`  | Required   | the reducer function that will be called to map the state data. |
 
 ### Setup The Store
 
@@ -221,12 +231,19 @@ To communicate with the Store, you have to use the `SignalsFacade` service.
     // dispatch action to the store
     // will trigger the `SET` action
     // for the `App` state
-    this.signalsFacade.setData("App", { name: "smoosee" });
+    this.signalsFacade.set("App", { name: "smoosee" });
+
+    // dispatch action to the store
+    // will trigger the `EXTEND` action
+    // for the `App` state
+    // which is basically extending the current state
+    // with the new data instead of replacing it like the `SET` action
+    this.signalsFacade.extend("App", { name: "smoosee" });
 
     // dispatch action to the store
     // will trigger the `UNSET` action
     // for the `App` state
-    this.signalsFacade.unsetData("App");
+    this.signalsFacade.unset("App");
 
     // clear all data from the store
     // this will trigger the `UNSET` action
