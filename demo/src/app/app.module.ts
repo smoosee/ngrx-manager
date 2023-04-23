@@ -19,7 +19,6 @@ import { PartialModule } from './partial/partial.module';
         prefix: 'prefix',
         app: 'app',
         storage: 'session',
-        extendByDefault: false
       },
       [
         {

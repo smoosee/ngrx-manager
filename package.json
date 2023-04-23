@@ -2,7 +2,6 @@
   "name": "@smoosee/ng-signals",
   "version": "0.0.0",
   "description": "Plug-N-Play manager for Angular Signals.",
-  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/smoosee/ng-signals.git"
@@ -39,23 +38,23 @@
     "postpack": "indeps postpack"
   },
   "dependencies": {
-    "@angular/animations": "^16.0.0-next.7",
-    "@angular/common": "^16.0.0-next.7",
-    "@angular/compiler": "^16.0.0-next.7",
-    "@angular/core": "^16.0.0-next.7",
-    "@angular/forms": "^16.0.0-next.7",
-    "@angular/platform-browser": "^16.0.0-next.7",
-    "@angular/platform-browser-dynamic": "^16.0.0-next.7",
-    "@angular/router": "^16.0.0-next.7",
+    "@angular/animations": "next",
+    "@angular/common": "next",
+    "@angular/compiler": "next",
+    "@angular/core": "next",
+    "@angular/forms": "next",
+    "@angular/platform-browser": "next",
+    "@angular/platform-browser-dynamic": "next",
+    "@angular/router": "next",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.0.0-next.7",
-    "@angular/cli": "~16.0.0-next.7",
-    "@angular/compiler-cli": "^16.0.0-next.7",
-    "@smoosee/indeps": "^1.0.29",
+    "@angular-devkit/build-angular": "next",
+    "@angular/cli": "next",
+    "@angular/compiler-cli": "next",
+    "@smoosee/indeps": "latest",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
     "jsdoc-to-markdown": "^8.0.0",
@@ -68,5 +67,6 @@
     "typedoc": "^0.24.1",
     "typedoc-plugin-markdown": "^3.15.1",
     "typescript": "~5.0.2"
-  }
+  },
+  "packageManager": "yarn@3.5.0"
 }

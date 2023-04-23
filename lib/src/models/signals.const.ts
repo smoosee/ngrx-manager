@@ -8,7 +8,6 @@ export interface StoreOptions {
   app?: string;
   prefix?: string;
   storage?: 'local' | 'session' | 'none';
-  extendByDefault?: boolean;
 }
 
 export enum ActionKeys {

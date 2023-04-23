@@ -42,3 +42,8 @@ testem.log
 Thumbs.db
 
 package
+
+
+# Yarn
+.yarn/*
+!.yarn/releases

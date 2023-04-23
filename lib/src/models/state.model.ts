@@ -1,5 +1,5 @@
 import { WritableSignal, signal } from "@angular/core";
-import { fromSignal } from "@angular/core/rxjs-interop";
+import { toObservable } from "@angular/core/rxjs-interop";
 import { Observable, switchMap, timeout, timer } from "rxjs";
 import { ExtendedAction, StateAction } from "../models/action.model";
 import { ActionStatus, StoreOptions } from "./signals.const";
@@ -30,7 +30,7 @@ export class StateConfig<T> {
         this.reducers = state?.reducers || [];
 
         const stateSignal = signal<T>(this.initial);
-        const stateObservable = fromSignal(stateSignal)
+        const stateObservable = toObservable(stateSignal)
         this.signal = stateSignal;
         this.observable = timer(0).pipe(switchMap(() => stateObservable));
 
@@ -39,9 +39,8 @@ export class StateConfig<T> {
 
     update(action?: ExtendedAction) {
         this.signal?.update(() => {
-            const setData = !this.options.extendByDefault || action?.name === ActionStatus.SET;
-            const extendData = !!this.options.extendByDefault || action?.name === ActionStatus.EXTEND;
-            const value = setData && !extendData ? {} : this.signal();
+            const extendData = action?.name === ActionStatus.EXTEND;
+            const value = !extendData ? {} : this.signal();
             return this.reducers.reduce((result: any, reducer: StateReducer<T>) => {
                 return reducer.mapReduce(this, result, action);
             }, value);

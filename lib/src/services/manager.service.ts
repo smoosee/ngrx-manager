@@ -3,9 +3,8 @@ import {
   Injector,
   inject
 } from '@angular/core';
-import { STORE_OPTIONS } from 'package';
 import {
-  StateAction,
+  STORE_OPTIONS, StateAction,
   StateConfig,
   StoreOptions
 } from '../models';
