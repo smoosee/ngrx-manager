@@ -1,6 +1,6 @@
 {
   "name": "@smoosee/ng-signals",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "description": "Plug-N-Play manager for Angular Signals.",
   "repository": {
     "type": "git",
