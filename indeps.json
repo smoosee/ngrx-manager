@@ -8,6 +8,10 @@
     "srcPath": "lib",
     "version": {
       "increment": "patch"
-    }
+    },
+    "files": [
+      "README.md",
+      "LICENSE"
+    ]
   }
 }
