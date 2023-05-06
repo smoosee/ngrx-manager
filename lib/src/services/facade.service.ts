@@ -1,20 +1,27 @@
-import { Injectable, Signal } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
 import { SignalsActions } from './actions.service';
 import { ActionStatus } from '../models';
 import { SignalsStore } from './store.service';
+
+type StateKey = string;
+type StateData<T extends StateKey> = T extends StateKey ? any : never;
 
 @Injectable({ providedIn: 'root' })
 export class SignalsFacade {
   cache: any = {};
   returnType: 'signal' | 'observable' = 'signal';
 
-  constructor(private store: SignalsStore, private actions: SignalsActions) { }
+  store = inject(SignalsStore);
+  actions = inject(SignalsActions);
 
-  select<T>(stateKey: string): T;
-  select<T>(stateKey: string, async: false): Signal<T>;
-  select<T>(stateKey: string, async: true): Observable<T>;
-  select<T>(stateKey: string, async: boolean | null = null) {
+
+  constructor() { }
+
+  select<T extends StateKey>(stateKey: T): StateData<T>;
+  select<T extends StateKey>(stateKey: T, async: false): Signal<StateData<T>>;
+  select<T extends StateKey>(stateKey: T, async: true): Observable<StateData<T>>;
+  select<T extends StateKey>(stateKey: string, async: boolean | null = null) {
     if (async === null) {
       return this.store.value(stateKey);
     } else if (async) {
@@ -24,60 +31,56 @@ export class SignalsFacade {
     }
   }
 
-  dispatch(stateKey: string, actionKey: string, payload?: any) {
-    const action = this.actions.dispatch(stateKey, actionKey, payload);
-    return this.store.observable(stateKey, action);
+  dispatch<T extends StateKey>(stateKey: T, actionKey: string, payload?: Partial<StateData<T>>) {
+    const action = this.actions.dispatch(stateKey as string, actionKey, payload);
+    return this.store.observable(stateKey as string, action);
   }
 
-  get<T>(stateKey: string): Observable<T> {
-    return this.select(stateKey, true) as Observable<T>;
+  get<T extends StateKey>(stateKey: T): Observable<StateData<T>> {
+    return this.select(stateKey, true) as Observable<StateData<T>>;
   }
 
-  set<T>(stateKey: string, payload?: T) {
+  set<T extends StateKey>(stateKey: T, payload?: Partial<StateData<T>>) {
     return this.dispatch(stateKey, ActionStatus.SET, payload);
   }
 
-  extend<T>(stateKey: string, payload?: T) {
+  extend<T extends StateKey>(stateKey: T, payload?: Partial<StateData<T>>) {
     return this.dispatch(stateKey, ActionStatus.EXTEND, payload);
   }
 
-  unset(stateKey: string) {
+  unset<T extends StateKey>(stateKey: T) {
     return this.dispatch(stateKey, ActionStatus.UNSET);
   }
 
-  init(
-    stateKey: string,
-    getter: Observable<any>,
-    formatter = (data: any) => data,
-    force = false
-  ) {
+  init<T extends StateKey>(stateKey: T, getter: Observable<StateData<T>>, formatter: (data: any) => StateData<T>, force = false) {
+    formatter = formatter || ((data: StateData<T>) => data);
     if (this.isEmpty(stateKey) || force) {
       return firstValueFrom(getter).then((data) => {
         this.set(stateKey, { ...formatter(data), cached: false });
       });
     } else {
-      return firstValueFrom(this.set(stateKey, { cached: true }));
+      return firstValueFrom(this.set(stateKey, { cached: true } as StateData<T>));
     }
   }
 
-  clear(exclude: string[] = []) {
+  clear<T extends StateKey>(exclude: T[] = []) {
     Object.keys(this.store.states).forEach((stateKey) => {
-      if (exclude.includes(stateKey)) {
-        this.cache[stateKey] = this.select(stateKey);
+      if (exclude.includes(stateKey as T)) {
+        this.cache[stateKey as T] = this.select(stateKey as StateKey);
       } else {
-        this.unset(stateKey);
+        this.unset(stateKey as T);
       }
     });
   }
 
   restore() {
     Object.keys(this.cache).forEach((stateKey) => {
-      this.set(stateKey, this.cache[stateKey]);
+      this.set(stateKey as StateKey, this.cache[stateKey]);
       delete this.cache[stateKey];
     });
   }
 
-  private isEmpty(stateKey: string) {
-    return Object.keys(this.select(stateKey)).length > 0;
+  private isEmpty<T extends StateKey>(stateKey: T) {
+    return Object.keys(this.select<T>(stateKey)).length > 0;
   }
 }
