@@ -14,9 +14,9 @@ interface StoreData {
 export class AppComponent implements OnInit {
   title = 'ng-signals';
 
-  stateValue = this.store.select<StoreData>('App');
-  stateObservable = this.store.select<StoreData>('App', true);
-  stateSignal = this.store.select<StoreData>('App', false);
+  stateValue = this.store.select('App');
+  stateObservable = this.store.select('App', true);
+  stateSignal = this.store.select('App', false);
 
   logs: any[] = [];
 
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'refresh':
-        this.stateValue = this.store.select<StoreData>('App');
+        this.stateValue = this.store.select('App');
         this.logs.unshift({ action: 'refresh', type: 'sync', data: {} });
         break;
       case 'unset':

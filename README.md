@@ -270,11 +270,11 @@ import { SignalsFacade } from "@smoosee/ng-signals";
 })
 export class AppComponent implements OnInit {
   // retrieve value of the state synchronously
-  stateValue = this.facade.select<StoreData>("App");
+  stateValue = this.facade.select("App");
   // retrieve value of the state asynchronously as Observable
-  stateObservable = this.facade.select<StoreData>("App", true);
+  stateObservable = this.facade.select("App", true);
   // retrieve value of the state asynchronously as Signal
-  stateSignal = this.facade.select<StoreData>("App", false);
+  stateSignal = this.facade.select("App", false);
 
   constructor(private facade: SignalsFacade) {}
 
