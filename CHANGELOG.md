@@ -1,3 +1,15 @@
+# v0.0.6 (Mon May 08 2023)
+
+#### ⚠️ Pushed to `master`
+
+- add strongly typed configuration ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.5 (Sat May 06 2023)
 
 #### ⚠️ Pushed to `master`
