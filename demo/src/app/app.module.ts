@@ -4,9 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignalsModule } from '@smoosee/ng-signals';
-import { AppService } from './app.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PartialModule } from './partial/partial.module';
+import { AppStoreOptions, AppStoreStates } from './app.store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,25 +14,8 @@ import { PartialModule } from './partial/partial.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    SignalsModule.forRoot(
-      {
-        prefix: 'prefix',
-        app: 'app',
-        storage: 'session',
-      },
-      [
-        {
-          name: 'App',
-          actions: [
-            {
-              name: 'TEST_FN',
-              service: AppService,
-              method: 'testFn2',
-            },
-          ],
-        },
-      ]
-    ),
+    // SignalsModule.forRoot(AppStoreOptions, AppStoreStates),
+    // SignalsModule.forChild({}, AppStoreStates),
     PartialModule,
   ],
   bootstrap: [AppComponent],

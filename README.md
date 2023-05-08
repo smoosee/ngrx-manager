@@ -14,6 +14,17 @@
 
 </div>
 
+## Features
+
+-   ⚡️ Simple plug-n-play.
+-   🅰️ Supports latest Angular v16.
+-   😎 Action Based Processing.
+-   💪 Strongly Typed States.
+-   📦 Save into Local & Session Storage.
+-   📃 Comprehensive APIs.
+-   🔁 Backward Compatibility with RxJs Observables.
+
+
 <h2>Table of Contents</h2>
 
 - [Install](#install)
@@ -30,6 +41,7 @@
   - [Creating States Dynamically](#creating-states-dynamically)
   - [Dispatching Actions](#dispatching-actions)
   - [Listening To State Changes](#listening-to-state-changes)
+  - [Strongly Typed States](#strongly-typed-states)
 
 ## Install
 
@@ -282,9 +294,50 @@ export class AppComponent implements OnInit {
 }
 ```
 
+### Strongly Typed States
+
+To achieve Strongly Typed States, you would need to do the following 
+
+```typescript
+// STEP 1
+// create interfaces or classes of the states models.
+
+interface AppState {
+  set: boolean;
+  extend: boolean;
+}
+
+interface SharedState {
+  useThis: boolean;
+  useThat: boolean;
+}
+
+// STEP 2
+// create `Conditional Types` to pass to the `SignalsFacade` as `Generic Types`.
+
+type StateKey = "App" | "Shared";
+
+type StateData = {
+  [T in StateKey]: 
+    T extends "App" ? AppState :
+    T extends "Shared" ? SharedState :
+    never;
+};
+
+// STEP 3
+// use `SignalsFacade<StateKey, StateData>`.
+
+@Injectable({provided:'root'})
+export class StoreFacade extends SignalsFacade<StateKey, StateData> {
+  constructor() { super(); }
+}
+
+```
+
 
 
 ## License
+
 MIT License
 
 Copyright (c) 2023 Mostafa Sherif

@@ -6,7 +6,7 @@ import { SignalsFacade } from '@smoosee/ng-signals';
   template: ``,
 })
 export class PartialComponent implements OnInit {
-  constructor(private store: SignalsFacade) {}
+  constructor(private store: SignalsFacade) { }
 
   ngOnInit() {
     this.store.set('App', { test: 123 });

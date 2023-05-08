@@ -1,10 +1,5 @@
 import { Component, OnInit, Signal, signal } from '@angular/core';
-import { SignalsFacade } from '@smoosee/ng-signals';
-
-interface StoreData {
-  value: number;
-  testCase2: boolean;
-}
+import { StoreFacade } from './app.facade';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +15,7 @@ export class AppComponent implements OnInit {
 
   logs: any[] = [];
 
-  constructor(private store: SignalsFacade) { }
+  constructor(private store: StoreFacade) { }
 
   ngOnInit(): void { }
 

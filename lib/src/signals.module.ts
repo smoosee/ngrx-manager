@@ -4,7 +4,7 @@ import { SignalsManager } from './services';
 
 @NgModule({})
 export class SignalsModule {
-  static forRoot(options: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
+  static forRoot(options?: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
     return {
       ngModule: SignalsModule,
       providers: [
@@ -14,7 +14,7 @@ export class SignalsModule {
     };
   }
 
-  static forChild(options: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
+  static forChild(options?: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
     states?.forEach(state => state.options = { ...options, ...state.options });
     return {
       ngModule: SignalsModule,
@@ -24,8 +24,8 @@ export class SignalsModule {
 
   constructor() {
     const manager = inject(SignalsManager);
-    const options: StoreOptions = inject(STORE_OPTIONS) || {};
-    const configs = (inject(STATE_CONFIG) || []) as StateConfig<any>[];
+    const options: StoreOptions = inject<StoreOptions>(STORE_OPTIONS, { optional: true }) || {} as any;
+    const configs: StateConfig<any>[] = inject(STATE_CONFIG, { optional: true }) || [] as any;
     manager.initialize(configs, options);
   }
 }

@@ -22,9 +22,9 @@ export class SignalsManager {
 
   constructor() { }
 
-  initialize(states: StateConfig<any>[], options?: StoreOptions) {
+  initialize(states: Partial<StateConfig<any>>[], options?: StoreOptions) {
     states.flat(Number.MAX_VALUE).forEach((config) => {
-      this.addState(config, options);
+      this.addState(config as StateConfig<any>, options);
     });
   }
 
@@ -33,7 +33,8 @@ export class SignalsManager {
 
 
   addState<T>(...args: any[]) {
-    const options = args[1] || this.injector.get(STORE_OPTIONS, {}) as StoreOptions;
+    const options = args[1] || this.injector.get(STORE_OPTIONS, { optional: true }) || {};
+
     this.state = new StateConfig<T>(args[0]);
 
     this.state.options = { ...options, ...this.state.options };
