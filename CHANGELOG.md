@@ -1,3 +1,18 @@
+# v0.0.7 (Wed May 10 2023)
+
+#### ⚠️ Pushed to `master`
+
+- 0.0.7 ([@sheriffMoose](https://github.com/sheriffMoose))
+- trigger build ([@sheriffMoose](https://github.com/sheriffMoose))
+- minor fix for demo ([@sheriffMoose](https://github.com/sheriffMoose))
+- add standalone providers ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.6 (Mon May 08 2023)
 
 #### ⚠️ Pushed to `master`
