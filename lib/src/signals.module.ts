@@ -1,31 +1,24 @@
-import { ModuleWithProviders, NgModule, inject } from '@angular/core';
-import { STATE_CONFIG, STORE_OPTIONS, StateConfig, StoreOptions } from './models';
-import { SignalsManager } from './services';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { StateConfigs, StoreOptions } from './models';
+import { provideStateConfigs, provideStoreOptions } from './signals.providers';
 
 @NgModule({})
 export class SignalsModule {
-  static forRoot(options?: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
+  static forRoot(options?: StoreOptions, states?: StateConfigs): ModuleWithProviders<SignalsModule> {
     return {
       ngModule: SignalsModule,
       providers: [
-        { provide: STORE_OPTIONS, useValue: options },
-        { provide: STATE_CONFIG, useValue: states, multi: true },
+        ...provideStoreOptions(options || {}),
+        ...provideStateConfigs(states || []),
       ],
     };
   }
 
-  static forChild(options?: StoreOptions, states?: Partial<StateConfig<any>>[]): ModuleWithProviders<SignalsModule> {
+  static forChild(options?: StoreOptions, states?: StateConfigs): ModuleWithProviders<SignalsModule> {
     states?.forEach(state => state.options = { ...options, ...state.options });
     return {
       ngModule: SignalsModule,
-      providers: [{ provide: STATE_CONFIG, useValue: states, multi: true }],
+      providers: [...provideStateConfigs(states || []),],
     };
-  }
-
-  constructor() {
-    const manager = inject(SignalsManager);
-    const options: StoreOptions = inject<StoreOptions>(STORE_OPTIONS, { optional: true }) || {} as any;
-    const configs: StateConfig<any>[] = inject(STATE_CONFIG, { optional: true }) || [] as any;
-    manager.initialize(configs, options);
   }
 }

@@ -1,5 +1,4 @@
-import { InjectionToken, WritableSignal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { InjectionToken } from "@angular/core";
 
 export const STORE_OPTIONS = new InjectionToken('STORE_OPTIONS');
 export const STATE_CONFIG = new InjectionToken('STATE_CONFIG');

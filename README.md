@@ -140,10 +140,32 @@ import { StoreOptions, StatesConfigs } from "./page.store";
 export class PageModule {}
 ```
 
+#### Standalone Components
+
+- You have the option to provide `StoreOptions` and `StateConfigs` for standalone components
+- Keep in mind, provide `StoreOptions` with `provideStateConfigs` won't override the root `StoreOptions` provided with `provideStoreOptions`. It will only provide shared options to the states passed to the method.
+
+```typescript
+// main.ts
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideStateConfigs, provideStoreOptions } from '@smoosee/ng-signals';
+import { AppComponent } from './app/app.component';
+import { AppStoreOptions, AppStoreStates } from './app/app.store';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideStoreOptions(AppStoreOptions),
+    provideStateConfigs(AppStoreStates, AppStoreOptions),
+  ]
+})
+
+```
+
 #### initialize
 
 - This method resides inside the `SignalsManager` service.
-- You can use this to setup the Store manually if you like to skip using the `SignalsModule`.
+- You can use this to setup the Store manually if you like to skip using the `SignalsModule` & do not want to use the standalone providers.
 - This is typically helpful if you have a standalone component application.
 
 ```typescript

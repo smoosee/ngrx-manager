@@ -3,6 +3,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { SignalsActions } from './actions.service';
 import { ActionStatus } from '../models';
 import { SignalsStore } from './store.service';
+import { SignalsManager } from './manager.service';
 
 
 @Injectable({ providedIn: 'root' })
@@ -10,11 +11,14 @@ export class SignalsFacade<StateKey extends string = any, StateData extends Reco
   cache: any = {};
   returnType: 'signal' | 'observable' = 'signal';
 
+  manager = inject(SignalsManager);
   store = inject(SignalsStore);
   actions = inject(SignalsActions);
 
 
-  constructor() { }
+  constructor() {
+    this.manager.initialize();
+  }
 
   select<T extends StateKey>(stateKey: T): StateData[T];
   select<T extends StateKey>(stateKey: T, async: false): Signal<StateData[T]>;

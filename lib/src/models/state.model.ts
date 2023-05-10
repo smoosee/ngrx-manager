@@ -4,6 +4,8 @@ import { Observable, switchMap, timeout, timer } from "rxjs";
 import { ExtendedAction, StateAction } from "../models/action.model";
 import { ActionStatus, StoreOptions } from "./signals.const";
 
+export type StateConfigs = Partial<StateConfig<any>>[];
+
 export interface StateReducer<T> {
     mapReduce: (
         state: StateConfig<T>,
