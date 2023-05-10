@@ -20,7 +20,7 @@ type StateData = {
 
 @Injectable({ providedIn: 'root' })
 export class StoreFacade extends SignalsFacade<StateKey, StateData> {
-    constructor(private manager: SignalsManager) {
+    constructor() {
         super();
 
         this.manager.initialize(AppStoreStates, AppStoreOptions);
