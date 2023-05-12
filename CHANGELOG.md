@@ -1,3 +1,16 @@
+# v0.0.9 (Fri May 12 2023)
+
+#### ⚠️ Pushed to `master`
+
+- fix build ([@sheriffMoose](https://github.com/sheriffMoose))
+- update models & drop actions service ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.7 (Wed May 10 2023)
 
 #### ⚠️ Pushed to `master`
