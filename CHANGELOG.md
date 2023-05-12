@@ -1,3 +1,15 @@
+# v0.0.10 (Fri May 12 2023)
+
+#### ⚠️ Pushed to `master`
+
+- export const & utils ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.9 (Fri May 12 2023)
 
 #### ⚠️ Pushed to `master`
