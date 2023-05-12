@@ -1,9 +1,5 @@
-import {
-  ActionKeys,
-  ActionStatus,
-  ExtendedAction,
-  StateConfig,
-} from '../models';
+import { ExtendedAction, StateConfig } from '../models';
+import { ActionKeys, ActionStatus, DefaultActions } from '../signals.const';
 
 export class GenericReducer {
   constructor() { }
@@ -15,12 +11,15 @@ export class GenericReducer {
   ) {
     let success, timestamp, unset, error;
     if (action) {
-      if (action.type.includes(ActionStatus.SUCCESS)) {
+      if (action.status() === ActionStatus.SUCCESS) {
         success = true;
         timestamp = action[ActionKeys.timestamp];
-        Object.assign(value, action.payload);
-      } else if (action.type.includes(ActionStatus.UNSET)) {
-        unset = true;
+        if (action.name === DefaultActions.UNSET) {
+          value = {};
+          unset = true;
+        } else {
+          Object.assign(value, action.payload);
+        }
       } else {
         error = true;
       }

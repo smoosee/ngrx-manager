@@ -7,16 +7,14 @@ import {
   runInInjectionContext
 } from '@angular/core';
 import { Observable, filter, map, take } from 'rxjs';
-import { ActionKeys, ActionStatus, ExtendedAction, StateConfig } from '../models';
-import { SignalsActions } from './actions.service';
+import { ExtendedAction, StateConfig } from '../models';
+import { ActionKeys, ActionStatus } from '../signals.const';
 
 @Injectable({ providedIn: 'root' })
 export class SignalsStore {
   states: { [key: string]: StateConfig<any> } = {};
 
-  constructor(private injector: Injector, private actions: SignalsActions) {
-    this.listen();
-  }
+  constructor(private injector: Injector) { }
 
   private map = (state: any) => {
     const {
@@ -24,6 +22,7 @@ export class SignalsStore {
       [ActionKeys.success]: success,
       [ActionKeys.unset]: unset,
       [ActionKeys.error]: error,
+      [ActionKeys.cached]: cached,
       ...rest
     } = state;
     return rest;
@@ -42,11 +41,12 @@ export class SignalsStore {
     if (action) {
       observable = observable.pipe(
         filter(
-          (payload: any) =>
-            !!payload?.[ActionKeys.success] &&
-            (!action ||
-              payload[ActionKeys.timestamp] === action[ActionKeys.timestamp])
-        ),
+          (payload: any) => {
+            const isSuccessful = !!payload?.[ActionKeys.success];
+            const isSameAction = payload[ActionKeys.timestamp] === action[ActionKeys.timestamp];
+            const noAction = !action;
+            return isSuccessful && (noAction || isSameAction);
+          }),
         take(1)
       );
     }
@@ -57,27 +57,34 @@ export class SignalsStore {
     return !!this.states[key];
   }
 
-  add<T>(state: StateConfig<T>) {
+  add<T>(config: StateConfig<T>) {
     runInInjectionContext(this.injector, () => {
-      if (this.exists(state.name)) {
-        return;
-      }
-      this.states[state.name] = new StateConfig<T>(state);
-    });
-  }
+      if (this.exists(config.name)) { return; }
 
-  private listen() {
-    runInInjectionContext(this.injector, () => {
+      const state = new StateConfig<T>(config);
+      this.states[config.name] = state;
+
       effect(
         () => {
-          const action = this.actions.currentAction();
-          if (action?.status === ActionStatus.SUCCESS) {
-            this.states[action.state].update(action);
-            this.actions.clear();
-          }
+          const pipeline = state.pipeline();
+          pipeline.forEach(action => {
+            const status = action.status();
+            if (status === ActionStatus.NEW) {
+              action.execute(this.injector);
+            } else if (status === ActionStatus.SUCCESS) {
+              state.update(action);
+              state.removeFromPipeline(action);
+            }
+          });
         },
         { allowSignalWrites: true }
       );
     });
+  }
+
+  dispatch(stateKey: string, actionKey: string, payload?: any) {
+    const state = this.states[stateKey];
+    const action = state.dispatch(actionKey, payload);
+    return action;
   }
 }

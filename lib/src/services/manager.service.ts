@@ -1,26 +1,13 @@
-import {
-  Injectable,
-  Injector,
-  inject,
-  runInInjectionContext
-} from '@angular/core';
-import {
-  STATE_CONFIG,
-  STORE_OPTIONS,
-  StateAction,
-  StateConfig,
-  StateConfigs,
-  StoreOptions
-} from '../models';
+import { Injectable, Injector, inject, runInInjectionContext } from '@angular/core';
+import { StateAction, StateConfig, } from '../models';
 import { GenericReducer, StorageReducer } from '../reducers';
-import { SignalsActions } from './actions.service';
+import { STATE_CONFIG, STORE_OPTIONS, StoreOptions, StateConfigs } from '../signals.const';
 import { SignalsStore } from './store.service';
 
 @Injectable({ providedIn: 'root' })
 export class SignalsManager {
   injector = inject(Injector);
   store = inject(SignalsStore);
-  actions = inject(SignalsActions);
 
   states = inject<StateConfigs>(STATE_CONFIG, { optional: true }) || [];
   options = inject<StoreOptions>(STORE_OPTIONS, { optional: true }) || {};
@@ -56,17 +43,7 @@ export class SignalsManager {
       }
 
       this.store.add(this.state);
-
-      this.state.actions.forEach((action: StateAction) => this.addAction(action));
     });
     return this;
   }
-
-  addAction(action: StateAction) {
-    runInInjectionContext(this.injector, () => {
-      this.actions.add(action.state || this.state.name, action);
-    });
-    return this;
-  }
-
 }

@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { StateConfigs, StoreOptions } from './models';
+import { StateConfigs, StoreOptions } from './signals.const';
 import { provideStateConfigs, provideStoreOptions } from './signals.providers';
 
 @NgModule({})

@@ -1,9 +1,10 @@
 import { Injectable, Signal, inject } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
-import { SignalsActions } from './actions.service';
-import { ActionStatus } from '../models';
-import { SignalsStore } from './store.service';
+import { Observable, firstValueFrom, switchMap, of } from 'rxjs';
+import { DefaultActions } from '../signals.const';
+import { mergeDeep } from '../signals.utils';
 import { SignalsManager } from './manager.service';
+import { SignalsStore } from './store.service';
+import { isEmpty } from 'lodash-es';
 
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,14 @@ export class SignalsFacade<StateKey extends string = any, StateData extends Reco
 
   manager = inject(SignalsManager);
   store = inject(SignalsStore);
-  actions = inject(SignalsActions);
 
 
   constructor() {
     this.manager.initialize();
+  }
+
+  selectAsync<T extends StateKey>(stateKey: T): Observable<StateData[T]> {
+    return this.select(stateKey, true);
   }
 
   select<T extends StateKey>(stateKey: T): StateData[T];
@@ -33,36 +37,64 @@ export class SignalsFacade<StateKey extends string = any, StateData extends Reco
     }
   }
 
-  dispatch<T extends StateKey>(stateKey: T, actionKey: string, payload?: Partial<StateData[T]>) {
-    const action = this.actions.dispatch(stateKey as string, actionKey, payload);
+  dispatch<T extends StateKey>(stateKey: T, actionKey: string): Observable<StateData[T]>;
+  dispatch<T extends StateKey>(stateKey: T, actionKey: string, payload?: string): Observable<StateData[T]>;
+  dispatch<T extends StateKey>(stateKey: T, actionKey: string, payload?: Partial<StateData[T]>): Observable<StateData[T]>;
+  dispatch<T extends StateKey>(stateKey: T, actionKey: string, payload?: string | Partial<StateData[T]>) {
+    const action = this.store.dispatch(stateKey as string, actionKey, payload);
     return this.store.observable(stateKey as string, action);
   }
 
   get<T extends StateKey>(stateKey: T): Observable<StateData[T]> {
-    return this.select(stateKey, true) as Observable<StateData[T]>;
+    return this.dispatch(stateKey, DefaultActions.GET);
   }
 
-  set<T extends StateKey>(stateKey: T, payload?: Partial<StateData[T]>) {
-    return this.dispatch(stateKey, ActionStatus.SET, payload);
+  set<T extends StateKey>(stateKey: T, payload: Partial<StateData[T]>) {
+    return this.dispatch(stateKey, DefaultActions.SET, payload);
   }
 
-  extend<T extends StateKey>(stateKey: T, payload?: Partial<StateData[T]>) {
-    return this.dispatch(stateKey, ActionStatus.EXTEND, payload);
+
+  extend<T extends StateKey>(stateKey: T, payload: Partial<StateData[T]>): Promise<StateData[T]>;
+  extend<T extends StateKey>(stateKey: T, getter: Observable<any>, key: string): Promise<StateData[T]>;
+  extend<T extends StateKey>(stateKey: T, getter: Observable<any>, key: string, formatter: (data: any) => StateData[T]): Promise<StateData[T]>;
+
+  extend<T extends StateKey>(stateKey: T, ...args: any[]) {
+    return firstValueFrom(this.extendAsync(stateKey, ...args));
+  }
+  extendAsync<T extends StateKey>(stateKey: T, ...args: any[]) {
+    const payload = args[0];
+    const getter = payload instanceof Observable ? payload : of(payload);
+    const key = args[1];
+    const formatter = args[2] || ((data: StateData[T]) => data);
+
+    return getter.pipe(switchMap((payload) => {
+      let stateData = this.select(stateKey);
+      if (key) {
+        stateData[key] = mergeDeep(stateData[key], payload);
+      } else {
+        stateData = mergeDeep(stateData, payload);
+      }
+      return this.dispatch(stateKey, DefaultActions.EXTEND, formatter(stateData));
+    }));
   }
 
   unset<T extends StateKey>(stateKey: T) {
-    return this.dispatch(stateKey, ActionStatus.UNSET);
+    return this.dispatch(stateKey, DefaultActions.UNSET);
   }
 
-  init<T extends StateKey>(stateKey: T, getter: Observable<StateData[T]>, formatter: (data: any) => StateData[T], force = false) {
+  init<T extends StateKey>(stateKey: T, getter: Observable<StateData[T]>, formatter: (data: any) => StateData[T], force = false): Promise<StateData[T]> {
+    return firstValueFrom(this.initAsync(stateKey, getter, formatter, force));
+  }
+  initAsync<T extends StateKey>(stateKey: T, getter: Observable<StateData[T]>, formatter: (data: any) => StateData[T], force = false): Observable<StateData[T]> {
     formatter = formatter || ((data: StateData[T]) => data);
-    if (this.isEmpty(stateKey) || force) {
-      return firstValueFrom(getter).then((data) => {
-        this.set(stateKey, { ...formatter(data), cached: false });
-      });
-    } else {
-      return firstValueFrom(this.set(stateKey, { cached: true } as StateData[T]));
+    const stateData = this.select(stateKey);
+    if (!isEmpty(stateData) && !force) {
+      return of(stateData);
     }
+
+    return getter.pipe(switchMap((data) => {
+      return this.set(stateKey, formatter(data));
+    }));
   }
 
   clear<T extends StateKey>(exclude: T[] = []) {
@@ -80,9 +112,5 @@ export class SignalsFacade<StateKey extends string = any, StateData extends Reco
       this.set(stateKey as StateKey, this.cache[stateKey]);
       delete this.cache[stateKey];
     });
-  }
-
-  private isEmpty<T extends StateKey>(stateKey: T) {
-    return Object.keys(this.select<T>(stateKey)).length > 0;
   }
 }

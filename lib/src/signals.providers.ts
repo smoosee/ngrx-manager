@@ -1,6 +1,6 @@
 import { APP_INITIALIZER } from "@angular/core";
-import { STATE_CONFIG, STORE_OPTIONS, StateConfig, StateConfigs, StoreOptions } from "./models";
 import { SignalsManager } from "./services";
+import { STATE_CONFIG, STORE_OPTIONS, StoreOptions, StateConfigs } from "./signals.const";
 
 export const provideStoreOptions = (options: StoreOptions) => {
     return [{ provide: STORE_OPTIONS, useValue: options }];

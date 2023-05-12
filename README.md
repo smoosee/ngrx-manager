@@ -16,14 +16,13 @@
 
 ## Features
 
--   ⚡️ Simple plug-n-play.
--   🅰️ Supports latest Angular v16.
--   😎 Action Based Processing.
--   💪 Strongly Typed States.
--   📦 Save into Local & Session Storage.
--   📃 Comprehensive APIs.
--   🔁 Backward Compatibility with RxJs Observables.
-
+- ⚡️ Simple plug-n-play.
+- 🅰️ Supports latest Angular v16.
+- 😎 Action Based Processing.
+- 💪 Strongly Typed States.
+- 📦 Save into Local & Session Storage.
+- 📃 Comprehensive APIs.
+- 🔁 Backward Compatibility with RxJs Observables.
 
 <h2>Table of Contents</h2>
 
@@ -148,18 +147,17 @@ export class PageModule {}
 ```typescript
 // main.ts
 
-import { bootstrapApplication } from '@angular/platform-browser';
-import { provideStateConfigs, provideStoreOptions } from '@smoosee/ng-signals';
-import { AppComponent } from './app/app.component';
-import { AppStoreOptions, AppStoreStates } from './app/app.store';
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideStateConfigs, provideStoreOptions } from "@smoosee/ng-signals";
+import { AppComponent } from "./app/app.component";
+import { AppStoreOptions, AppStoreStates } from "./app/app.store";
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideStoreOptions(AppStoreOptions),
     provideStateConfigs(AppStoreStates, AppStoreOptions),
-  ]
-})
-
+  ],
+});
 ```
 
 #### initialize
@@ -210,35 +208,19 @@ export class AppComponent implements OnInit {
     // This will add `App` state to the store.
     manager.addState("App");
 
-    // This will add an action to the last added State.
-    // in this case, it will be `App` state.
-    manager.addAction({
-      name: "increment",
-      service: TestService,
-      method: "increment",
-    });
-
-    // You can also chain the commands.
     // This will add `Test` state to the store.
     // And add the action to the same state.
-    manager
-      .addState({
-        name: "Test",
-        initial: { count: 0 },
-        options: { storage: "none" },
-      })
-      .addAction({
-        name: "increment",
-        service: TestService,
-        method: "increment",
-      });
-
-    // You can also add the action to a specific state.
-    manager.addAction({
-      name: "decrement",
-      service: TestService,
-      method: "decrement",
-      state: "App",
+    manager.addState({
+      name: "Test",
+      initial: { count: 0 },
+      options: { storage: "none" },
+      actions: [
+        {
+          name: "increment",
+          service: TestService,
+          method: "increment",
+        },
+      ],
     });
   }
 
@@ -318,7 +300,7 @@ export class AppComponent implements OnInit {
 
 ### Strongly Typed States
 
-To achieve Strongly Typed States, you would need to do the following 
+To achieve Strongly Typed States, you would need to do the following
 
 ```typescript
 // STEP 1
@@ -340,23 +322,23 @@ interface SharedState {
 type StateKey = "App" | "Shared";
 
 type StateData = {
-  [T in StateKey]: 
-    T extends "App" ? AppState :
-    T extends "Shared" ? SharedState :
-    never;
+  [T in StateKey]: T extends "App"
+    ? AppState
+    : T extends "Shared"
+    ? SharedState
+    : never;
 };
 
 // STEP 3
 // use `SignalsFacade<StateKey, StateData>`.
 
-@Injectable({provided:'root'})
+@Injectable({ provided: "root" })
 export class StoreFacade extends SignalsFacade<StateKey, StateData> {
-  constructor() { super(); }
+  constructor() {
+    super();
+  }
 }
-
 ```
-
-
 
 ## License
 
@@ -381,7 +363,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 
 [img.release]: https://img.shields.io/github/actions/workflow/status/smoosee/vite-plugin-angular/release.yml?logo=github&label=release
 [img.license]: https://img.shields.io/github/license/smoosee/vite-plugin-angular?logo=github
