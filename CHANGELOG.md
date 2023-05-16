@@ -1,3 +1,15 @@
+# v0.0.11 (Tue May 16 2023)
+
+#### ⚠️ Pushed to `master`
+
+- fix init method not triggering formatter for existing state ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.10 (Fri May 12 2023)
 
 #### ⚠️ Pushed to `master`
