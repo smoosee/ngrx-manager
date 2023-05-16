@@ -1,3 +1,15 @@
+# v0.0.12 (Tue May 16 2023)
+
+#### ⚠️ Pushed to `master`
+
+- fix mergeDeep when source is not an array but new value is ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.11 (Tue May 16 2023)
 
 #### ⚠️ Pushed to `master`
