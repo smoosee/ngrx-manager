@@ -89,7 +89,7 @@ export class SignalsFacade<StateKey extends string = any, StateData extends Reco
     formatter = formatter || ((data: StateData[T]) => data);
     const stateData = this.select(stateKey);
     if (!isEmpty(stateData) && !force) {
-      return of(stateData);
+      getter = of(stateData);
     }
 
     return getter.pipe(switchMap((data) => {
