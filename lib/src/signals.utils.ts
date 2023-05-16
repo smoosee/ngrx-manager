@@ -6,7 +6,7 @@ export function mergeDeep<T>(oldPayload: T, newPayload: T): T {
     }
     return mergeWith(cloneDeep(oldPayload), newPayload, (oldValue, newValue) => {
         if (isArray(oldValue) || isArray(newValue)) {
-            return [].concat(...oldValue, ...newValue);
+            return [].concat((oldValue||[]) as any,(newValue||[]) as any);
         }
         return;
     });
