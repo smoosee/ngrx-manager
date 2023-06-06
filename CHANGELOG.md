@@ -1,3 +1,15 @@
+# v0.0.13 (Tue Jun 06 2023)
+
+#### ⚠️ Pushed to `master`
+
+- throw error if state does not exist ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.12 (Tue May 16 2023)
 
 #### ⚠️ Pushed to `master`
