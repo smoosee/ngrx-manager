@@ -84,6 +84,7 @@ export class SignalsStore {
 
   dispatch(stateKey: string, actionKey: string, payload?: any) {
     const state = this.states[stateKey];
+    if(!state) throw new Error(`dispatch::${actionKey} - State ${stateKey} does not exist`);
     const action = state.dispatch(actionKey, payload);
     return action;
   }
