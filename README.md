@@ -1,7 +1,7 @@
 <div align="center">
 
 <h1> @smoosee/ngrx-manager </h1>
-<p>Plug-N-Play State Manager for Angular Signals</p>
+<p>Plug-N-Play State Manager for NGRX stores</p>
 
 [![][img.release]][link.release]
 [![][img.license]][link.license]
@@ -30,8 +30,8 @@
 - [Usage](#usage)
   - [Exported Configuration Types](#exported-configuration-types)
     - [StoreOptions](#storeoptions)
-    - [StateConfig](#stateconfig)
-    - [StateAction](#stateaction)
+    - [StoreState](#StoreState)
+    - [StoreAction](#StoreAction)
     - [StateReducer](#statereducer)
   - [Setup The Store](#setup-the-store)
     - [forRoot](#forroot)
@@ -64,19 +64,19 @@ npm install @smoosee/ngrx-manager
 | `prefix`  | `string` | `null`   | Optional   | a prefix that is used to group apps.                                                                                                     |
 | `storage` | `string` | `"none"` | Optional   | optional value of `session`, `local` or `none` that determines if we will use `sessionStorage` or `localStorage` to hold the store data. |
 
-#### StateConfig
+#### StoreState
 
 | key          | type             | default | constraint | description                                                 |
 | ------------ | ---------------- | ------- | ---------- | ----------------------------------------------------------- |
 | `name`       | `string`         | `null`  | Required   | a name that identifies the state.                           |
 | `initial`    | `object`         | `{}`    | Optional   | initial value of the state.                                 |
-| `actions`    | `StateAction[]`  | `[]`    | Optional   | list of actions that will be executed against the state.    |
+| `actions`    | `StoreAction[]`  | `[]`    | Optional   | list of actions that will be executed against the state.    |
 | `options`    | `StoreOptions`   | `{}`    | Optional   | override global `StoreOptions`.                             |
 | `reducers`   | `StateReducer[]` | `[]`    | Optional   | list of reducers that will be used to map the state data.   |
 | `signal`     | `Signal`         | `null`  | Readonly   | a signal that will be used to listen to state changes.      |
 | `observable` | `Observable`     | `null`  | Readonly   | an observable that will be used to listen to state changes. |
 
-#### StateAction
+#### StoreAction
 
 | key       | type     | default | constraint | description                                               |
 | --------- | -------- | ------- | ---------- | --------------------------------------------------------- |
@@ -88,7 +88,7 @@ npm install @smoosee/ngrx-manager
 
 | key         | type                                                                           | default | constraint | description                                                     |
 | ----------- | ------------------------------------------------------------------------------ | ------- | ---------- | --------------------------------------------------------------- |
-| `mapReduce` | (`state`: `StateConfig`, `value`: `any`, `action?`: `ExtendedAction`) => `any` | `null`  | Required   | the reducer function that will be called to map the state data. |
+| `mapReduce` | (`state`: `StoreState`, `value`: `any`, `action?`: `ExtendedAction`) => `any` | `null`  | Required   | the reducer function that will be called to map the state data. |
 
 ### Setup The Store
 
@@ -141,21 +141,21 @@ export class PageModule {}
 
 #### Standalone Components
 
-- You have the option to provide `StoreOptions` and `StateConfigs` for standalone components
-- Keep in mind, provide `StoreOptions` with `provideStateConfigs` won't override the root `StoreOptions` provided with `provideStoreOptions`. It will only provide shared options to the states passed to the method.
+- You have the option to provide `StoreOptions` and `StoreStates` for standalone components
+- Keep in mind, provide `StoreOptions` with `provideStoreStates` won't override the root `StoreOptions` provided with `provideStoreOptions`. It will only provide shared options to the states passed to the method.
 
 ```typescript
 // main.ts
 
 import { bootstrapApplication } from "@angular/platform-browser";
-import { provideStateConfigs, provideStoreOptions } from "@smoosee/ngrx-manager";
+import { provideStoreStates, provideStoreOptions } from "@smoosee/ngrx-manager";
 import { AppComponent } from "./app/app.component";
 import { AppStoreOptions, AppStoreStates } from "./app/app.store";
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideStoreOptions(AppStoreOptions),
-    provideStateConfigs(AppStoreStates, AppStoreOptions),
+    provideStoreStates(AppStoreStates, AppStoreOptions),
   ],
 });
 ```

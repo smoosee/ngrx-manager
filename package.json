@@ -1,7 +1,7 @@
 {
   "name": "@smoosee/ngrx-manager",
   "version": "0.0.13",
-  "description": "Plug-N-Play manager for Angular Signals.",
+  "description": "Plug-N-Play manager for NGRX Stores.",
   "repository": {
     "type": "git",
     "url": "smoosee/ngrx-manager"
@@ -9,6 +9,7 @@
   "keywords": [
     "smoosee",
     "angular",
+    "ngrx",
     "signals",
     "facade",
     "manager"
