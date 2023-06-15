@@ -7,7 +7,7 @@ import { StoreFacade } from './app.facade';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'ngrx-manager';
+  title = 'ng-signals';
 
   stateValue = this.store.select('App');
   stateObservable = this.store.select('App', true);
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   onClick(btn: string) {
     switch (btn) {
       case 'dispatch':
-        this.store.dispatch('App', 'TEST_FN').subscribe((data) => {
+        this.store.dispatch('App', 'APP_TEST_2').subscribe((data) => {
           this.logs.unshift({ action: 'dispatch', type: 'subscribe', data });
         });
         break;
@@ -32,8 +32,8 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'extend':
-        this.store.extend('App', { extend: true }).subscribe((data) => {
-          this.logs.unshift({ action: 'extend', type: 'subscribe', data });
+        this.store.extend('App', { extend: true }).then((data) => {
+          this.logs.unshift({ action: 'extend', type: 'then', data });
         });
         break;
       case 'refresh':
@@ -41,8 +41,8 @@ export class AppComponent implements OnInit {
         this.logs.unshift({ action: 'refresh', type: 'sync', data: {} });
         break;
       case 'unset':
-        this.store.unset('App').subscribe((data) => {
-          this.logs.unshift({ action: 'unset', type: 'subscribe', data });
+        this.store.unset('App').then((data) => {
+          this.logs.unshift({ action: 'unset', type: 'then', data });
         });
         break;
     }

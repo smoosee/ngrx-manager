@@ -1,21 +1,23 @@
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { StoreModule } from '@smoosee/ngrx-manager';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignalsModule } from '@smoosee/ngrx-manager';
-import { HttpClientModule } from '@angular/common/http';
-import { PartialModule } from './partial/partial.module';
 import { AppStoreOptions, AppStoreStates } from './app.store';
+import { PartialModule } from './partial/partial.module';
+
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    // SignalsModule.forRoot(AppStoreOptions, AppStoreStates),
-    // SignalsModule.forChild({}, AppStoreStates),
+    StoreModule.forRoot(AppStoreOptions),
+    StoreModule.forChild(AppStoreStates),
     PartialModule,
   ],
   bootstrap: [AppComponent],

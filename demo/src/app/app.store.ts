@@ -1,21 +1,48 @@
-import { StateConfig, StoreOptions } from "@smoosee/ngrx-manager";
+import { StoreAction, StoreState, StoreOptions } from "@smoosee/ngrx-manager";
 import { AppService } from "./app.service";
 
 export const AppStoreOptions: StoreOptions = {
     app: 'app',
     prefix: '',
-    storage: 'local'
+    storage: 'local',
+    type: 'ngrx',
 };
 
-export const AppStoreStates: Partial<StateConfig<any>>[] = [
-    {
+interface AppState {
+    set: boolean;
+    extend: boolean;
+}
+interface SharedState {
+    useThis: boolean;
+    useThat: boolean;
+}
+
+export const AppStoreStates = [
+    new StoreState({
         name: 'App',
+        initial: <AppState>{},
         actions: [
-            {
-                name: 'TEST_FN',
+            new StoreAction({
+                name: 'APP_TEST_1',
+                service: AppService,
+                method: 'testFn',
+            }),
+            new StoreAction({
+                service: AppService,
+                name: 'APP_TEST_2',
+                method: 'testFn2',
+            })
+        ]
+    }),
+    new StoreState({
+        name: 'Shared',
+        initial: <SharedState>{},
+        actions: [
+            new StoreAction({
+                name: 'Shared_TEST_1',
                 service: AppService,
                 method: 'testFn2',
-            }
+            })
         ]
-    },
+    })
 ];
