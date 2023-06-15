@@ -2068,6 +2068,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngrx/effects@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "@ngrx/effects@npm:16.0.1"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/core": ^16.0.0
+    "@ngrx/store": 16.0.1
+    rxjs: ^6.5.3 || ^7.5.0
+  checksum: 0ed1fffeba03e3d76ed85032ed04f137d7ea0e6c483f661b34149036d4c15cff22430af8870c94a1c7734f02d6e1cbaec2de0a141b8296e89a7ba98963eace41
+  languageName: node
+  linkType: hard
+
+"@ngrx/store@npm:^16.0.1":
+  version: 16.0.1
+  resolution: "@ngrx/store@npm:16.0.1"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/core": ^16.0.0
+    rxjs: ^6.5.3 || ^7.5.0
+  checksum: e5762cbb3621b3c67fe3bf4dc32607c54804247e1b36eeee3f6e425bfa1d34fabb5bb449f3c0a4982f4bf672a4532c0706930b635b7a79edb1d99d424e93b8cf
+  languageName: node
+  linkType: hard
+
 "@ngtools/webpack@npm:16.0.0":
   version: 16.0.0
   resolution: "@ngtools/webpack@npm:16.0.0"
@@ -2459,6 +2484,8 @@ __metadata:
     "@angular/platform-browser": ^16.0.0
     "@angular/platform-browser-dynamic": ^16.0.0
     "@angular/router": ^16.0.0
+    "@ngrx/effects": ^16.0.1
+    "@ngrx/store": ^16.0.1
     "@smoosee/indeps": latest
     "@types/jasmine": ~4.3.0
     "@types/lodash-es": ^4.17.7
