@@ -1,4 +1,4 @@
-import { StateConfig, StoreOptions } from "@smoosee/ng-signals";
+import { StateConfig, StoreOptions } from "@smoosee/ngrx-manager";
 import { AppService } from "./app.service";
 
 export const AppStoreOptions: StoreOptions = {

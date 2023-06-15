@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignalsModule } from '@smoosee/ng-signals';
+import { SignalsModule } from '@smoosee/ngrx-manager';
 import { HttpClientModule } from '@angular/common/http';
 import { PartialModule } from './partial/partial.module';
 import { AppStoreOptions, AppStoreStates } from './app.store';

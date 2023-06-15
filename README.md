@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1> @smoosee/ng-signals </h1>
+<h1> @smoosee/ngrx-manager </h1>
 <p>Plug-N-Play State Manager for Angular Signals</p>
 
 [![][img.release]][link.release]
@@ -45,11 +45,11 @@
 ## Install
 
 ```shell
-yarn add @smoosee/ng-signals
+yarn add @smoosee/ngrx-manager
 
 # OR
 
-npm install @smoosee/ng-signals
+npm install @smoosee/ngrx-manager
 ```
 
 ## Usage
@@ -104,7 +104,7 @@ You can setup the store using multiple methods available thru different exported
 // app.module.ts
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { SignalsModule } from "@smoosee/ng-signals";
+import { SignalsModule } from "@smoosee/ngrx-manager";
 
 import { AppComponent } from "./app.component";
 
@@ -126,7 +126,7 @@ export class AppModule {}
 ```typescript
 // app.module.ts
 import { NgModule } from "@angular/core";
-import { SignalsModule } from "@smoosee/ng-signals";
+import { SignalsModule } from "@smoosee/ngrx-manager";
 
 import { PageComponent } from "./page.component";
 
@@ -148,7 +148,7 @@ export class PageModule {}
 // main.ts
 
 import { bootstrapApplication } from "@angular/platform-browser";
-import { provideStateConfigs, provideStoreOptions } from "@smoosee/ng-signals";
+import { provideStateConfigs, provideStoreOptions } from "@smoosee/ngrx-manager";
 import { AppComponent } from "./app/app.component";
 import { AppStoreOptions, AppStoreStates } from "./app/app.store";
 
@@ -169,7 +169,7 @@ bootstrapApplication(AppComponent, {
 ```typescript
 // app.component.ts
 import { Component, OnInit } from "@angular/core";
-import { SignalsManager } from "@smoosee/ng-signals";
+import { SignalsManager } from "@smoosee/ngrx-manager";
 
 import { StoreOptions, StatesConfigs } from "./app.store";
 
@@ -193,7 +193,7 @@ export class AppComponent implements OnInit {
 ```typescript
 // app.component.ts
 import { Component, OnInit } from "@angular/core";
-import { SignalsManager } from "@smoosee/ng-signals";
+import { SignalsManager } from "@smoosee/ngrx-manager";
 
 import { StoreOptions, StatesConfigs } from "./app.store";
 
@@ -274,7 +274,7 @@ To listen to state changes, you have to use the `SignalsFacade` service.
 ```typescript
 // app.component.ts
 import { Component, OnInit } from "@angular/core";
-import { SignalsFacade } from "@smoosee/ng-signals";
+import { SignalsFacade } from "@smoosee/ngrx-manager";
 
 @Component({
   selector: "app-root",

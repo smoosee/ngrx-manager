@@ -2444,9 +2444,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@smoosee/ng-signals@workspace:.":
+"@smoosee/ngrx-manager@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@smoosee/ng-signals@workspace:."
+  resolution: "@smoosee/ngrx-manager@workspace:."
   dependencies:
     "@angular-devkit/build-angular": ^16.0.0
     "@angular/animations": ^16.0.0

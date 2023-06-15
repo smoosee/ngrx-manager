@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { PartialComponent } from './partial.component';
-import { SignalsModule } from '@smoosee/ng-signals';
+import { SignalsModule } from '@smoosee/ngrx-manager';
 
 @NgModule({
     imports: [SignalsModule],

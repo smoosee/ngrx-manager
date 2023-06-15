@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@smoosee/ng-signals": ["dist"]
+      "@smoosee/ngrx-manager": ["dist"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

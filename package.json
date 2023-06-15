@@ -1,10 +1,10 @@
 {
-  "name": "@smoosee/ng-signals",
+  "name": "@smoosee/ngrx-manager",
   "version": "0.0.13",
   "description": "Plug-N-Play manager for Angular Signals.",
   "repository": {
     "type": "git",
-    "url": "smoosee/ng-signals"
+    "url": "smoosee/ngrx-manager"
   },
   "keywords": [
     "smoosee",
@@ -16,9 +16,9 @@
   "author": "Mostafa Sherif",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/smoosee/ng-signals/issues"
+    "url": "https://github.com/smoosee/ngrx-manager/issues"
   },
-  "homepage": "https://github.com/smoosee/ng-signals#readme",
+  "homepage": "https://github.com/smoosee/ngrx-manager#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
     "access": "public"
@@ -30,7 +30,7 @@
     "test": "ng test",
     "************* BUILD ****************": "",
     "prebuild": "indeps pkgVersion",
-    "build": "ng build @smoosee/ng-signals",
+    "build": "ng build @smoosee/ngrx-manager",
     "************* RELEASE ****************": "",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs lib/src/index.ts",
     "release": "auto shipit",

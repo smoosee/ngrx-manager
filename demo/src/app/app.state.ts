@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Action, State, StateConfig, StoreOptions } from '@smoosee/ng-signals';
+import { Action, State, StateConfig, StoreOptions } from '@smoosee/ngrx-manager';
 
 @Injectable()
 export class AppState extends StateConfig<any> {

@@ -7,7 +7,7 @@
   },
   "newProjectRoot": ".",
   "projects": {
-    "@smoosee/ng-signals": {
+    "@smoosee/ngrx-manager": {
       "projectType": "library",
       "root": "lib",
       "sourceRoot": "lib/src",

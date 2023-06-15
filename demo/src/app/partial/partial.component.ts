@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignalsFacade } from '@smoosee/ng-signals';
+import { SignalsFacade } from '@smoosee/ngrx-manager';
 
 @Component({
   selector: 'app-partial',

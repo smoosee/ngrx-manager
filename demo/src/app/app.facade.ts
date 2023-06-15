@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SignalsFacade, SignalsManager } from '@smoosee/ng-signals';
+import { SignalsFacade, SignalsManager } from '@smoosee/ngrx-manager';
 import { AppStoreOptions, AppStoreStates } from './app.store';
 
 interface AppState {

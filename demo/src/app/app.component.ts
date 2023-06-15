@@ -7,7 +7,7 @@ import { StoreFacade } from './app.facade';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'ng-signals';
+  title = 'ngrx-manager';
 
   stateValue = this.store.select('App');
   stateObservable = this.store.select('App', true);

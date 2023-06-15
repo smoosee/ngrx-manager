@@ -1,11 +1,11 @@
 {
-    "name": "@smoosee/ng-signals",
+    "name": "@smoosee/ngrx-manager",
     "version": "0.0.1",
     "description": "Plug-N-Play manager for Angular Signals.",
     "private": false,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/smoosee/ng-signals.git"
+        "url": "git+https://github.com/smoosee/ngrx-manager.git"
     },
     "keywords": [
         "smoosee",
@@ -17,9 +17,9 @@
     "author": "Mostafa Sherif",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/smoosee/ng-signals/issues"
+        "url": "https://github.com/smoosee/ngrx-manager/issues"
     },
-    "homepage": "https://github.com/smoosee/ng-signals#readme",
+    "homepage": "https://github.com/smoosee/ngrx-manager#readme",
     "publishConfig": {
         "registry": "https://registry.npmjs.org",
         "access": "public"
