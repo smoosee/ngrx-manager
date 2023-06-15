@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash-es';
-import { ExtendedAction, StateConfig } from '../models';
-import { ActionKeys, ActionStatus } from '../signals.const';
-import { GenericReducer } from './generic.reducer';
+import { ActionKeys, ActionStatus, DefaultActions } from '../shared';
+import { GenericReducer } from './reducer.generic';
+import { StoreAction, StoreState } from '../models';
 
 declare const window: any;
 
@@ -10,12 +10,16 @@ export class StorageReducer extends GenericReducer {
     super();
   }
 
-  static override mapReduce(config: StateConfig<any>, value: any, action?: ExtendedAction) {
+  static override mapReduce(config: StoreState, value: any, action?: StoreAction) {
     let newValue = this.getValue(config, value);
-    if (action) {
-      newValue = value;
-      if (action.status() === ActionStatus.SUCCESS) {
-        Object.assign(newValue, action.payload);
+    if (action?.state === config.name) {
+      const status = typeof (action.status) === 'function' ? action.status() : action.status;
+      if (status === ActionStatus.SUCCESS) {
+        if (action.name === DefaultActions.UNSET) {
+          newValue = {};
+        } else {
+          Object.assign(newValue, action.payload);
+        }
       }
     }
     this.setValue(config, newValue);
@@ -26,11 +30,10 @@ export class StorageReducer extends GenericReducer {
     const { storage, key } = this.getKey(config);
     if (key && storage !== 'none') {
       const value = window[storage + 'Storage'].getItem(key);
-      return value === 'undefined'
-        ? {}
-        : JSON.parse(value || '{}') || payload || {};
+      const parsedValue = value === 'undefined' ? {} : JSON.parse(value || '{}');
+      return { ...parsedValue, ...payload };
     }
-    return payload || {};
+    return { ...payload };
   }
 
   static setValue(config: any, payload: any) {
@@ -49,7 +52,7 @@ export class StorageReducer extends GenericReducer {
       if (!isEmpty(rest)) {
         value = JSON.stringify(payload);
       }
-      
+
       window[storage + 'Storage'].setItem(key, value || '');
     }
   }
@@ -57,8 +60,7 @@ export class StorageReducer extends GenericReducer {
   static getKey(config: any) {
     if (config?.options?.storage) {
       const { prefix, app, storage } = config.options;
-      const key =
-        (prefix ? prefix + ' | ' : '') + (app ? app + ' | ' : '') + config.name;
+      const key = (prefix ? prefix + ' | ' : '') + (app ? app + ' | ' : '') + config.name;
       return { storage, key };
     }
     return { storage: 'none', key: '' };

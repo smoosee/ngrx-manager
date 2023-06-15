@@ -1,17 +1,14 @@
-import { ExtendedAction, StateConfig } from '../models';
-import { ActionKeys, ActionStatus, DefaultActions } from '../signals.const';
+import { ActionKeys, ActionStatus, DefaultActions } from '../shared';
+import { StoreAction, StoreState } from '../models';
 
 export class GenericReducer {
   constructor() { }
 
-  static mapReduce(
-    config: StateConfig<any>,
-    value: any,
-    action?: ExtendedAction
-  ) {
+  static mapReduce(config: StoreState, value: any, action?: StoreAction) {
     let success, timestamp, unset, error;
-    if (action) {
-      if (action.status() === ActionStatus.SUCCESS) {
+    if (action?.state === config.name) {
+      const status = typeof (action.status) === 'function' ? action.status() : action.status;
+      if (status === ActionStatus.SUCCESS) {
         success = true;
         timestamp = action[ActionKeys.timestamp];
         if (action.name === DefaultActions.UNSET) {
@@ -25,6 +22,7 @@ export class GenericReducer {
       }
 
       Object.assign(value, {
+        [ActionKeys.uuid]: action[ActionKeys.uuid],
         [ActionKeys.success]: success,
         [ActionKeys.unset]: unset,
         [ActionKeys.error]: error,

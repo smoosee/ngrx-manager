@@ -1,3 +1,3 @@
-export * from './facade.service';
-export * from './manager.service';
-export * from './store.service';
+export * from './store.effects';
+export * from './store.facade';
+export * from './store.manager';

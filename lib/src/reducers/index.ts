@@ -1,2 +1,2 @@
-export * from './generic.reducer';
-export * from './storage.reducer';
+export * from './reducer.generic';
+export * from './reducer.storage';

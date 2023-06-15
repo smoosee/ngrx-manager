@@ -1,2 +1,2 @@
-export * from './action.model';
-export * from './state.model';
+export * from './store.action';
+export * from './store.state';
