@@ -3,7 +3,7 @@ import { ActionKeys, ActionStatus, DefaultActions } from "../shared";
 
 
 export class StoreAction<T = any, K extends string = string> {
-    state: string;
+    state?: string;
 
     name: K | keyof typeof DefaultActions | undefined;
     service?: new (...args: any[]) => T;
@@ -24,7 +24,7 @@ export class StoreAction<T = any, K extends string = string> {
         return `[${this.state}] ${this.name}_DATA_${this.status()}`;
     }
 
-    constructor(state: string, action: K | Partial<StoreAction<T, K>>) {
+    constructor(action: K | Partial<StoreAction<T, K>>, state?: string) {
         this.state = state;
         this[ActionKeys.uuid] = Math.random().toString(36).substr(2, 9);
 

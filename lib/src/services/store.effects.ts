@@ -27,8 +27,8 @@ export class StoreEffects {
                 }
 
                 return returnObservable.pipe(
-                    map((payload) => new StoreAction(action.state, action).dispatch(payload, ActionStatus.SUCCESS)),
-                    catchError((error) => of(new StoreAction(action.state, action).dispatch(error, ActionStatus.ERROR))),
+                    map((payload) => new StoreAction(action, action.state).dispatch(payload, ActionStatus.SUCCESS)),
+                    catchError((error) => of(new StoreAction(action, action.state).dispatch(error, ActionStatus.ERROR))),
                 );
             })
         );

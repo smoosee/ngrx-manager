@@ -29,7 +29,7 @@ export class StoreState<T = any, A extends any[] = any[], K extends string = str
         this.initial = state?.initial || {} as T;
 
         const defaultActions = Object.keys(DefaultActions);
-        this.actions = [...state?.actions || [], ...defaultActions].map(untypedAction => new StoreAction(this.name, untypedAction)) as A;
+        this.actions = [...state?.actions || [], ...defaultActions].map(untypedAction => new StoreAction(untypedAction, this.name)) as A;
 
         this.options = state?.options || {};
         this.reducers = [GenericReducer as any, ...(state?.reducers || [])];
@@ -46,7 +46,7 @@ export class StoreState<T = any, A extends any[] = any[], K extends string = str
 
     dispatch(name: string, payload?: any) {
         const untypedAction = this?.actions?.find(x => x.name === name) as StoreAction;
-        const action = new StoreAction(this.name, untypedAction);
+        const action = new StoreAction(untypedAction, this.name);
         action.dispatch(payload, ActionStatus.NEW);
         if (this.injector) {
             const store = this.injector.get(Store);
