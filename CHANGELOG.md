@@ -1,3 +1,38 @@
+# v0.0.14 (Thu Jun 15 2023)
+
+#### ⚠️ Pushed to `master`
+
+- add missin dependencies ([@sheriffMoose](https://github.com/sheriffMoose))
+- update readme & package.json description ([@sheriffMoose](https://github.com/sheriffMoose))
+- update store files to work with ngrx ([@sheriffMoose](https://github.com/sheriffMoose))
+- update library name ([@sheriffMoose](https://github.com/sheriffMoose))
+- throw error if state does not exist ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix mergeDeep when source is not an array but new value is ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix init method not triggering formatter for existing state ([@sheriffMoose](https://github.com/sheriffMoose))
+- export const & utils ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix build ([@sheriffMoose](https://github.com/sheriffMoose))
+- update models & drop actions service ([@sheriffMoose](https://github.com/sheriffMoose))
+- 0.0.7 ([@sheriffMoose](https://github.com/sheriffMoose))
+- trigger build ([@sheriffMoose](https://github.com/sheriffMoose))
+- minor fix for demo ([@sheriffMoose](https://github.com/sheriffMoose))
+- add standalone providers ([@sheriffMoose](https://github.com/sheriffMoose))
+- add strongly typed configuration ([@sheriffMoose](https://github.com/sheriffMoose))
+- remove typings example ([@sheriffMoose](https://github.com/sheriffMoose))
+- pump angular version ([@sheriffMoose](https://github.com/sheriffMoose))
+- update indeps version ([@sheriffMoose](https://github.com/sheriffMoose))
+- update indeps config ([@sheriffMoose](https://github.com/sheriffMoose))
+- add auto ([@sheriffMoose](https://github.com/sheriffMoose))
+- update to angular v16.0.0-rc.2 ([@sheriffMoose](https://github.com/sheriffMoose))
+- update README.md ([@sheriffMoose](https://github.com/sheriffMoose))
+- update library & demo ([@sheriffMoose](https://github.com/sheriffMoose))
+- initial commit ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.13 (Tue Jun 06 2023)
 
 #### ⚠️ Pushed to `master`
