@@ -364,12 +364,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[img.release]: https://img.shields.io/github/actions/workflow/status/smoosee/vite-plugin-angular/release.yml?logo=github&label=release
-[img.license]: https://img.shields.io/github/license/smoosee/vite-plugin-angular?logo=github
-[img.node]: https://img.shields.io/node/v/@smoosee/vite-plugin-angular?logo=node.js&logoColor=white&labelColor=339933&color=grey&label=
-[img.npm]: https://img.shields.io/npm/v/@smoosee/vite-plugin-angular?logo=npm&logoColor=white&labelColor=CB3837&color=grey&label=
-[img.downloads]: https://img.shields.io/npm/dt/@smoosee/vite-plugin-angular?logo=docusign&logoColor=white&labelColor=purple&color=grey&label=
-[img.banner]: https://nodei.co/npm/@smoosee/vite-plugin-angular.png
-[link.release]: https://github.com/smoosee/vite-plugin-angular/actions/workflows/release.yml
-[link.license]: https://github.com/smoosee/vite-plugin-angular/blob/master/LICENSE
-[link.npm]: https://npmjs.org/package/@smoosee/vite-plugin-angular
+[img.release]: https://img.shields.io/github/actions/workflow/status/smoosee/ngrx-manager/release.yml?logo=github&label=release
+[img.license]: https://img.shields.io/github/license/smoosee/ngrx-manager?logo=github
+[img.node]: https://img.shields.io/node/v/@smoosee/ngrx-manager?logo=node.js&logoColor=white&labelColor=339933&color=grey&label=
+[img.npm]: https://img.shields.io/npm/v/@smoosee/ngrx-manager?logo=npm&logoColor=white&labelColor=CB3837&color=grey&label=
+[img.downloads]: https://img.shields.io/npm/dt/@smoosee/ngrx-manager?logo=docusign&logoColor=white&labelColor=purple&color=grey&label=
+[img.banner]: https://nodei.co/npm/@smoosee/ngrx-manager.png
+[link.release]: https://github.com/smoosee/ngrx-manager/actions/workflows/release.yml
+[link.license]: https://github.com/smoosee/ngrx-manager/blob/master/LICENSE
+[link.npm]: https://npmjs.org/package/@smoosee/ngrx-manager
