@@ -1,3 +1,15 @@
+# v0.0.16 (Thu Jun 15 2023)
+
+#### ⚠️ Pushed to `master`
+
+- make state optional for new StoreAction ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.15 (Thu Jun 15 2023)
 
 #### ⚠️ Pushed to `master`
