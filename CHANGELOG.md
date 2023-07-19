@@ -1,3 +1,15 @@
+# v0.0.18 (Wed Jul 19 2023)
+
+#### ⚠️ Pushed to `master`
+
+- update README.md & remove signals references ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.17 (Thu Jun 15 2023)
 
 #### ⚠️ Pushed to `master`
