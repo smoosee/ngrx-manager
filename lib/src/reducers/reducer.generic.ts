@@ -7,7 +7,7 @@ export class GenericReducer {
   static mapReduce(config: StoreState, value: any, action?: StoreAction) {
     let success, timestamp, unset, error;
     if (action?.state === config.name) {
-      const status = typeof (action.status) === 'function' ? action.status() : action.status;
+      const status = action.status;
       if (status === ActionStatus.SUCCESS) {
         success = true;
         timestamp = action[ActionKeys.timestamp];

@@ -1,6 +1,5 @@
-import { Injector, WritableSignal } from "@angular/core";
-import { Store, createFeatureSelector } from "@ngrx/store";
-import { Observable } from "rxjs";
+import { Injector } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { GenericReducer, StorageReducer } from "../reducers";
 import { ActionStatus, DefaultActions, StoreOptions } from "../shared";
 import { StoreAction } from "./store.action";
@@ -19,10 +18,6 @@ export class StoreState<T = any, A extends any[] = any[], K extends string = str
     actions: A;
     options?: StoreOptions;
     reducers?: StateReducer<T, A, K>[];
-
-    readonly signal: WritableSignal<T> | undefined;
-    readonly observable: Observable<T> | undefined;
-
 
     constructor(state?: Partial<StoreState<T, A, K>>, private injector?: Injector) {
         this.name = !state || typeof (state) === 'string' ? state as any : state.name;

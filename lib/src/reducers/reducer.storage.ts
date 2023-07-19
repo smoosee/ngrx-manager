@@ -13,7 +13,7 @@ export class StorageReducer extends GenericReducer {
   static override mapReduce(config: StoreState, value: any, action?: StoreAction) {
     let newValue = this.getValue(config, value);
     if (action?.state === config.name) {
-      const status = typeof (action.status) === 'function' ? action.status() : action.status;
+      const status = action.status;
       if (status === ActionStatus.SUCCESS) {
         if (action.name === DefaultActions.UNSET) {
           newValue = {};

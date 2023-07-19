@@ -5,7 +5,6 @@ export const AppStoreOptions: StoreOptions = {
     app: 'app',
     prefix: '',
     storage: 'local',
-    type: 'ngrx',
 };
 
 interface AppState {

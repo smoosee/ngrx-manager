@@ -1,4 +1,3 @@
-import { signal } from "@angular/core";
 import { ActionKeys, ActionStatus, DefaultActions } from "../shared";
 
 
@@ -10,7 +9,7 @@ export class StoreAction<T = any, K extends string = string> {
     method?: keyof T;
 
     payload?: any;
-    status = signal(ActionStatus.NONE);
+    status: ActionStatus = undefined as any;
 
     [ActionKeys.success]?: boolean;
     [ActionKeys.timestamp]?: number;
@@ -21,7 +20,7 @@ export class StoreAction<T = any, K extends string = string> {
 
 
     get type() {
-        return `[${this.state}] ${this.name}_DATA_${this.status()}`;
+        return `[${this.state}] ${this.name}_DATA_${this.status}`;
     }
 
     constructor(action: K | Partial<StoreAction<T, K>>, state?: string) {
@@ -35,7 +34,7 @@ export class StoreAction<T = any, K extends string = string> {
             this.service = action.service;
             this.method = action.method;
             this.payload = action.payload;
-            this.status.update(() => action.status && action.status() || ActionStatus.NONE);
+            this.status = action.status || ActionStatus.NONE;
             this[ActionKeys.timestamp] = action[ActionKeys.timestamp];
             this[ActionKeys.uuid] = action[ActionKeys.uuid] || this[ActionKeys.uuid];
         }
@@ -44,7 +43,7 @@ export class StoreAction<T = any, K extends string = string> {
 
     dispatch(payload: any, newStatus = ActionStatus.NEW) {
         this.payload = payload;
-        this.status.update(() => newStatus);
+        this.status = newStatus;
         if (newStatus === ActionStatus.NEW) {
             this[ActionKeys.timestamp] = Date.now();
         }

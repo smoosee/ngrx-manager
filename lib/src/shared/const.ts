@@ -1,7 +1,6 @@
 export interface StoreOptions {
     app?: string;
     prefix?: string;
-    type?: 'ngrx' | 'signals',
     storage?: 'local' | 'session' | 'none';
   }
   

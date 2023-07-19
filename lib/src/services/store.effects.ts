@@ -19,7 +19,7 @@ export class StoreEffects {
 
     executeAction(action: Observable<StoreAction>) {
         return from(action).pipe(
-            filter((action) => action.status && action.status() === ActionStatus.NEW),
+            filter((action) => action.status === ActionStatus.NEW),
             mergeMap((action) => {
                 let returnObservable = of(action.payload);
                 if (action.service && action.method) {

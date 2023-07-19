@@ -36,8 +36,6 @@
   - [Setup The Store](#setup-the-store)
     - [forRoot](#forroot)
     - [forChild](#forchild)
-    - [initialize](#initialize)
-  - [Creating States Dynamically](#creating-states-dynamically)
   - [Dispatching Actions](#dispatching-actions)
   - [Listening To State Changes](#listening-to-state-changes)
   - [Strongly Typed States](#strongly-typed-states)
@@ -73,8 +71,6 @@ npm install @smoosee/ngrx-manager
 | `actions`    | `StoreAction[]`  | `[]`    | Optional   | list of actions that will be executed against the state.    |
 | `options`    | `StoreOptions`   | `{}`    | Optional   | override global `StoreOptions`.                             |
 | `reducers`   | `StateReducer[]` | `[]`    | Optional   | list of reducers that will be used to map the state data.   |
-| `signal`     | `Signal`         | `null`  | Readonly   | a signal that will be used to listen to state changes.      |
-| `observable` | `Observable`     | `null`  | Readonly   | an observable that will be used to listen to state changes. |
 
 #### StoreAction
 
@@ -104,7 +100,7 @@ You can setup the store using multiple methods available thru different exported
 // app.module.ts
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { SignalsModule } from "@smoosee/ngrx-manager";
+import { StoreModule } from "@smoosee/ngrx-manager";
 
 import { AppComponent } from "./app.component";
 
@@ -112,7 +108,7 @@ import { StoreOptions, StatesConfigs } from "./app.store";
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, SignalsModule.forRoot(StoreOptions, StatesConfigs)],
+  imports: [BrowserModule, StoreModule.forRoot(StoreOptions, StatesConfigs)],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
@@ -126,7 +122,7 @@ export class AppModule {}
 ```typescript
 // app.module.ts
 import { NgModule } from "@angular/core";
-import { SignalsModule } from "@smoosee/ngrx-manager";
+import { StoreModule } from "@smoosee/ngrx-manager";
 
 import { PageComponent } from "./page.component";
 
@@ -134,147 +130,59 @@ import { StoreOptions, StatesConfigs } from "./page.store";
 
 @NgModule({
   declarations: [PageComponent],
-  imports: [SignalsModule.forChild(StoreOptions, StatesConfigs)],
+  imports: [StoreModule.forChild(StatesConfigs, StoreOptions)],
 })
 export class PageModule {}
 ```
 
-#### Standalone Components
-
-- You have the option to provide `StoreOptions` and `StoreStates` for standalone components
-- Keep in mind, provide `StoreOptions` with `provideStoreStates` won't override the root `StoreOptions` provided with `provideStoreOptions`. It will only provide shared options to the states passed to the method.
-
-```typescript
-// main.ts
-
-import { bootstrapApplication } from "@angular/platform-browser";
-import { provideStoreStates, provideStoreOptions } from "@smoosee/ngrx-manager";
-import { AppComponent } from "./app/app.component";
-import { AppStoreOptions, AppStoreStates } from "./app/app.store";
-
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideStoreOptions(AppStoreOptions),
-    provideStoreStates(AppStoreStates, AppStoreOptions),
-  ],
-});
-```
-
-#### initialize
-
-- This method resides inside the `SignalsManager` service.
-- You can use this to setup the Store manually if you like to skip using the `SignalsModule` & do not want to use the standalone providers.
-- This is typically helpful if you have a standalone component application.
-
-```typescript
-// app.component.ts
-import { Component, OnInit } from "@angular/core";
-import { SignalsManager } from "@smoosee/ngrx-manager";
-
-import { StoreOptions, StatesConfigs } from "./app.store";
-
-@Component({
-  selector: "app-root",
-  template: ` <h1>App</h1> `,
-  standalone: true,
-  providers: [SignalsManager],
-})
-export class AppComponent implements OnInit {
-  constructor(private signalsManager: SignalsManager) {
-    this.signalsManager.initialize(StatesConfigs, StoreOptions);
-  }
-
-  ngOnInit() {}
-}
-```
-
-### Adding States Dynamically
-
-```typescript
-// app.component.ts
-import { Component, OnInit } from "@angular/core";
-import { SignalsManager } from "@smoosee/ngrx-manager";
-
-import { StoreOptions, StatesConfigs } from "./app.store";
-
-@Component({
-  selector: "app-root",
-  template: ` <h1>App</h1> `,
-  standalone: true,
-  providers: [SignalsManager],
-})
-export class AppComponent implements OnInit {
-  constructor(private signalsManager: SignalsManager) {
-    // This will add `App` state to the store.
-    manager.addState("App");
-
-    // This will add `Test` state to the store.
-    // And add the action to the same state.
-    manager.addState({
-      name: "Test",
-      initial: { count: 0 },
-      options: { storage: "none" },
-      actions: [
-        {
-          name: "increment",
-          service: TestService,
-          method: "increment",
-        },
-      ],
-    });
-  }
-
-  ngOnInit() {}
-}
-```
 
 ### Dispatching Actions
 
-To communicate with the Store, you have to use the `SignalsFacade` service.
+To communicate with the Store, you have to use the `StoreFacade` service.
 
 ```typescript
-    // inject the `SignalsFacade` service by using it in the constructor
-    constructor(private signalsFacade: SignalsFacade) {}
+    // inject the `StoreFacade` service by using it in the constructor
+    constructor(private storeFacade: StoreFacade) {}
     // OR
-    signalsFacade = inject(SignalsFacade);
+    storeFacade = inject(StoreFacade);
 
 
     // dispatch action to the store
     // will trigger the `increment` action
     // for the `Test` state
-    this.signalsFacade.dispatch("Test", "increment");
+    this.storeFacade.dispatch("Test", "increment");
 
     // dispatch action to the store
     // will trigger the `SET` action
     // for the `App` state
-    this.signalsFacade.set("App", { name: "smoosee" });
+    this.storeFacade.set("App", { name: "smoosee" });
 
     // dispatch action to the store
     // will trigger the `EXTEND` action
     // for the `App` state
     // which is basically extending the current state
     // with the new data instead of replacing it like the `SET` action
-    this.signalsFacade.extend("App", { name: "smoosee" });
+    this.storeFacade.extend("App", { name: "smoosee" });
 
     // dispatch action to the store
     // will trigger the `UNSET` action
     // for the `App` state
-    this.signalsFacade.unset("App");
+    this.storeFacade.unset("App");
 
     // clear all data from the store
     // this will trigger the `UNSET` action
     // for all states
-    this.signalsFacade.clear();
+    this.storeFacade.clear();
 ```
 
 ### Listening To State Changes
 
-To listen to state changes, you have to use the `SignalsFacade` service.
+To listen to state changes, you have to use the `StoreFacade` service.
 
 ```typescript
 // app.component.ts
 import { Component, OnInit } from "@angular/core";
-import { SignalsFacade } from "@smoosee/ngrx-manager";
+import { StoreFacade } from "@smoosee/ngrx-manager";
 
 @Component({
   selector: "app-root",
@@ -292,7 +200,7 @@ export class AppComponent implements OnInit {
   // retrieve value of the state asynchronously as Signal
   stateSignal = this.facade.select("App", false);
 
-  constructor(private facade: SignalsFacade) {}
+  constructor(private facade: StoreFacade) {}
 
   ngOnInit() {}
 }
@@ -307,38 +215,60 @@ To achieve Strongly Typed States, you would need to do the following
 // create interfaces or classes of the states models.
 
 interface AppState {
-  set: boolean;
-  extend: boolean;
+    set: boolean;
+    extend: boolean;
 }
 
 interface SharedState {
-  useThis: boolean;
-  useThat: boolean;
+    useThis: boolean;
+    useThat: boolean;
 }
 
 // STEP 2
-// create `Conditional Types` to pass to the `SignalsFacade` as `Generic Types`.
+// generate the store state configs using the StoreState, StoreAction classes.
+// Also use the state interfaces created in STEP 1 with the `initial` property
 
-type StateKey = "App" | "Shared";
-
-type StateData = {
-  [T in StateKey]: T extends "App"
-    ? AppState
-    : T extends "Shared"
-    ? SharedState
-    : never;
-};
+export const AppStoreStates = [
+    new StoreState({
+        name: 'App',
+        initial: <AppState>{},
+        actions: [
+            new StoreAction({
+                name: 'APP_TEST_1',
+                service: AppService,
+                method: 'testFn',
+            }),
+            new StoreAction({
+                service: AppService,
+                name: 'APP_TEST_2',
+                method: 'testFn2',
+            })
+        ]
+    }),
+    new StoreState({
+        name: 'Shared',
+        initial: <SharedState>{},
+        actions: [
+            new StoreAction({
+                name: 'Shared_TEST_1',
+                service: AppService,
+                method: 'testFn2',
+            })
+        ]
+    })
+];
 
 // STEP 3
-// use `SignalsFacade<StateKey, StateData>`.
-
+// use `StoreFacade<typeof AppStoreStates>`.
 @Injectable({ provided: "root" })
-export class StoreFacade extends SignalsFacade<StateKey, StateData> {
+export class AppFacade extends StoreFacade<typeof AppStoreStates> {
   constructor() {
     super();
   }
 }
 ```
+
+You will then be able to use state names and action names when dispatching or selecting from the store.
 
 ## License
 
