@@ -105,7 +105,7 @@ export class StoreManager {
                 filter((payload: any) => {
                     const noAction = !action;
                     const isSuccessful = !!payload?.[ActionKeys.success];
-                    const isSameAction = payload[ActionKeys.uuid] === action[ActionKeys.uuid];
+                    const isSameAction = payload[ActionKeys.timestamp] === action[ActionKeys.timestamp];
                     return isSuccessful && (noAction || isSameAction);
                 }),
                 take(1),
