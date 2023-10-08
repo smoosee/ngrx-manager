@@ -4,7 +4,7 @@ import { ActionKeys, ActionStatus, DefaultActions } from "../shared";
 export class StoreAction<T = any, K extends string = string> {
     state?: string;
 
-    name: K | keyof typeof DefaultActions | undefined;
+    name!: K;
     service?: new (...args: any[]) => T;
     method?: keyof T;
 
@@ -30,7 +30,7 @@ export class StoreAction<T = any, K extends string = string> {
         if (typeof (action) === 'string') {
             this.name = action;
         } else if (action) {
-            this.name = action.name || 'SET';
+            this.name = action.name || (DefaultActions.SET as K);
             this.service = action.service;
             this.method = action.method;
             this.payload = action.payload;

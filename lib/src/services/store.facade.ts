@@ -34,10 +34,7 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
         }
     }
 
-    dispatch<T extends K>(stateKey: T, actionKey: StateActions<S, T>): Observable<StateData<S, T>>;
-    dispatch<T extends K>(stateKey: T, actionKey: StateActions<S, T>, payload?: string): Observable<StateData<S, T>>;
-    dispatch<T extends K>(stateKey: T, actionKey: StateActions<S, T>, payload?: Partial<StateData<S, T>>): Observable<StateData<S, T>>;
-    dispatch<T extends K>(stateKey: T, actionKey: StateActions<S, T>, payload?: string | Partial<StateData<S, T>>) {
+    dispatch<T extends K, A extends StateActions<S, T>>(stateKey: T, actionKey: A, payload?: string | Partial<StateData<S, T>>): Observable<StateData<S, T>> {
         const action = this.manager.dispatch(stateKey, actionKey, payload);
         return this.manager.observable(stateKey, action);
     }
@@ -56,7 +53,7 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
 
     extend<T extends K>(stateKey: T, payload: Partial<StateData<S, T>>): Promise<StateData<S, T>>;
     extend<T extends K>(stateKey: T, getter: Observable<any>, key: string): Promise<StateData<S, T>>;
-    extend<T extends K>(stateKey: T, getter: Observable<any>, key: string, formatter: (data: any) => StateData<S, T>): Promise<StateData<S, T>>;
+    extend<T extends K>(stateKey: T, getter: Observable<any>, key: string, formatter: (payload: any) => StateData<S, T>): Promise<StateData<S, T>>;
 
     extend<T extends K>(stateKey: T, ...args: any[]) {
         return lastValueFrom(this.extendAsync(stateKey, ...args));
@@ -66,9 +63,9 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
         const payload = args[0];
         const getter = payload instanceof Observable ? payload : of(payload);
         const key = args[1];
-        const formatter = args[2] || ((data: StateData<S, T>) => data);
+        const formatter = args[2] || ((payload: StateData<S, T>) => payload);
 
-        return getter.pipe(exhaustMap((payload) => {
+        return getter.pipe(exhaustMap((payload: Partial<StateData<S, T>>) => {
             let stateData = this.select(stateKey);
             if (key) {
                 stateData[key] = mergeDeep(stateData[key], payload);
@@ -79,18 +76,18 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
         }));
     }
 
-    init<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: (data: any) => StateData<S, T>, force = false): Promise<StateData<S, T>> {
+    init<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: (payload: any) => StateData<S, T>, force = false): Promise<StateData<S, T>> {
         return lastValueFrom(this.initAsync(stateKey, getter, formatter, force));
     }
-    initAsync<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: (data: any) => StateData<S, T>, force = false): Observable<StateData<S, T>> {
-        formatter = formatter || ((data: StateData<S, T>) => data);
+    initAsync<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: (payload: any) => StateData<S, T>, force = false): Observable<StateData<S, T>> {
+        formatter = formatter || ((payload: StateData<S, T>) => payload);
         const stateData = this.select(stateKey);
         if (!isEmpty(stateData) && !force) {
             getter = of(stateData);
         }
 
-        return getter.pipe(exhaustMap((data) => {
-            return this.set(stateKey, formatter(data));
+        return getter.pipe(exhaustMap((payload: Partial<StateData<S, T>>) => {
+            return this.set(stateKey, formatter(payload));
         }));
     }
 
