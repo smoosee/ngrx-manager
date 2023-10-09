@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@smoosee/indeps/schema.json",
   "library": {
-    "name": "@smoosee/indeps",
+    "name": "@smoosee/ngrx-manager",
     "version": "0.0.0"
   },
   "build": {
