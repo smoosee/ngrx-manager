@@ -2,6 +2,22 @@
 
 #### ⚠️ Pushed to `master`
 
+- fix prebuild version fetch ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix build error ([@sheriffMoose](https://github.com/sheriffMoose))
+- Merge branch 'master' of https://github.com/smoosee/ngrx-manager ([@sheriffMoose](https://github.com/sheriffMoose))
+- pump version to 0.0.20 ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix action names typings for dispatch method ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
+# v0.0.20 (Mon Oct 09 2023)
+
+#### ⚠️ Pushed to `master`
+
 - fix action names typings for dispatch method ([@sheriffMoose](https://github.com/sheriffMoose))
 
 #### Authors: 1
