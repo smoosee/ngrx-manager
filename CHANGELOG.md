@@ -1,3 +1,15 @@
+# v0.0.20 (Mon Oct 09 2023)
+
+#### ⚠️ Pushed to `master`
+
+- fix action names typings for dispatch method ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.19 (Mon Jul 24 2023)
 
 #### ⚠️ Pushed to `master`
