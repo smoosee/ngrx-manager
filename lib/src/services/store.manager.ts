@@ -2,7 +2,7 @@ import { Injectable, Injector, Signal, computed, inject, runInInjectionContext }
 import { ReducerManager, Store, createFeatureSelector } from '@ngrx/store';
 import { Observable, filter, map, take } from 'rxjs';
 import { StoreAction, StoreState } from '../models';
-import { ActionKeys, STATE_CONFIGS, STORE_OPTIONS, StoreOptions } from '../shared';
+import { ActionKeys, STATE_CONFIGS, STORE_OPTIONS, StoreOptions, uniqBy } from '../shared';
 
 
 @Injectable()
@@ -28,7 +28,7 @@ export class StoreManager {
     initialize(...args: any[]) {
         runInInjectionContext(this.injector, () => {
             this.populateInjections();
-            
+
             const states = (args?.[0] || this.iStates) as StoreState[];
             const options = (args?.[1] || this.iOptions) as StoreOptions;
             states.flat(Number.MAX_VALUE).forEach((config) => {
@@ -43,11 +43,18 @@ export class StoreManager {
         runInInjectionContext(this.injector, () => {
             this.populateInjections();
 
-            const config = args[0];
-            if (this.exists(config.name)) { return; }
+            const [config, options] = args;
 
-            const options = { ...args[1], ... this.iOptions };
-            config.options = { ...options, ...config.options };
+            config.options = { ... this.iOptions, ...options, ...config.options };
+
+            if (this.exists(config.name)) {
+                if (config.options.shouldMerge) {
+                    config.actions = uniqBy([...this.states[config.name].actions, ...config.actions], 'name');
+                } else {
+                    return;
+                }
+            }
+
 
             const state = new StoreState<T>(config, this.injector);
             this.states[state.name] = state;
@@ -121,8 +128,31 @@ export class StoreManager {
 
     dispatch(stateKey: string, actionKey: string, payload?: any): StoreAction {
         const state = this.states[stateKey];
-        if (!state) throw new Error(`dispatch::${actionKey} - State ${stateKey} does not exist`);
-        const action = state.dispatch(actionKey, payload);
-        return action as StoreAction;
+        const action = state?.actions?.find(x => x.name === actionKey) as StoreAction;
+        const actionFallback = this.findAction(actionKey, action?.fallback || []);
+        const stateFallback = this.findAction(actionKey, state?.fallback || []);
+        if (actionFallback) {
+            return this.dispatch(actionFallback.stateKey, actionFallback.actionKey, payload);
+        } else if (action) {
+            return state.dispatch(actionKey, payload);
+        } else if (stateFallback) {
+            return this.dispatch(stateFallback.stateKey, stateFallback.actionKey, payload);
+        } else {
+            throw new Error(`Action ${actionKey} not found in ${stateKey}`);
+        }
     }
+
+    private findAction(searchKey: string, fallbackKeys: string[]) {
+        const fallback = fallbackKeys.map(key => key.split('.'))
+            .find(([state, actionKey = searchKey]) => {
+                return this.states[state].actions.find(action => action.name === actionKey);
+            });
+
+        if (fallback?.length) {
+            const [stateKey, actionKey] = fallback;
+            return { stateKey, actionKey };
+        }
+        return null;
+    }
+
 }
