@@ -38,7 +38,10 @@ jobs:
                 key: ${{ runner.os }}-node_modules
                 path: node_modules
 
-            - name: Build Plugin
+            - name: Update version
+              run: yarn prebuild
+              
+            - name: Build Library
               run: yarn build
 
             - name: Create Release
