@@ -36,7 +36,7 @@
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs lib/src/index.ts",
     "release": "auto shipit",
     "prepack": "indeps prepack",
-    "postpack": "indeps postpack"
+    "postpack": "git reset --hard HEAD"
   },
   "dependencies": {
     "@angular/animations": "^16.0.0",
