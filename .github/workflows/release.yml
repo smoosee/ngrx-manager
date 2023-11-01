@@ -40,7 +40,10 @@ jobs:
 
             - name: Update version
               run: yarn prebuild
-              
+            
+            - name: Commit Change
+              run: git add lib/package.json && git commit -m "pump library package.json version"
+
             - name: Build Library
               run: yarn build
 
