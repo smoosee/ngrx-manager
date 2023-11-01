@@ -47,3 +47,5 @@ package
 # Yarn
 .yarn/*
 !.yarn/releases
+
+lib/package.json
