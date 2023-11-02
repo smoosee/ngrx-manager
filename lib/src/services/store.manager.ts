@@ -143,8 +143,9 @@ export class StoreManager {
     }
 
     private findAction(searchKey: string, fallbackKeys: string[]) {
-        const fallback = fallbackKeys.map(key => key.split('.'))
-            .find(([state, actionKey = searchKey]) => {
+        const fallback = fallbackKeys
+            .map(key => key.split('::').concat(searchKey))
+            .find(([state, actionKey]) => {
                 return this.states[state].actions.find(action => action.name === actionKey);
             });
 
