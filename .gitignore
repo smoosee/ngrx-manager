@@ -51,3 +51,4 @@ package
 .tests
 
 lib/package.json
+.env
