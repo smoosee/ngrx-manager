@@ -30,7 +30,6 @@
     "watch": "yarn build --watch",
     "test": "ng test",
     "************* BUILD ****************": "",
-    "prebuild": "indeps pkgVersion",
     "build": "ng build @smoosee/ngrx-manager",
     "************* RELEASE ****************": "",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs lib/src/index.ts",
