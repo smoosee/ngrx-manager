@@ -16,10 +16,10 @@ jobs:
             - name: Prepare repository
               run: git fetch --unshallow --tags
 
-            - name: Use Node.js 16.x
+            - name: Use Node.js 18.x
               uses: actions/setup-node@v3
               with:
-                  node-version: 16.x
+                  node-version: 18.x
 
             - name: Restore Cached node_modules
               uses: actions/cache@v3
@@ -40,7 +40,7 @@ jobs:
 
             - name: Update version
               run: yarn prebuild
-            
+
             - name: Build Library
               run: yarn build
 
