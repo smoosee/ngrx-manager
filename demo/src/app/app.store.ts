@@ -1,47 +1,54 @@
-import { StoreAction, StoreState, StoreOptions } from "@smoosee/ngrx-manager";
+import { StoreAction, StoreOptions, StoreState } from "@smoosee/ngrx-manager";
 import { AppService } from "./app.service";
 
 export const AppStoreOptions: StoreOptions = {
-    app: 'app',
-    prefix: '',
-    storage: 'local',
+  app: 'app',
+  prefix: '',
+  storage: 'local',
+  shouldExtend: true,
 };
 
 interface AppState {
-    set: boolean;
-    extend: boolean;
+  set: boolean;
+  extend: boolean;
 }
 interface SharedState {
-    useThis: boolean;
-    useThat: boolean;
+  useThis: boolean;
+  useThat: boolean;
 }
 
 export const AppStoreStates = [
-    new StoreState({
-        name: 'App',
-        initial: <AppState>{},
-        actions: [
-            new StoreAction({
-                name: 'APP_TEST_1',
-                service: AppService,
-                method: 'testFn',
-            }),
-            new StoreAction({
-                service: AppService,
-                name: 'APP_TEST_2',
-                method: 'testFn2',
-            })
-        ]
-    }),
-    new StoreState({
-        name: 'Shared',
-        initial: <SharedState>{},
-        actions: [
-            new StoreAction({
-                name: 'Shared_TEST_1',
-                service: AppService,
-                method: 'testFn2',
-            })
-        ]
-    })
+  new StoreState({
+    name: 'App',
+    fallback: ['Shared'],
+    initial: <AppState>{},
+    actions: [
+      new StoreAction({
+        name: 'APP_LOG',
+        service: AppService,
+        method: 'appLog',
+      }),
+      new StoreAction({
+        service: AppService,
+        name: 'APP_DISPATCH',
+        method: 'appDispatch',
+      }),
+      new StoreAction({
+        name: 'APP_DEPRECATED',
+        deprecated: true,
+        fallback: ['Shared::SHARED_DISPATCH'],
+      })
+    ]
+  }),
+  new StoreState({
+    name: 'Shared',
+    initial: <SharedState>{},
+    actions: [
+      new StoreAction({
+        name: 'SHARED_DISPATCH',
+        service: AppService,
+        method: 'sharedDispatch',
+      })
+    ]
+  })
 ];

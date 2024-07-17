@@ -1,0 +1,9 @@
+{
+  "filename": "shared_dispatch.json",
+  "payload": {
+    "function": "shared_test_function",
+    "state": "shared",
+    "language": "nodejs",
+    "source": "exports.main = function (event, context, callback) {\n  callback(null, 'Hello, world!');\n};"
+  }
+}

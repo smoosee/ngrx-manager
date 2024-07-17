@@ -1,14 +1,21 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/lib",
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "types": []
+      "outDir": "./out-tsc/lib",
+      "declaration": true,
+      "declarationMap": true,
+      "inlineSources": true,
+      "sourceMap": true,
+      "types": []
   },
+  // prettier-ignore
+  "include": [
+      "src/**/*.ts"
+  ],
+  // prettier-ignore
   "exclude": [
-    "**/*.spec.ts"
+      "src/**/*.spec.ts",
+      "src/**/*.stories.ts",
+      "src/**/*.cy.ts"
   ]
 }

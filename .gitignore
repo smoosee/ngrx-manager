@@ -48,4 +48,6 @@ package
 .yarn/*
 !.yarn/releases
 
+.tests
+
 lib/package.json

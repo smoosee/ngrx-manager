@@ -1,0 +1,9 @@
+{
+  "filename": "app_dispatch.json",
+  "payload": {
+    "function": "app_test_function",
+    "state": "app",
+    "language": "nodejs",
+    "source": "exports.main = function (event, context, callback) {\n  callback(null, 'Hello, world!');\n};"
+  }
+}

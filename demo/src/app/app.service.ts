@@ -1,17 +1,21 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   constructor(private http: HttpClient) { }
 
-  testFn(...args: any) {
-    console.log('###', 'testFn', args);
+  appLog(...args: any) {
+    console.log('###', 'appLog', args);
     return of(null);
   }
 
-  testFn2() {
-    return this.http.get('assets/config.json');
+  appDispatch() {
+    return this.http.get('assets/app_dispatch.json');
+  }
+
+  sharedDispatch() {
+    return this.http.get('assets/shared_dispatch.json');
   }
 }

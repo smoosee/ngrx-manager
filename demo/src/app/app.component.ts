@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { StoreFacade } from './app.facade';
 
 @Component({
@@ -8,6 +8,7 @@ import { StoreFacade } from './app.facade';
 })
 export class AppComponent implements OnInit {
   title = 'ngrx-manager';
+  store = inject(StoreFacade);
 
   stateValue = this.store.select('App');
   stateObservable = this.store.select('App', true);
@@ -15,14 +16,13 @@ export class AppComponent implements OnInit {
 
   logs: any[] = [];
 
-  constructor(private store: StoreFacade) { }
 
   ngOnInit(): void { }
 
   onClick(btn: string) {
     switch (btn) {
       case 'dispatch':
-        this.store.dispatch('App', 'APP_TEST_2').subscribe((data) => {
+        this.store.dispatch('App', 'SHARED_DISPATCH' as any).subscribe((data) => {
           this.logs.unshift({ action: 'dispatch', type: 'subscribe', data });
         });
         break;
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'extend':
-        this.store.extend('App', { extend: true }).then((data) => {
+        this.store.extend('App', { extend: true }).subscribe((data) => {
           this.logs.unshift({ action: 'extend', type: 'then', data });
         });
         break;
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         this.logs.unshift({ action: 'refresh', type: 'sync', data: {} });
         break;
       case 'unset':
-        this.store.unset('App').then((data) => {
+        this.store.unset('App').subscribe((data) => {
           this.logs.unshift({ action: 'unset', type: 'then', data });
         });
         break;
