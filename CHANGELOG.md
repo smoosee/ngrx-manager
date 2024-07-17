@@ -2,6 +2,40 @@
 
 #### ⚠️ Pushed to `master`
 
+- update prepack script ([@sheriffMoose](https://github.com/sheriffMoose))
+- update postpack script to fix build ([@sheriffMoose](https://github.com/sheriffMoose))
+- revert version to 0.0.22 ([@sheriffMoose](https://github.com/sheriffMoose))
+- remove update version step ([@sheriffMoose](https://github.com/sheriffMoose))
+- remove prebuild script ([@sheriffMoose](https://github.com/sheriffMoose))
+- folder restructure for better builds ([@sheriffMoose](https://github.com/sheriffMoose))
+- 0.0.23 ([@sheriffMoose](https://github.com/sheriffMoose))
+- update .gitignore to ignore .env files ([@sheriffMoose](https://github.com/sheriffMoose))
+- update yarn.lock ([@sheriffMoose](https://github.com/sheriffMoose))
+- update workflow node.js version ([@sheriffMoose](https://github.com/sheriffMoose))
+- Merge branch 'master' of github.com:smoosee/ngrx-manager ([@sheriffMoose](https://github.com/sheriffMoose))
+- refactor to upgrade to Angular v18.x ([@sheriffMoose](https://github.com/sheriffMoose))
+- update config files ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix action not found for fallback state ([@sheriffMoose](https://github.com/sheriffMoose))
+- ignore package.json ([@sheriffMoose](https://github.com/sheriffMoose))
+- git reset after packing ([@sheriffMoose](https://github.com/sheriffMoose))
+- update release flow to commit package.json ([@sheriffMoose](https://github.com/sheriffMoose))
+- revert package.json versions ([@sheriffMoose](https://github.com/sheriffMoose))
+- update version in prebuild ([@sheriffMoose](https://github.com/sheriffMoose))
+- update inner package.json ([@sheriffMoose](https://github.com/sheriffMoose))
+- 0.0.21 ([@sheriffMoose](https://github.com/sheriffMoose))
+- Merge branch 'master' of https://github.com/smoosee/ngrx-manager ([@sheriffMoose](https://github.com/sheriffMoose))
+- allow adding state twice to be merged & use fallback states & actions ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
+# v0.0.21 (Wed Jul 17 2024)
+
+#### ⚠️ Pushed to `master`
+
 - update .gitignore to ignore .env files ([@sheriffMoose](https://github.com/sheriffMoose))
 - update yarn.lock ([@sheriffMoose](https://github.com/sheriffMoose))
 - update workflow node.js version ([@sheriffMoose](https://github.com/sheriffMoose))
