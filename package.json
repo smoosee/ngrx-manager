@@ -34,8 +34,8 @@
     "************* RELEASE ****************": "",
     "docs": "typedoc --plugin typedoc-plugin-markdown --out docs lib/src/index.ts",
     "release": "auto shipit",
-    "prepack": "indeps prepack",
-    "postpack": "git reset --hard HEAD && npm version patch --no-git-tag-version"
+    "prepack": "indeps prepack && npm version patch --no-git-tag-version",
+    "postpack": "git reset --hard HEAD"
   },
   "dependencies": {
     "@angular/animations": "^18.1.0",
