@@ -9,24 +9,23 @@
   "projects": {
     "@smoosee/ngrx-manager": {
       "projectType": "library",
-      "root": "lib",
-      "sourceRoot": "lib/src",
+      "root": ".",
+      "sourceRoot": "./src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "lib/ng-package.json"
+            "project": "./ng-package.json",
+            "tsConfig": "./tsconfig.lib.json"
           },
           "configurations": {
-            "production": {
-              "tsConfig": "lib/tsconfig.lib.prod.json"
+            "prod": {
             },
-            "development": {
-              "tsConfig": "lib/tsconfig.lib.json"
+            "dev": {
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "prod"
         }
       }
     },
@@ -59,7 +58,7 @@
             "browser": "demo/src/main.ts"
           },
           "configurations": {
-            "production": {
+            "prod": {
               "budgets": [
                 {
                   "type": "initial",
@@ -74,26 +73,26 @@
               ],
               "outputHashing": "all"
             },
-            "development": {
+            "dev": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "prod"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "demo:build:production"
+            "prod": {
+              "buildTarget": "demo:build:prod"
             },
-            "development": {
-              "buildTarget": "demo:build:development"
+            "dev": {
+              "buildTarget": "demo:build:dev"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "dev"
         }
       }
     }
