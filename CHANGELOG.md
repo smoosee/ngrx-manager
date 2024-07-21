@@ -1,3 +1,18 @@
+# v0.0.24 (Sun Jul 21 2024)
+
+#### ⚠️ Pushed to `master`
+
+- update release workflow ([@sheriffMoose](https://github.com/sheriffMoose))
+- update build script for release workflow ([@sheriffMoose](https://github.com/sheriffMoose))
+- update package.json to fix build ([@sheriffMoose](https://github.com/sheriffMoose))
+- fix observable & push v0.17.0 for ng-v17 ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.0.21 (Wed Jul 17 2024)
 
 #### ⚠️ Pushed to `master`
