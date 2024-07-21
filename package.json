@@ -41,18 +41,30 @@
     "prepack": "indeps prepack && npm version patch --no-git-tag-version",
     "postpack": "git reset --hard HEAD"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@angular/core": "17.3.12",
+    "@ngrx/effects": "17.2.0",
+    "@ngrx/store": "17.2.0"
+  },
+  "dependencies": {
+    "@angular/animations": "17",
+    "@angular/common": "17",
+    "@angular/compiler": "17",
+    "@angular/core": "17.3.12",
+    "@angular/forms": "17",
+    "@angular/platform-browser": "17",
+    "@angular/platform-browser-dynamic": "17",
+    "@angular/router": "17",
     "@ngrx/effects": "17.2.0",
     "@ngrx/store": "17.2.0",
     "rxjs": "~7.8.1",
-    "tslib": "^2.6.3"
+    "tslib": "^2.6.3",
+    "zone.js": "^0.14.8"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "17",
-    "@angular/cli": "17",
-    "@angular/compiler": "17",
-    "@angular/compiler-cli": "17",
+    "@angular-devkit/build-angular": "17.3.8",
+    "@angular/cli": "17.3.8",
+    "@angular/compiler-cli": "17.3.8",
     "@smoosee/indeps": "latest",
     "@types/jest": "^29.5.12",
     "auto": "^11.2.0",
@@ -61,14 +73,11 @@
     "jest-junit": "^16.0.0",
     "jest-preset-angular": "^14.1.1",
     "jsdoc-to-markdown": "^8.0.1",
-    "ng-packagr": "17",
+    "ng-packagr": "17.3.0",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.4",
     "typedoc-plugin-markdown": "^4.2.1",
     "typescript": "5.4"
   },
-  "workspaces": [
-    "demo"
-  ],
   "packageManager": "yarn@4.2.2"
 }
