@@ -25,7 +25,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-angular@npm:17.3.8":
+"@angular-devkit/build-angular@npm:17":
   version: 17.3.8
   resolution: "@angular-devkit/build-angular@npm:17.3.8"
   dependencies:
@@ -193,7 +193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cli@npm:17.3.8":
+"@angular/cli@npm:17":
   version: 17.3.8
   resolution: "@angular/cli@npm:17.3.8"
   dependencies:
@@ -233,9 +233,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/compiler-cli@npm:17.3.8":
-  version: 17.3.8
-  resolution: "@angular/compiler-cli@npm:17.3.8"
+"@angular/compiler-cli@npm:17":
+  version: 17.3.12
+  resolution: "@angular/compiler-cli@npm:17.3.12"
   dependencies:
     "@babel/core": "npm:7.23.9"
     "@jridgewell/sourcemap-codec": "npm:^1.4.14"
@@ -246,13 +246,13 @@ __metadata:
     tslib: "npm:^2.3.0"
     yargs: "npm:^17.2.1"
   peerDependencies:
-    "@angular/compiler": 17.3.8
+    "@angular/compiler": 17.3.12
     typescript: ">=5.2 <5.5"
   bin:
     ng-xi18n: bundles/src/bin/ng_xi18n.js
     ngc: bundles/src/bin/ngc.js
     ngcc: bundles/ngcc/index.js
-  checksum: 10/55f88b3b3cdfc84a0337aef49c08f7b5330d48562463bf99145b2603391a15b137a31816af1286937d510718c3b5ac8ffb358a00212114efd8aef257845e9316
+  checksum: 10/7d268eb44293e9d8c263963d20b90539cabdc0f5ae07d8c73b335c1a5331a403b7aa9d32d3d51200a68afcea5eab09fdc48623409c338a20779221a87f89a82a
   languageName: node
   linkType: hard
 
@@ -3632,12 +3632,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@smoosee/ngrx-manager@workspace:."
   dependencies:
-    "@angular-devkit/build-angular": "npm:17.3.8"
+    "@angular-devkit/build-angular": "npm:17"
     "@angular/animations": "npm:17"
-    "@angular/cli": "npm:17.3.8"
+    "@angular/cli": "npm:17"
     "@angular/common": "npm:17"
     "@angular/compiler": "npm:17"
-    "@angular/compiler-cli": "npm:17.3.8"
+    "@angular/compiler-cli": "npm:17"
     "@angular/core": "npm:17.3.12"
     "@angular/forms": "npm:17"
     "@angular/platform-browser": "npm:17"
@@ -3653,7 +3653,7 @@ __metadata:
     jest-junit: "npm:^16.0.0"
     jest-preset-angular: "npm:^14.1.1"
     jsdoc-to-markdown: "npm:^8.0.1"
-    ng-packagr: "npm:17.3.0"
+    ng-packagr: "npm:17"
     rxjs: "npm:~7.8.1"
     ts-node: "npm:^10.9.2"
     tslib: "npm:^2.6.3"
@@ -9606,7 +9606,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ng-packagr@npm:17.3.0":
+"ng-packagr@npm:17":
   version: 17.3.0
   resolution: "ng-packagr@npm:17.3.0"
   dependencies:

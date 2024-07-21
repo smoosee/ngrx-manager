@@ -39,7 +39,7 @@ jobs:
                 path: node_modules
 
             - name: Build Library
-              run: yarn ng build
+              run: npx ng build
 
             - name: Create Release
               env:
