@@ -20,10 +20,8 @@
             "tsConfig": "./tsconfig.lib.json"
           },
           "configurations": {
-            "prod": {
-            },
-            "dev": {
-            }
+            "prod": {},
+            "dev": {}
           },
           "defaultConfiguration": "prod"
         }
@@ -43,19 +41,22 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/demo"
-            },
+            "outputPath": "dist/demo",
+            "browser": "demo/src/main.ts",
             "index": "demo/src/index.html",
             "tsConfig": "demo/tsconfig.app.json",
+            "polyfills": [
+              "zone.js"
+            ],
             "inlineStyleLanguage": "scss",
             "assets": [
               "demo/src/favicon.ico",
               "demo/src/assets"
             ],
-            "styles": ["demo/src/styles.scss"],
-            "scripts": [],
-            "browser": "demo/src/main.ts"
+            "styles": [
+              "demo/src/styles.scss"
+            ],
+            "scripts": []
           },
           "configurations": {
             "prod": {

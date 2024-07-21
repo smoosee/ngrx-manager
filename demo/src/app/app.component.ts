@@ -1,10 +1,14 @@
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { StoreFacade } from './app.facade';
+import { PartialComponent } from './partial/partial.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [JsonPipe, AsyncPipe, PartialComponent]
 })
 export class AppComponent implements OnInit {
   title = 'ngrx-manager';

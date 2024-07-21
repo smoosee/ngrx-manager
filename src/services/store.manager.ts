@@ -89,11 +89,11 @@ export class StoreManager {
       filter((payload: any) => {
         const noAction = !action;
         const isSuccessful = payload?.[StateKeys.status] === ActionStatus.SUCCESS;
-        const isSameAction = payload[StateKeys.uuid] === action?.uuid
+        const isSameAction = payload[StateKeys.uuid] === action?.uuid;
         return isSuccessful && (noAction || isSameAction);
       }),
       !!action ? take(1) : distinctUntilKeyChanged(StateKeys.uuid),
-      map(this.mapState)
+      map(data => this.mapState(data)),
     );
   }
 }

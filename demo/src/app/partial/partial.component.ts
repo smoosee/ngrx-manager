@@ -4,6 +4,7 @@ import { StoreFacade } from '../app.facade';
 @Component({
   selector: 'app-partial',
   template: ``,
+  standalone: true
 })
 export class PartialComponent implements OnInit {
   constructor(private store: StoreFacade) { }

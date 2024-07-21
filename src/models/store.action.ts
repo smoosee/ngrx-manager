@@ -20,7 +20,6 @@ interface StoreActionProps<T = any, K extends string = string, D extends boolean
 }
 
 type StoreActionInput<T = any, K extends string = string, D extends boolean = boolean, F extends string = string> =
-  | K
   | RequireOnly<StoreActionProps<T, K, D, F>, 'name' | 'fallback'>
   | RequireOnly<StoreActionProps<T, K, D, F>, 'name' | 'service' | 'method'>
   | Partial<StoreActionProps<T, K, D, F>>;
@@ -45,7 +44,7 @@ export class StoreAction<T = any, K extends string = string, D extends boolean =
 
   constructor(action: StoreActionInput<T, K, D, F>, state?: string) {
     this.state = state;
-    this.uuid = Math.random().toString(36).substr(2, 9);
+    this.uuid = action?.uuid || Math.random().toString(36).substr(2, 9);
 
     if (typeof action === 'string') {
       this.name = action;
