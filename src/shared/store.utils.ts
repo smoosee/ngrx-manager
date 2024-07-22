@@ -5,17 +5,16 @@ type Output<O extends Input, N extends Input> = O & N;
 
 export function mergeDeep<O extends Input, N extends Input>(oPayload: O, nPayload: N): Output<O, N> {
   const oClone = structuredClone(oPayload);
-  return Object.entries(nPayload ?? {}).reduce((acc, [key, nValue]) => {
-    const oValue = acc[key];
-    if (Array.isArray(nValue)) {
-      acc[key] = nValue.map((item, idx) => mergeDeep((oValue || [])?.[idx], item));
-    } else if (typeof nValue === 'object') {
-      acc[key] = mergeDeep(oValue ?? {}, nValue);
-    } else {
-      acc[key] = nValue;
-    }
-    return acc;
-  }, oClone as any);
+  if (Array.isArray(nPayload)) {
+    return [].concat(...(oClone as any || []), ...nPayload) as any;
+  } else if (typeof nPayload === 'object') {
+    return Object.entries(nPayload ?? {}).reduce((acc, [key, nValue]) => {
+      acc[key] = mergeDeep(acc?.[key], nValue);
+      return acc;
+    }, (oClone || {}) as any);
+  } else {
+    return nPayload;
+  }
 
 }
 
