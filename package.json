@@ -6,10 +6,6 @@
     "type": "git",
     "url": "smoosee/ngrx-manager"
   },
-  "engines": {
-    "npm": ">=8.0.0 <10.0.0",
-    "node": ">=16.0.0 <20.0.0"
-  },
   "keywords": [
     "smoosee",
     "angular",
