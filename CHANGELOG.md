@@ -1,3 +1,15 @@
+# v0.17.2 (Mon Jul 22 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix mergeDeep for arrays (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.0.24 (Sun Jul 21 2024)
 
 #### ⚠️ Pushed to `master`
