@@ -1,3 +1,15 @@
+# v0.17.3 (Mon Jul 22 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix mergeDeep not working properly (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.2 (Mon Jul 22 2024)
 
 #### ⚠️ Pushed to `master`
