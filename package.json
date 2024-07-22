@@ -1,6 +1,6 @@
 {
   "name": "@smoosee/ngrx-manager",
-  "version": "0.17.2",
+  "version": "0.17.3",
   "description": "Plug-N-Play manager for NGRX Stores.",
   "repository": {
     "type": "git",
