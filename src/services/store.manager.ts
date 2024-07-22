@@ -41,11 +41,7 @@ export class StoreManager {
     config.options = new StoreOptions({ ...this.storeOptions, ...options, ...config.options });
 
     if (this.dispatcher.exists(config.name)) {
-      if (config.options.shouldMerge) {
-        config.actions = uniqueBy([...this.dispatcher.states[config.name].actions, ...config.actions], 'name');
-      } else {
-        return;
-      }
+      config.actions = uniqueBy([...this.dispatcher.states[config.name].actions, ...config.actions], 'name');
     }
 
     const state = new StoreState<T>(config, this.injector);

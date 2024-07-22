@@ -23,8 +23,9 @@ export class StoreReducer {
           payload = structuredClone(action.payload);
           break;
         default:
-          const shouldExtend = action.name === DefaultActions.EXTEND || state.options?.shouldExtend;
-          payload = shouldExtend ? mergeDeep(payload, action.payload) : structuredClone(action);
+          const { extendOnSet, mergeDeepOnExtend } = state?.options;
+          const shouldExtend = action.name === DefaultActions.EXTEND || extendOnSet;
+          payload = shouldExtend ? mergeDeepOnExtend ? mergeDeep(payload, action.payload) : Object.assign(payload, action.payload) : structuredClone(action);
       }
     }
     Object.assign(payload, {
