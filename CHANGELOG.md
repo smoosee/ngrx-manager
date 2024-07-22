@@ -1,3 +1,15 @@
+# v0.17.4 (Mon Jul 22 2024)
+
+#### ⚠️ Pushed to `master`
+
+- add mergeDeepOnExtend to disable merging dynamically (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.3 (Mon Jul 22 2024)
 
 #### ⚠️ Pushed to `master`
