@@ -8,7 +8,7 @@ export function mergeDeep<O extends Input, N extends Input>(oPayload: O, nPayloa
   return Object.entries(nPayload ?? {}).reduce((acc, [key, nValue]) => {
     const oValue = acc[key];
     if (Array.isArray(nValue)) {
-      acc[key] = nValue.map((item, idx) => mergeDeep(oValue[idx] ?? [], item));
+      acc[key] = nValue.map((item, idx) => mergeDeep((oValue || [])?.[idx], item));
     } else if (typeof nValue === 'object') {
       acc[key] = mergeDeep(oValue ?? {}, nValue);
     } else {
