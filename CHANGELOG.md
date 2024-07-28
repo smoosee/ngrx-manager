@@ -1,3 +1,15 @@
+# v0.17.7 (Sun Jul 28 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix store set doesn't extend with proper option (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.5 (Mon Jul 22 2024)
 
 #### ⚠️ Pushed to `master`
