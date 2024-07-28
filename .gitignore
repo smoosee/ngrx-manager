@@ -52,3 +52,7 @@ package
 
 lib/package.json
 .env
+esm*
+fesm*
+*.d.ts
+*.d.ts.map
