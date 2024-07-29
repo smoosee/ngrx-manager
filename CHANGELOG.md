@@ -1,3 +1,15 @@
+# v0.17.8 (Mon Jul 29 2024)
+
+#### ⚠️ Pushed to `master`
+
+- move dependencies into devDependencies (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.7 (Sun Jul 28 2024)
 
 #### ⚠️ Pushed to `master`
