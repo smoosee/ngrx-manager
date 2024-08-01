@@ -1,3 +1,15 @@
+# v0.17.9 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `master`
+
+- allow empty return actions, extendOnDispatch ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.8 (Mon Jul 29 2024)
 
 #### ⚠️ Pushed to `master`
