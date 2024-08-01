@@ -1,3 +1,15 @@
+# v0.17.11 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `master`
+
+- allow action payload to populate the state (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.10 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `master`
