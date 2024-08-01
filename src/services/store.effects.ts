@@ -4,7 +4,7 @@ import { Actions, createEffect } from '@ngrx/effects';
 import { Observable, catchError, filter, from, map, mergeMap, of } from 'rxjs';
 import { StoreAction } from '../models/store.action';
 import { ActionStatus } from '../shared/store.enums';
-import { isObject } from 'src/shared/store.utils';
+import { isObject } from '../shared/store.utils';
 
 
 @Injectable({ providedIn: 'root' })
