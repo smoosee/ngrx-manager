@@ -4,6 +4,7 @@ import { Actions, createEffect } from '@ngrx/effects';
 import { Observable, catchError, filter, from, map, mergeMap, of } from 'rxjs';
 import { StoreAction } from '../models/store.action';
 import { ActionStatus } from '../shared/store.enums';
+import { isObject } from 'src/shared/store.utils';
 
 
 @Injectable({ providedIn: 'root' })
@@ -50,11 +51,12 @@ export class StoreEffects {
       mergeMap((action) => {
         let returnObservable = of(action.payload);
         if (action.service && action.method) {
-          const payload = this.injector.get<any>(action.service)[action.method](action.payload);
+          let payload = this.injector.get<any>(action.service)[action.method](action.payload);
           if (payload instanceof Observable) {
             returnObservable = payload;
           } else {
-            returnObservable = of(payload ?? null);
+            payload = payload ?? isObject(action.payload) ? action.payload : { payload: action.payload };
+            returnObservable = of(payload);
           }
         }
 
