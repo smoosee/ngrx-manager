@@ -1,3 +1,15 @@
+# v0.17.12 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix import from src/shared ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.11 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `master`
