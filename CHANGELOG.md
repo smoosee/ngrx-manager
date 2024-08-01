@@ -1,3 +1,15 @@
+# v0.17.10 (Thu Aug 01 2024)
+
+#### ⚠️ Pushed to `master`
+
+- allow action to return regular values instead of only observables ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.9 (Thu Aug 01 2024)
 
 #### ⚠️ Pushed to `master`
