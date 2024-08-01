@@ -50,7 +50,7 @@ export class StoreEffects {
       mergeMap((action) => {
         let returnObservable = of(action.payload);
         if (action.service && action.method) {
-          returnObservable = this.injector.get<any>(action.service)[action.method](action.payload);
+          returnObservable = this.injector.get<any>(action.service)[action.method](action.payload) || of(null);
         }
 
         return returnObservable.pipe(

@@ -22,10 +22,14 @@
         </div>
     </div>
     <div class="buttons">
-        <button (click)="onClick('dispatch')">Dispatch</button>
         <button (click)="onClick('set')">Set</button>
         <button (click)="onClick('extend')">Extend</button>
         <button (click)="onClick('unset')">Unset</button>
+    </div>
+    <div class="buttons">
+        <h4>Dispatch</h4>
+        <button (click)="onClick('http')">Http</button>
+        <button (click)="onClick('log')">Log</button>
     </div>
 </div>
 <div class="actions-log">

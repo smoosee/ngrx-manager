@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
@@ -8,7 +7,6 @@ export class AppService {
 
   appLog(...args: any) {
     console.log('###', 'appLog', args);
-    return of(null);
   }
 
   appDispatch() {

@@ -20,8 +20,12 @@ export class StoreReducer {
           payload = {};
           break;
         default:
-          const { extendOnSet, mergeDeepOnExtend } = state?.options;
-          const shouldExtend = action.name === DefaultActions.EXTEND || extendOnSet;
+          if (!action.payload) { break; }
+          const { extendOnSet, extendOnDispatch, mergeDeepOnExtend } = state?.options;
+          const isExtendAction = action.name === DefaultActions.EXTEND;
+          const isSetAction = action.name === DefaultActions.SET;
+          const isDispatchAction = !isExtendAction && !isSetAction;
+          const shouldExtend = isExtendAction || (extendOnSet && isSetAction) || (extendOnDispatch && isDispatchAction);
           const merged = Object.assign(payload, action.payload);
           const mergedDeep = mergeDeep(payload, action.payload);
           const cloned = structuredClone(action.payload);

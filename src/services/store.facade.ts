@@ -33,7 +33,7 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
     }
   }
 
-  dispatch<T extends K, A extends ActionNames<S, T>>(stateKey: T, actionKey: A, payload?: string | Partial<StateData<S, T>>): Observable<StateData<S, T>> {
+  dispatch<T extends K, A extends ActionNames<S, T>>(stateKey: T, actionKey: A, payload?: string | number | boolean | Partial<StateData<S, T>>): Observable<StateData<S, T>> {
     const action = this.dispatcher.dispatch(stateKey, actionKey, payload);
     return this.manager.observable(stateKey, action);
   }

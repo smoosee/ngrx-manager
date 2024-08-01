@@ -5,7 +5,8 @@ export const AppStoreOptions: StoreOptions = {
   app: 'app',
   prefix: '',
   storage: 'local',
-  extendOnSet: false
+  extendOnSet: false,
+  extendOnDispatch: true
 };
 
 interface AppState {

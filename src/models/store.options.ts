@@ -3,6 +3,7 @@ export class StoreOptions<T = any> {
   prefix?: string;
   storage?: 'local' | 'session' | 'none' = 'none';
   extendOnSet?: boolean = false;
+  extendOnDispatch?: boolean = true;
   mergeDeepOnExtend?: boolean = false;
   effects?: T;
 

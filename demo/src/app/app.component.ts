@@ -25,9 +25,14 @@ export class AppComponent implements OnInit {
 
   onClick(btn: string) {
     switch (btn) {
-      case 'dispatch':
+      case 'http':
         this.store.dispatch('App', 'SHARED_DISPATCH' as any).subscribe((data) => {
           this.logs.unshift({ action: 'dispatch', type: 'subscribe', data });
+        });
+        break;
+      case 'log':
+        this.store.dispatch('App', 'APP_LOG', 'test log').subscribe((data) => {
+          this.logs.unshift({ action: 'log', type: 'subscribe', data });
         });
         break;
       case 'set':
