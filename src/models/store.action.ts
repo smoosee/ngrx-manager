@@ -1,4 +1,5 @@
 import { ActionStatus, DefaultActions } from "../shared/store.enums";
+import { StoreFlags } from "./store.options";
 
 
 type RequireOnly<T, R extends keyof T> = Required<Pick<T, R>> & Partial<Omit<T, R>>;
@@ -10,6 +11,8 @@ interface StoreActionProps<T = any, K extends string = string, D extends boolean
   service: new (...args: any[]) => T;
   method: keyof T;
 
+
+  flags: StoreFlags;
   deprecated: D;
   fallback: F[];
 
@@ -35,6 +38,7 @@ export class StoreAction<T = any, K extends string = string, D extends boolean =
   uuid?: string;
   status?: ActionStatus = undefined as any;
 
+  flags?: StoreFlags;
   deprecated?: boolean;
 
 
@@ -57,6 +61,7 @@ export class StoreAction<T = any, K extends string = string, D extends boolean =
       this.payload = action.payload;
       this.status = action.status || ActionStatus.PENDING;
       this.deprecated = action.deprecated || false as D;
+      this.flags = action.flags || {};
     }
 
   }

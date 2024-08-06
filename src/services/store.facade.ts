@@ -1,7 +1,8 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { exhaustMap, Observable, of } from 'rxjs';
+import { StoreFlags } from '../models/store.options';
 import { DefaultActions } from '../shared/store.enums';
-import { ActionNames, StateData, StateFormatter, StateKey } from '../shared/store.types';
+import { ActionNames, DeepPartial, StateData, StateFormatter, StateKey } from '../shared/store.types';
 import { isEmpty } from '../shared/store.utils';
 import { StoreDispatcher } from './store.dispatcher';
 import { StoreManager } from './store.manager';
@@ -33,8 +34,8 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
     }
   }
 
-  dispatch<T extends K, A extends ActionNames<S, T>>(stateKey: T, actionKey: A, payload?: string | number | boolean | Partial<StateData<S, T>>): Observable<StateData<S, T>> {
-    const action = this.dispatcher.dispatch(stateKey, actionKey, payload);
+  dispatch<T extends K, A extends ActionNames<S, T>>(stateKey: T, actionKey: A, payload?: string | number | boolean | DeepPartial<StateData<S, T>>, flags?: StoreFlags): Observable<StateData<S, T>> {
+    const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flags);
     return this.manager.observable(stateKey, action);
   }
 
@@ -42,16 +43,16 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
     return this.dispatch(stateKey, DefaultActions.GET);
   }
 
-  set<T extends K>(stateKey: T, payload: Partial<StateData<S, T>>) {
-    return this.dispatch(stateKey, DefaultActions.SET, payload);
+  set<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flags?: StoreFlags) {
+    return this.dispatch(stateKey, DefaultActions.SET, payload, flags);
   }
 
   unset<T extends K>(stateKey: T) {
     return this.dispatch(stateKey, DefaultActions.UNSET);
   }
 
-  extend<T extends K>(stateKey: T, payload: Partial<StateData<S, T>>) {
-    return this.dispatch(stateKey, DefaultActions.EXTEND, payload);
+  extend<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flags?: StoreFlags) {
+    return this.dispatch(stateKey, DefaultActions.EXTEND, payload, flags);
   }
 
   init<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: StateFormatter<S, T>, force = false): Observable<StateData<S, T>> {
@@ -61,7 +62,7 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
       getter = of(stateData);
     }
 
-    return getter.pipe(exhaustMap((payload: Partial<StateData<S, T>>) => {
+    return getter.pipe(exhaustMap((payload: DeepPartial<StateData<S, T>>) => {
       return this.set(stateKey, formatter(payload));
     }));
   }

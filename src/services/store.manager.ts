@@ -44,7 +44,7 @@ export class StoreManager {
       config.actions = uniqueBy([...this.dispatcher.states[config.name].actions, ...config.actions], 'name');
     }
 
-    const state = new StoreState<T>(config, this.injector);
+    const state = new StoreState<T>(config, false);
     this.dispatcher.add(state);
     return this;
   }

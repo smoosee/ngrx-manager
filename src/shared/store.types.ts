@@ -5,3 +5,4 @@ export type ActionNames<S extends readonly any[], K extends StateKey<S>> = State
 export type DeprecatedActions<S extends readonly any[], K extends StateKey<S>> = Extract<StateActions<S, K>[number], { deprecated: true; }>['name'];
 export type ActiveActions<S extends readonly any[], K extends StateKey<S>> = Exclude<ActionNames<S, K>[number], { name: DeprecatedActions<S, K>; }>['name'];
 export type StateFormatter<S extends readonly any[], K extends StateKey<S>> = (payload: StateData<S, K>) => StateData<S, K>;
+export type DeepPartial<T> = { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]; };

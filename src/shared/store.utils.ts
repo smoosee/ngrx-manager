@@ -3,13 +3,13 @@ import { StoreState } from "../models/store.state";
 type Input = { [k: string]: any };
 type Output<O extends Input, N extends Input> = O & N;
 
-export function mergeDeep<O extends Input, N extends Input>(oPayload: O, nPayload: N): Output<O, N> {
+export function mergeDeep<O extends Input, N extends Input>(oPayload: O, nPayload: N, mergeArrays = false): Output<O, N> {
   const oClone = structuredClone(oPayload);
   if (Array.isArray(nPayload)) {
-    return [].concat(...(oClone as any || []), ...nPayload) as any;
+    return mergeArrays ? [].concat(...(oClone as any || []), ...nPayload) as any : [].concat(...nPayload);
   } else if (typeof nPayload === 'object') {
     return Object.entries(nPayload ?? {}).reduce((acc, [key, nValue]) => {
-      acc[key] = mergeDeep(acc?.[key], nValue);
+      acc[key] = mergeDeep(acc?.[key], nValue, mergeArrays);
       return acc;
     }, (oClone || {}) as any);
   } else {

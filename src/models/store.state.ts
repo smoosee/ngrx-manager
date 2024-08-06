@@ -1,6 +1,7 @@
-import { Injector, Provider } from "@angular/core";
+import { Provider } from "@angular/core";
 import { DefaultActions } from "../shared/store.enums";
 import { provideStoreStates } from "../shared/store.providers";
+import { MergeReducer } from "../variations/merge.reducer";
 import { StorageReducer } from "../variations/storage.reducer";
 import { StoreAction } from "./store.action";
 import { StoreOptions } from "./store.options";
@@ -14,9 +15,9 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
   actions: A;
   fallback: F[] = [];
   options: StoreOptions;
-  reducers: StoreReducer[];
+  reducers: StoreReducer[] = [];
 
-  constructor(state?: Partial<StoreState<T, A, K, F>>, private injector?: Injector) {
+  constructor(state?: Partial<StoreState<T, A, K, F>>, withBuiltinReducers = true) {
     this.app = state?.app;
     this.name = !state || typeof (state) === 'string' ? state as any : state.name;
     this.initial = state?.initial || {} as T;
@@ -25,15 +26,13 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
     this.actions = [...(state?.actions || []), ...defaultActions].map(untypedAction => new StoreAction(untypedAction as any, this.name)) as A;
 
     this.options = state?.options || {};
-    this.reducers = [...(state?.reducers || [])];
 
-    if (!this.reducers.find(x => x instanceof StoreReducer)) {
-      this.reducers.unshift(new StoreReducer());
-    }
-    if (!this.reducers.find(x => x instanceof StorageReducer) && ['session', 'local'].includes(this.options.storage as string)) {
-      this.reducers?.push(new StorageReducer());
-    }
-
+    const reducers = state?.reducers || [];
+    StoreReducer.add(this, withBuiltinReducers);
+    MergeReducer.add(this, withBuiltinReducers);
+    this.reducers.push(...reducers);
+    const allowStorage = this.options.storage && this.options.storage !== 'none';
+    StorageReducer.add(this, withBuiltinReducers && allowStorage);
   }
 
   update(state: any, action: StoreAction): T {

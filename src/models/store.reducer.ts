@@ -1,15 +1,23 @@
 import { ActionStatus, DefaultActions, StateKeys } from '../shared/store.enums';
-import { mergeDeep } from '../shared/store.utils';
 import { StoreAction } from './store.action';
 import { StoreState } from './store.state';
 
 export class StoreReducer {
+  static add(state: StoreState, condition = true) {
+    if (!state.reducers.find(x => x instanceof this) && condition) {
+      state.reducers.push(new this())
+    }
+  }
 
-  getPayload(state: StoreState, payload: any, action: StoreAction) {
+  preAction(state: StoreState, payload: any, action: StoreAction) {
     return payload;
   }
 
-  setPayload(state: StoreState, payload: any, action: StoreAction) {
+  postAction(state: StoreState, payload: any, action: StoreAction) {
+    return payload;
+  }
+
+  getPayload(state: StoreState, payload: any, action: StoreAction) {
     return payload;
   }
 
@@ -21,15 +29,7 @@ export class StoreReducer {
           break;
         default:
           if (!action.payload) { break; }
-          const { extendOnSet, extendOnDispatch, mergeDeepOnExtend } = state?.options;
-          const isExtendAction = action.name === DefaultActions.EXTEND;
-          const isSetAction = action.name === DefaultActions.SET;
-          const isDispatchAction = !isExtendAction && !isSetAction;
-          const shouldExtend = isExtendAction || (extendOnSet && isSetAction) || (extendOnDispatch && isDispatchAction);
-          const merged = Object.assign(payload, action.payload);
-          const mergedDeep = mergeDeep(payload, action.payload);
-          const cloned = structuredClone(action.payload);
-          payload = shouldExtend ? mergeDeepOnExtend ? mergedDeep : merged : cloned;
+          payload = this.getPayload(state, payload, action);
       }
     }
     Object.assign(payload, {
@@ -41,11 +41,11 @@ export class StoreReducer {
 
 
   mapReduce(state: any, payload: any, action: StoreAction) {
-    payload = this.getPayload(state, payload, action);
+    payload = this.preAction(state, payload, action);
     if (action.state === state.name) {
       payload = this.onAction(state, payload, action);
     }
-    this.setPayload(state, payload, action);
+    this.postAction(state, payload, action);
     return payload;
   }
 }

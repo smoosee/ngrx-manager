@@ -8,6 +8,7 @@ export * from './services/store.manager';
 export * from './shared/store.enums';
 export * from './shared/store.providers';
 export * from './shared/store.types';
+export * from './variations/merge.reducer';
 export * from './variations/ngrx.dispatcher';
 export * from './variations/storage.reducer';
 

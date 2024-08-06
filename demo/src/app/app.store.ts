@@ -5,13 +5,24 @@ export const AppStoreOptions: StoreOptions = {
   app: 'app',
   prefix: '',
   storage: 'local',
-  extendOnSet: false,
-  extendOnDispatch: true
+  flags: {
+    extendOnSet: false,
+    extendOnDispatch: true,
+  }
 };
 
 interface AppState {
   set: boolean;
   extend: boolean;
+  nestedValue: {
+    name: string;
+    age: number;
+    address: {
+      address: string;
+      city: string;
+    }
+    arr: (string | number)[]
+  }
 }
 interface SharedState {
   useThis: boolean;

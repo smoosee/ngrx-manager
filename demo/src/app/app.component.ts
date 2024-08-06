@@ -36,12 +36,12 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'set':
-        this.store.set('App', { set: true }).subscribe((data) => {
+        this.store.set('App', { set: true, nestedValue: { arr: [123] } }).subscribe((data) => {
           this.logs.unshift({ action: 'set', type: 'subscribe', data });
         });
         break;
       case 'extend':
-        this.store.extend('App', { extend: true }).subscribe((data) => {
+        this.store.extend('App', { nestedValue: { arr: [456] } }, { mergeArrays: true }).subscribe((data) => {
           this.logs.unshift({ action: 'extend', type: 'then', data });
         });
         break;
