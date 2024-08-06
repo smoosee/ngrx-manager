@@ -1,3 +1,15 @@
+# v0.17.14 (Tue Aug 06 2024)
+
+#### ⚠️ Pushed to `master`
+
+- updates & fixes for deepMerge and extending states (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif (mosherif87@gmail.com)
+
+---
+
 # v0.17.13 (Thu Aug 01 2024)
 
 
