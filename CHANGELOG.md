@@ -1,3 +1,15 @@
+# v0.17.20 (Wed Aug 07 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix store action not updating state uuid ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.19 (Wed Aug 07 2024)
 
 
