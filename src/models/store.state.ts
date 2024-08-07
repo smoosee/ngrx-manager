@@ -39,8 +39,6 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
       }
     });
 
-    console.log(this.name, 'actions', this.actions.length);
-    console.log(this.name, 'reducers', this.reducers.length);
   }
 
   update(state: any, action: StoreAction): T {
