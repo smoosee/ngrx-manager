@@ -1,3 +1,15 @@
+# v0.17.23 (Wed Aug 07 2024)
+
+#### ⚠️ Pushed to `master`
+
+- update store effects to retrieve store action method result ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.22 (Wed Aug 07 2024)
 
 #### ⚠️ Pushed to `master`
