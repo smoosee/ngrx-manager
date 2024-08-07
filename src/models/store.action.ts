@@ -69,6 +69,7 @@ export class StoreAction<T = any, K extends string = string, D extends boolean =
   dispatch(payload: any, newStatus = ActionStatus.PENDING) {
     this.payload = payload;
     this.status = newStatus;
+    this.uuid = Math.random().toString(36).substr(2, 9);
     return this;
   }
 }

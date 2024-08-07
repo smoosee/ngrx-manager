@@ -17,22 +17,30 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
   options: StoreOptions;
   reducers: StoreReducer[] = [];
 
-  constructor(state?: Partial<StoreState<T, A, K, F>>, withBuiltinReducers = true) {
+  constructor(state?: Partial<StoreState<T, A, K, F>>, autoExtend = true) {
     this.app = state?.app;
     this.name = !state || typeof (state) === 'string' ? state as any : state.name;
     this.initial = state?.initial || {} as T;
     this.fallback = state?.fallback || [] as F[];
-    const defaultActions = Object.keys(DefaultActions);
-    this.actions = [...(state?.actions || []), ...defaultActions].map(untypedAction => new StoreAction(untypedAction as any, this.name)) as A;
-
     this.options = state?.options || {};
 
-    const reducers = state?.reducers || [];
-    StoreReducer.add(this, withBuiltinReducers);
-    MergeReducer.add(this, withBuiltinReducers);
-    this.reducers.push(...reducers);
-    const allowStorage = this.options.storage && this.options.storage !== 'none';
-    StorageReducer.add(this, withBuiltinReducers && allowStorage);
+    const actions: any[] = state?.actions || [];
+    const reducers: any[] = state?.reducers || [];
+    if (autoExtend) {
+      actions.push(...Object.keys(DefaultActions));
+
+      StoreReducer.add(this, 0);
+      MergeReducer.add(this, 1);
+
+      const withStorage = this.options.storage && this.options.storage !== 'none';
+      if (withStorage) {
+        StorageReducer.add(this);
+      }
+    }
+
+    this.reducers = reducers;
+    this.actions = actions.map(untypedAction => new StoreAction(untypedAction as any, this.name)) as A;
+
   }
 
   update(state: any, action: StoreAction): T {

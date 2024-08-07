@@ -3,9 +3,13 @@ import { StoreAction } from './store.action';
 import { StoreState } from './store.state';
 
 export class StoreReducer {
-  static add(state: StoreState, condition = true) {
-    if (!state.reducers.find(x => x instanceof this) && condition) {
-      state.reducers.push(new this())
+  static add(state: StoreState, idx?: number) {
+    if (!state?.reducers.find(x => x instanceof this)) {
+      if (idx || idx === 0) {
+        state.reducers.splice(idx, 0, new this())
+      } else {
+        state.reducers.push(new this())
+      }
     }
   }
 
