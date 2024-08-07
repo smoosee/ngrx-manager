@@ -7,6 +7,7 @@ import { StoreAction } from "./store.action";
 import { StoreOptions } from "./store.options";
 import { StoreReducer } from "./store.reducer";
 
+const DefaultReducers = [StoreReducer, MergeReducer, StorageReducer];
 
 export class StoreState<T extends any = any, A extends any[] = any[], K extends string = string, F extends string = string> {
   app?: string;
@@ -23,24 +24,23 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
     this.initial = state?.initial || {} as T;
     this.fallback = state?.fallback || [] as F[];
     this.options = state?.options || {};
+    this.reducers = state?.reducers || [];
+    this.actions = state?.actions as A || [];
 
-    const actions: any[] = state?.actions || [];
-    const reducers: any[] = state?.reducers || [];
-    if (autoExtend) {
-      actions.push(...Object.keys(DefaultActions));
-
-      StoreReducer.add(this, 0);
-      MergeReducer.add(this, 1);
-
-      const withStorage = this.options.storage && this.options.storage !== 'none';
-      if (withStorage) {
-        StorageReducer.add(this);
+    Object.keys(DefaultActions).forEach(action => {
+      if (!this.actions.find(x => x.name == action)) {
+        this.actions.push(new StoreAction(action as any, this.name));
       }
-    }
+    });
 
-    this.reducers = reducers;
-    this.actions = actions.map(untypedAction => new StoreAction(untypedAction as any, this.name)) as A;
+    DefaultReducers.forEach(reducer => {
+      if (!this.reducers.find(x => x instanceof reducer)) {
+        this.reducers.push(new reducer());
+      }
+    });
 
+    console.log(this.name, 'actions', this.actions.length);
+    console.log(this.name, 'reducers', this.reducers.length);
   }
 
   update(state: any, action: StoreAction): T {
@@ -51,5 +51,15 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
 
   provideState(): Provider[] {
     return provideStoreStates([this], { app: this.app })
+  }
+
+  private addAction() {
+
+  }
+  private addReducer(reducer: any) {
+    if (!this.reducers.find(x => x instanceof reducer)) {
+      this.reducers.push(new reducer());
+    }
+
   }
 }
