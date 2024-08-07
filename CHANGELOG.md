@@ -1,3 +1,15 @@
+# v0.17.15 (Wed Aug 07 2024)
+
+#### ⚠️ Pushed to `master`
+
+- fix storage reducer not populating on initial load ([@sheriffMoose](https://github.com/sheriffMoose))
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.14 (Tue Aug 06 2024)
 
 #### ⚠️ Pushed to `master`
