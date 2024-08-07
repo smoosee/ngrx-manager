@@ -49,16 +49,17 @@ export class StoreEffects {
     return from(action).pipe(
       filter((action) => action.status === ActionStatus.PENDING),
       mergeMap((action) => {
-        let returnObservable = of(action.payload);
+        let payload, returnObservable;
+
         if (action.service && action.method) {
-          let payload = this.injector.get<any>(action.service)[action.method](action.payload);
+          payload = this.injector.get<any>(action.service)[action.method](action.payload);
           if (payload instanceof Observable) {
             returnObservable = payload;
-          } else {
-            payload = payload ?? isObject(action.payload) ? action.payload : { payload: action.payload };
-            returnObservable = of(payload);
           }
         }
+
+        payload = payload ?? action.payload;
+        returnObservable = returnObservable ?? of(isObject(payload) ? payload : { payload });
 
         return returnObservable.pipe(
           map((payload) => new StoreAction({ ...action, payload, status: ActionStatus.SUCCESS }, action.state)),
