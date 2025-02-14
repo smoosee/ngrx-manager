@@ -1,3 +1,16 @@
+# v0.17.24 (Fri Feb 14 2025)
+
+#### ⚠️ Pushed to `master`
+
+- add action payload typings & fix onSet & onDispatch payload merges (mosherif87@gmail.com)
+- update to angular v18 (mosherif87@gmail.com)
+
+#### Authors: 1
+
+- Mostafa Sherif ([@sheriffMoose](https://github.com/sheriffMoose))
+
+---
+
 # v0.17.23 (Wed Aug 07 2024)
 
 #### ⚠️ Pushed to `master`
