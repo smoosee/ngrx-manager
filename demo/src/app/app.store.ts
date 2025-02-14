@@ -6,8 +6,8 @@ export const AppStoreOptions: StoreOptions = {
   prefix: '',
   storage: 'local',
   flags: {
-    extendOnSet: false,
-    extendOnDispatch: true,
+    onSet: 'replace',
+    onDispatch: 'extend',
   }
 };
 
@@ -41,8 +41,8 @@ export const AppStoreStates = [
         method: 'appLog',
       }),
       new StoreAction({
-        service: AppService,
         name: 'APP_DISPATCH',
+        service: AppService,
         method: 'appDispatch',
       }),
       new StoreAction({

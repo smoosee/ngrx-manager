@@ -1,19 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+export type LogObject = { name: string, age: number };
+
 @Injectable({ providedIn: 'root' })
 export class AppService {
   constructor(private http: HttpClient) { }
 
-  appLog(...args: any) {
+  appLog(args: LogObject) {
     console.log('###', 'appLog', args);
   }
 
-  appDispatch() {
-    return this.http.get('assets/app_dispatch.json');
+  appDispatch(type: 'app' | 'shared') {
+    return this.http.get(`assets/${type}_dispatch.json`);
   }
 
   sharedDispatch() {
-    return this.http.get('assets/shared_dispatch.json');
+    return this.appDispatch('shared');
   }
+
 }

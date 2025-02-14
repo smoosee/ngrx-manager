@@ -1,52 +1,35 @@
 import { ActionStatus, DefaultActions } from "../shared/store.enums";
-import { StoreFlags } from "./store.options";
+import { ActionMethod, ActionPayload, ActionService, RequireOnly } from "../shared/store.types";
+import { UpdateFlag } from "./store.options";
 
 
-type RequireOnly<T, R extends keyof T> = Required<Pick<T, R>> & Partial<Omit<T, R>>;
 
-interface StoreActionProps<T = any, K extends string = string, D extends boolean = boolean, F extends string = string> {
-  name: K;
-  state: string;
-
-  service: new (...args: any[]) => T;
-  method: keyof T;
+type StoreActionInput<K extends string, S extends ActionService, M extends ActionMethod<S>, D extends boolean = boolean, F extends string = string> =
+  | RequireOnly<StoreAction<K, S, M, D, F>, 'name' | 'fallback'>
+  | RequireOnly<StoreAction<K, S, M, D, F>, 'name' | 'service' | 'method'>
+  | Partial<StoreAction<K, S, M, D, F>>;
 
 
-  flags: StoreFlags;
-  deprecated: D;
-  fallback: F[];
-
-  payload: any;
-
-  uuid: string;
-  status: ActionStatus;
-}
-
-type StoreActionInput<T = any, K extends string = string, D extends boolean = boolean, F extends string = string> =
-  | RequireOnly<StoreActionProps<T, K, D, F>, 'name' | 'fallback'>
-  | RequireOnly<StoreActionProps<T, K, D, F>, 'name' | 'service' | 'method'>
-  | Partial<StoreActionProps<T, K, D, F>>;
-
-export class StoreAction<T = any, K extends string = string, D extends boolean = boolean, F extends string = string> {
+export class StoreAction<K extends string = string, S extends ActionService = ActionService, M extends ActionMethod<S> = ActionMethod<S>, D extends boolean = boolean, F extends string = string> {
   name!: K;
   state?: string;
 
-  service?: new (...args: any[]) => T;
-  method?: keyof T;
+  service?: new (...args: any[]) => S;
+  method?: M;
   fallback?: F[];
-  payload?: any;
+  payload?: ActionPayload<S, M>;
   uuid?: string;
   status?: ActionStatus = undefined as any;
 
-  flags?: StoreFlags;
-  deprecated?: boolean;
+  flag?: UpdateFlag;
+  deprecated!: D;
 
 
   get type() {
     return `[${this.state}] ${this.name}_DATA_${this.status}`;
   }
 
-  constructor(action: StoreActionInput<T, K, D, F>, state?: string) {
+  constructor(action: StoreActionInput<K, S, M, D, F>, state?: string) {
     this.state = state;
     this.uuid = action?.uuid || Math.random().toString(36).substr(2, 9);
 
@@ -61,7 +44,7 @@ export class StoreAction<T = any, K extends string = string, D extends boolean =
       this.payload = action.payload;
       this.status = action.status || ActionStatus.PENDING;
       this.deprecated = action.deprecated || false as D;
-      this.flags = action.flags || {};
+      this.flag = action.flag;
     }
 
   }

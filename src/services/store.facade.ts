@@ -1,8 +1,8 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { exhaustMap, Observable, of } from 'rxjs';
-import { StoreFlags } from '../models/store.options';
+import { UpdateFlag } from '../models/store.options';
 import { DefaultActions } from '../shared/store.enums';
-import { ActionNames, DeepPartial, StateData, StateFormatter, StateKey } from '../shared/store.types';
+import { ActionNames, DeepPartial, DispatchPayload, StateData, StateFormatter, StateKey } from '../shared/store.types';
 import { isEmpty } from '../shared/store.utils';
 import { StoreDispatcher } from './store.dispatcher';
 import { StoreManager } from './store.manager';
@@ -34,8 +34,8 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
     }
   }
 
-  dispatch<T extends K, A extends ActionNames<S, T>>(stateKey: T, actionKey: A, payload?: string | number | boolean | DeepPartial<StateData<S, T>>, flags?: StoreFlags): Observable<StateData<S, T>> {
-    const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flags);
+  dispatch<T extends K, A extends ActionNames<S, T>, P extends DispatchPayload<S, T, A>>(stateKey: T, actionKey: A, payload?: P, flag?: UpdateFlag): Observable<StateData<S, T>> {
+    const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flag);
     return this.manager.observable(stateKey, action);
   }
 
@@ -43,16 +43,16 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
     return this.dispatch(stateKey, DefaultActions.GET);
   }
 
-  set<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flags?: StoreFlags) {
-    return this.dispatch(stateKey, DefaultActions.SET, payload, flags);
+  set<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flag?: UpdateFlag) {
+    return this.dispatch(stateKey, DefaultActions.SET, payload, flag);
   }
 
   unset<T extends K>(stateKey: T) {
     return this.dispatch(stateKey, DefaultActions.UNSET);
   }
 
-  extend<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flags?: StoreFlags) {
-    return this.dispatch(stateKey, DefaultActions.EXTEND, payload, flags);
+  extend<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flag?: UpdateFlag) {
+    return this.dispatch(stateKey, DefaultActions.EXTEND, payload, flag);
   }
 
   init<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: StateFormatter<S, T>, force = false): Observable<StateData<S, T>> {

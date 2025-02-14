@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StoreAction } from '../models/store.action';
-import { StoreFlags } from '../models/store.options';
+import { UpdateFlag } from '../models/store.options';
 import { StoreState } from '../models/store.state';
 import { ActionStatus } from '../shared/store.enums';
 
@@ -17,9 +17,9 @@ export class StoreDispatcher {
     return !!this.states[key];
   }
 
-  dispatch(stateKey: string, actionKey: string, payload?: any, flags?: StoreFlags) {
+  dispatch(stateKey: string, actionKey: string, payload?: any, flag?: UpdateFlag) {
     const untypedAction = this.getActionByName(stateKey, actionKey);
-    untypedAction.flags = { ...untypedAction.flags, ...flags };
+    untypedAction.flag = untypedAction.flag || flag;
 
     const action = new StoreAction(untypedAction, stateKey);
     action.dispatch(payload, ActionStatus.PENDING);
