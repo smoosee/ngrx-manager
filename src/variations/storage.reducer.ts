@@ -6,7 +6,7 @@ import { getStorageKey, isEmpty } from "../shared/store.utils";
 declare const window: any;
 
 export class StorageReducer extends StoreReducer {
-  override preAction(config: any, payload: any) {
+  override prePopulate(config: any, payload: any) {
     const { storage, key } = getStorageKey(config);
     if (key && storage !== 'none') {
       const value = window[storage + 'Storage'].getItem(key);
@@ -16,7 +16,7 @@ export class StorageReducer extends StoreReducer {
     return { ...payload };
   }
 
-  override postAction(state: StoreState, payload: any) {
+  override postPopulate(state: StoreState, payload: any) {
     const { storage, key } = getStorageKey(state);
     if (key && storage !== 'none') {
       const {

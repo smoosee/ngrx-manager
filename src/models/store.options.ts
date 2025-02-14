@@ -1,7 +1,8 @@
-export type StoreFlags = {
-  extendOnSet?: boolean;
-  extendOnDispatch?: boolean;
-  mergeArrays?: boolean;
+export type UpdateFlag = 'extend' | 'override' | 'replace';
+
+type StoreFlags = {
+  onSet?: UpdateFlag;
+  onDispatch?: UpdateFlag;
 }
 
 export class StoreOptions<T = any> {
@@ -9,9 +10,9 @@ export class StoreOptions<T = any> {
   prefix?: string;
   storage?: 'local' | 'session' | 'none' = 'none';
   flags?: StoreFlags = {
-    extendOnSet: false,
-    extendOnDispatch: true
-  };
+      onSet: 'replace',
+      onDispatch: 'extend',
+    };
 
   effects?: T;
 

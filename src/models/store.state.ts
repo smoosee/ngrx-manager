@@ -42,9 +42,16 @@ export class StoreState<T extends any = any, A extends any[] = any[], K extends 
   }
 
   update(state: any, action: StoreAction): T {
-    return this.reducers?.reduce((result, reducer) => {
-      return reducer.mapReduce(this as any, result, action as StoreAction);
-    }, { ...state });
+  this.reducers?.forEach(reducer => {
+       state = reducer.prePopulate(this as any, state, action as StoreAction);
+     });
+     this.reducers?.forEach(reducer => {
+       state = reducer.onPopulate(this as any, state, action as StoreAction);
+     });
+     this.reducers?.forEach(reducer => {
+       state = reducer.postPopulate(this as any, state, action as StoreAction);
+     });
+     return state;
   }
 
   provideState(): Provider[] {

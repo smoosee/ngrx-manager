@@ -26,12 +26,12 @@ export class AppComponent implements OnInit {
   onClick(btn: string) {
     switch (btn) {
       case 'http':
-        this.store.dispatch('App', 'SHARED_DISPATCH' as any).subscribe((data) => {
+        this.store.dispatch('App', 'APP_DISPATCH', 'app').subscribe((data) => {
           this.logs.unshift({ action: 'dispatch', type: 'subscribe', data });
         });
         break;
       case 'log':
-        this.store.dispatch('App', 'APP_LOG', 'test log').subscribe((data) => {
+        this.store.dispatch('App', 'APP_LOG', { age: 123 }).subscribe((data) => {
           this.logs.unshift({ action: 'log', type: 'subscribe', data });
         });
         break;
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'extend':
-        this.store.extend('App', { nestedValue: { arr: [456] } }, { mergeArrays: true }).subscribe((data) => {
+        this.store.extend('App', { extend: true, nestedValue: { arr: [456] } }).subscribe((data) => {
           this.logs.unshift({ action: 'extend', type: 'then', data });
         });
         break;
