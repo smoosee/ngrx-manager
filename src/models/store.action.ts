@@ -14,8 +14,8 @@ export class StoreAction<K extends string = string, S extends ActionService = Ac
   name!: K;
   state?: string;
 
-  service?: new (...args: any[]) => S;
-  method?: M;
+  service!: new (...args: any[]) => S;
+  method!: M;
   fallback?: F[];
   payload?: ActionPayload<S, M>;
   uuid?: string;
@@ -38,8 +38,8 @@ export class StoreAction<K extends string = string, S extends ActionService = Ac
       this.deprecated = this.deprecated || false as D;
     } else if (action) {
       this.name = action.name || (DefaultActions.SET as K);
-      this.service = action.service;
-      this.method = action.method;
+      this.service = action.service!;
+      this.method = action.method!;
       this.fallback = action.fallback || [];
       this.payload = action.payload;
       this.status = action.status || ActionStatus.PENDING;

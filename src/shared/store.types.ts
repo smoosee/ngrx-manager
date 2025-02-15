@@ -1,18 +1,30 @@
-export type StateKey<S extends readonly any[]> = S[number]['name'];
-export type StateData<S extends readonly any[], K extends StateKey<S>> = Extract<S[number], { name: K; }>['initial'];
-export type StateActions<S extends readonly any[], K extends StateKey<S>> = Extract<S[number], { name: K; }>['actions'];
-export type StateActionPayload<S extends readonly any[], K extends StateKey<S>, A extends ActionNames<S, K>> = Extract<StateActions<S, K>[number], { name: A }>['payload'];
-export type ActionNames<S extends readonly any[], K extends StateKey<S>> = StateActions<S, K>[number]['name'];
-export type DeprecatedActions<S extends readonly any[], K extends StateKey<S>> = Extract<StateActions<S, K>[number], { deprecated: true; }>['name'];
-export type ActiveActions<S extends readonly any[], K extends StateKey<S>> = Exclude<StateActions<S, K>[number]['name'], DeprecatedActions<S, K>>;
+import { Observable } from "rxjs";
+import { StoreAction } from "../models/store.action";
+import { StoreState } from "../models/store.state";
+import { DefaultActions } from "./store.enums";
 
-export type DispatchPayload<S extends readonly any[], K extends StateKey<S>, A extends ActionNames<S, K>> = StateActionPayload<S, K, A> extends undefined ? DeepPartial<StateData<S, K>> | string | number | boolean : DeepPartial<StateActionPayload<S, K, A>>;
-export type StateFormatter<S extends readonly any[], K extends StateKey<S>> = (payload: StateData<S, K>) => StateData<S, K>;
+export type StateKey<S extends StoreState[]> = S[number]['name'];
+export type State<S extends StoreState[], K extends StateKey<S>> = Extract<S[number], { name: K; }>;
+export type StateData<S extends StoreState> = S['initial'];
+export type StateActions<S extends StoreState> = S['actions'];
+export type StateActionNames<S extends StoreState> = S['actions'][number]['name'] | keyof typeof DefaultActions;
+export type StateAction<S extends StoreState, N extends StateActionNames<S>> = Extract<StateActions<S>[number], { name: N }>;
+
+export type StateActionPayload<A extends StoreAction> = A['payload'];
+export type StateActionReturn<A extends StoreAction> = ActionResponse<InstanceType<A['service']>, A['method']>;
+export type DeprecatedActions<S extends StoreState> = Extract<StateActions<S>[number], { deprecated: true; }>['name'];
+export type ActiveActions<S extends StoreState> = Exclude<StateActions<S>[number]['name'], DeprecatedActions<S>>;
+
+export type DispatchPayload<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>> = StateActionPayload<A> extends undefined ? DeepPartial<StateData<S>> | string | number | boolean : DeepPartial<StateActionPayload<A>>;
+export type DispatchResponse<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>, R = StateActionReturn<A>> = N extends keyof typeof DefaultActions ? StateData<S> : `Object` extends R ? StateData<S> : StateData<S> & R;
+
+export type StateFormatter<S extends StoreState> = (payload: StateData<S>) => StateData<S>;
 
 
 export type ActionService = any;
 export type ActionMethod<S extends ActionService> = keyof S;
 export type ActionPayload<S extends ActionService, M extends keyof S> = S[M] extends (...args: any[]) => any ? Parameters<S[M]>[0] : never;
+export type ActionResponse<S extends ActionService, M extends keyof S> = S[M] extends (...args: any[]) => any ? (ReturnType<S[M]> extends Observable<infer R> ? R : ReturnType<S[M]>) : never;
 
 export type DeepPartial<T> = { [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P]; };
 export type RequireOnly<T, R extends keyof T> = Required<Pick<T, R>> & Partial<Omit<T, R>>;

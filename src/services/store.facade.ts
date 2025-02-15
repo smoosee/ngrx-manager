@@ -1,15 +1,17 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { exhaustMap, Observable, of } from 'rxjs';
 import { UpdateFlag } from '../models/store.options';
+import { StoreState } from '../models/store.state';
 import { DefaultActions } from '../shared/store.enums';
-import { ActionNames, DeepPartial, DispatchPayload, StateData, StateFormatter, StateKey } from '../shared/store.types';
+import { DeepPartial, DispatchPayload, DispatchResponse, State, StateActionNames, StateData, StateFormatter, StateKey } from '../shared/store.types';
 import { isEmpty } from '../shared/store.utils';
 import { StoreDispatcher } from './store.dispatcher';
 import { StoreManager } from './store.manager';
 
 
+
 @Injectable({ providedIn: 'root' })
-export class StoreFacade<S extends readonly any[] = any, K extends string = StateKey<S>> {
+export class StoreFacade<States extends StoreState[], Keys extends string = StateKey<States>> {
   cache: any = {};
 
   manager = inject(StoreManager);
@@ -17,69 +19,69 @@ export class StoreFacade<S extends readonly any[] = any, K extends string = Stat
 
   constructor() { }
 
-  selectAsync<T extends K>(stateKey: T): Observable<StateData<S, T>> {
+  selectAsync<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K): Observable<StateData<S>> {
     return this.select(stateKey, true);
   }
 
-  select<T extends K>(stateKey: T): StateData<S, T>;
-  select<T extends K>(stateKey: T, async: false): Signal<StateData<S, T>>;
-  select<T extends K>(stateKey: T, async: true): Observable<StateData<S, T>>;
-  select<T extends K>(stateKey: T, async: boolean | null = null) {
+  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K): StateData<S>;
+  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: false): Signal<StateData<S>>;
+  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: true): Observable<StateData<S>>;
+  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: boolean | null = null) {
     if (async === null) {
       return this.manager.value(stateKey);
     } else if (async) {
       return this.manager.observable(stateKey);
     } else {
-      return this.manager.signal<T>(stateKey);
+      return this.manager.signal<K>(stateKey);
     }
   }
 
-  dispatch<T extends K, A extends ActionNames<S, T>, P extends DispatchPayload<S, T, A>>(stateKey: T, actionKey: A, payload?: P, flag?: UpdateFlag): Observable<StateData<S, T>> {
+  dispatch<K extends Keys, S extends StoreState = State<States, K>, N extends string = StateActionNames<S>, P = DispatchPayload<S, N>>(stateKey: K, actionKey: N, payload?: P, flag?: UpdateFlag): Observable<DispatchResponse<S, N>> {
     const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flag);
     return this.manager.observable(stateKey, action);
   }
 
-  get<T extends K>(stateKey: T): Observable<StateData<S, T>> {
+  get<K extends Keys>(stateKey: K) {
     return this.dispatch(stateKey, DefaultActions.GET);
   }
 
-  set<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flag?: UpdateFlag) {
+  set<K extends Keys, S extends State<States, K>>(stateKey: K, payload: DeepPartial<StateData<S>>, flag?: UpdateFlag) {
     return this.dispatch(stateKey, DefaultActions.SET, payload, flag);
   }
 
-  unset<T extends K>(stateKey: T) {
+  unset<K extends Keys>(stateKey: K) {
     return this.dispatch(stateKey, DefaultActions.UNSET);
   }
 
-  extend<T extends K>(stateKey: T, payload: DeepPartial<StateData<S, T>>, flag?: UpdateFlag) {
+  extend<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, payload: DeepPartial<StateData<S>>, flag?: UpdateFlag) {
     return this.dispatch(stateKey, DefaultActions.EXTEND, payload, flag);
   }
 
-  init<T extends K>(stateKey: T, getter: Observable<StateData<S, T>>, formatter: StateFormatter<S, T>, force = false): Observable<StateData<S, T>> {
-    formatter = formatter || ((payload: StateData<S, T>) => payload);
+  init<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, getter: Observable<StateData<S>>, formatter: StateFormatter<S>, force = false) {
+    formatter = formatter || ((payload: StateData<S>) => payload);
     const stateData = this.select(stateKey);
     if (!isEmpty(stateData) && !force) {
       getter = of(stateData);
     }
 
-    return getter.pipe(exhaustMap((payload: DeepPartial<StateData<S, T>>) => {
+    return getter.pipe(exhaustMap((payload: DeepPartial<StateData<S>>) => {
       return this.set(stateKey, formatter(payload));
     }));
   }
 
-  clear<T extends K>(exclude: T[] = []) {
+  clear<K extends Keys>(exclude: K[] = []) {
     Object.keys(this.dispatcher.states).forEach((stateKey) => {
-      if (exclude.includes(stateKey as T)) {
-        this.cache[stateKey as T] = this.select(stateKey as K);
+      if (exclude.includes(stateKey as K)) {
+        this.cache[stateKey as K] = this.select(stateKey as Keys);
       } else {
-        this.unset(stateKey as T);
+        this.unset(stateKey as K);
       }
     });
   }
 
   restore() {
     Object.keys(this.cache).forEach((stateKey) => {
-      this.set(stateKey as K, this.cache[stateKey]);
+      this.set(stateKey as Keys, this.cache[stateKey]);
       delete this.cache[stateKey];
     });
   }
