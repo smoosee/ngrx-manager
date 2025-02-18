@@ -34,17 +34,8 @@ export const AppStoreStates = [
     name: 'App',
     fallback: ['Shared'],
     initial: <AppState>{},
+    service: AppService,
     actions: [
-      new StoreAction({
-        name: 'APP_LOG',
-        service: AppService,
-        method: 'appLog',
-      }),
-      new StoreAction({
-        name: 'APP_DISPATCH',
-        service: AppService,
-        method: 'appDispatch',
-      }),
       new StoreAction({
         name: 'APP_DEPRECATED',
         deprecated: true,

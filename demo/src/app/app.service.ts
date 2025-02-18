@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 export type LogObject = { name: string, age: number };
 export type DispatchObject = {
@@ -14,7 +14,7 @@ export type DispatchObject = {
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
-  constructor(private http: HttpClient) { }
+  http = inject(HttpClient);
 
   appLog(args: LogObject) {
     console.log('###', 'appLog', args);

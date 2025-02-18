@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         });
         break;
       case 'log':
-        this.store.dispatch('App', 'APP_LOG', { age: 123 }).subscribe((data) => {
+        this.store.dispatch('App', 'APP_LOG', { name: 'John Smith', age: 37 }).subscribe((data) => {
           this.logs.unshift({ action: 'log', type: 'subscribe', data });
         });
         break;
