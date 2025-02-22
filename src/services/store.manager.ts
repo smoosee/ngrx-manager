@@ -33,9 +33,10 @@ export class StoreManager {
     });
   }
 
-  addState<T>(config: StoreState<T> | string, options?: StoreOptions) {
+  addState<N extends string, M>(config: StoreState<N, M> | N, options?: StoreOptions) {
     if (typeof (config) === 'string') {
-      config = new StoreState({ name: config });
+      const name = config;
+      config = new StoreState<N, M>({ name });
     }
 
     config.options = new StoreOptions({ ...this.storeOptions, ...options, ...config.options });
@@ -44,7 +45,7 @@ export class StoreManager {
       config.actions = uniqueBy([...this.dispatcher.states[config.name].actions, ...config.actions], 'name');
     }
 
-    const state = new StoreState<T>(config, false);
+    const state = new StoreState<N, M>(config);
     this.dispatcher.add(state);
     return this;
   }

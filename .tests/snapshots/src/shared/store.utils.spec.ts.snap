@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store.utils getStorageKey should return storage none and empty key if options is not provided 1`] = `
+{
+  "key": "",
+  "storage": "none",
+}
+`;
+
+exports[`store.utils getStorageKey should return storage none and empty key if storage is not provided 1`] = `
+{
+  "key": "TestState",
+  "storage": "none",
+}
+`;
+
+exports[`store.utils getStorageKey should return the storage key with only app and name if prefix is not provided 1`] = `
+{
+  "key": "testApp | TestState",
+  "storage": "session",
+}
+`;
+
+exports[`store.utils getStorageKey should return the storage key with only name if prefix and app are not provided 1`] = `
+{
+  "key": "TestState",
+  "storage": "local",
+}
+`;
+
+exports[`store.utils getStorageKey should return the storage key with only prefix and name if app is not provided 1`] = `
+{
+  "key": "testPrefix | TestState",
+  "storage": "local",
+}
+`;
+
+exports[`store.utils getStorageKey should return the storage key with prefix, app, and name 1`] = `
+{
+  "key": "testPrefix | testApp | TestState",
+  "storage": "local",
+}
+`;
+
+exports[`store.utils mergeDeep should handle merging when the first argument is undefined 1`] = `
+{
+  "a": 1,
+  "b": 2,
+}
+`;
+
+exports[`store.utils mergeDeep should handle merging when the second argument is undefined 1`] = `undefined`;
+
+exports[`store.utils mergeDeep should handle merging with nested null and undefined values 1`] = `
+{
+  "a": {
+    "b": 1,
+    "c": 2,
+    "d": undefined,
+  },
+}
+`;
+
+exports[`store.utils mergeDeep should handle null and undefined values gracefully 1`] = `
+{
+  "a": 1,
+  "b": {
+    "c": 2,
+  },
+  "d": undefined,
+}
+`;
+
+exports[`store.utils mergeDeep should merge arrays by extending the first array if extendArrays is true 1`] = `
+{
+  "a": [
+    1,
+    2,
+    3,
+    4,
+  ],
+}
+`;
+
+exports[`store.utils mergeDeep should merge arrays by replacing the first array if extendArrays is false 1`] = `
+{
+  "a": [
+    3,
+    4,
+  ],
+}
+`;
+
+exports[`store.utils mergeDeep should merge two objects deeply 1`] = `
+{
+  "a": 1,
+  "b": {
+    "c": 4,
+    "d": 3,
+    "e": 5,
+  },
+  "f": 6,
+}
+`;
+
+exports[`store.utils mergeDeep should override values in the first object with values from the second object 1`] = `
+{
+  "a": 1,
+  "b": 3,
+  "c": 4,
+}
+`;
+
+exports[`store.utils uniqueBy should handle an array with no duplicates 1`] = `
+[
+  {
+    "id": 1,
+    "name": "a",
+  },
+]
+`;
+
+exports[`store.utils uniqueBy should return an array with unique objects based on a function 1`] = `
+[
+  {
+    "id": 1,
+    "name": "a",
+  },
+  {
+    "id": 2,
+    "name": "b",
+  },
+]
+`;
+
+exports[`store.utils uniqueBy should return an array with unique objects based on a property 1`] = `
+[
+  {
+    "id": 1,
+    "name": "a",
+  },
+]
+`;

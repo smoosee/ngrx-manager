@@ -1,7 +1,5 @@
-import { Provider } from "@angular/core";
 import { DefaultActions } from "../shared/store.enums";
-import { provideStoreStates } from "../shared/store.providers";
-import { Service, ServiceClass } from "../shared/store.types";
+import { Service, ServiceClass, ServiceMethod } from "../shared/store.types";
 import { MergeReducer } from "../variations/merge.reducer";
 import { StorageReducer } from "../variations/storage.reducer";
 import { StoreAction } from "./store.action";
@@ -10,22 +8,21 @@ import { StoreReducer } from "./store.reducer";
 
 const DefaultReducers = [StoreReducer, MergeReducer, StorageReducer];
 
-export class StoreState<M extends any = any, N extends string = string, S extends Service = Service, A extends any[] = any[], F extends string = string> {
+export class StoreState<N extends string = string, M extends any = any, S extends Service = Service, A extends any[] = any[]> {
+  name!: N;
   app?: string;
-  name: N;
+
   initial: M;
-  service: ServiceClass<S>;
+  service!: ServiceClass<S>;
   actions: A;
-  fallback: F[] = [];
   options: StoreOptions;
   reducers: StoreReducer[] = [];
 
-  constructor(state?: Partial<StoreState<M, N, S, A, F>>, autoExtend = true) {
+  constructor(state?: Partial<StoreState<N, M, S, A>>) {
     this.app = state?.app;
     this.name = !state || typeof (state) === 'string' ? state as any : state.name;
     this.initial = state?.initial || {} as M;
     this.service = state?.service as ServiceClass<S>;
-    this.fallback = state?.fallback || [] as F[];
     this.options = state?.options || {};
     this.reducers = state?.reducers || [];
     this.actions = state?.actions as A || [];
@@ -37,10 +34,12 @@ export class StoreState<M extends any = any, N extends string = string, S extend
           const name = key.split(/(?=[A-Z])/).join('_').toUpperCase();
           const isNew = !this.actions.find(x => x.name == name);
           if (isFunction && isNew) {
+            const service = this.service;
+            const method = key as ServiceMethod<S>;
             const action = new StoreAction({
               name,
-              service: this.service,
-              method: key as any
+              service,
+              method
             }, this.name);
             this.actions.push(action);
           }
@@ -74,8 +73,5 @@ export class StoreState<M extends any = any, N extends string = string, S extend
     });
     return state;
   }
-
-  provideState(): Provider[] {
-    return provideStoreStates([this], { app: this.app })
-  }
 }
+

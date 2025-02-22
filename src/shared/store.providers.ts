@@ -20,7 +20,7 @@ export const provideStoreOptions = (options: StoreOptions) => {
 
 export const provideStoreStates = (states: readonly StoreState[], options?: StoreOptions): Provider[] => {
   states.forEach(state => state.options = { ...options, ...state.options });
-  return [options?.effects, { provide: STORE_STATES, useValue: states, multi: true }].filter(Boolean);
+  return [{ provide: STORE_STATES, useValue: states, multi: true }].filter(Boolean);
 };
 
 export const provideStoreForRoot = (options: StoreOptions, states: readonly StoreState[]) => {

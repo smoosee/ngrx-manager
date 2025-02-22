@@ -14,7 +14,6 @@ export class StoreOptions<T = any> {
       onDispatch: 'extend',
     };
 
-  effects?: T;
 
   constructor(options?: StoreOptions) {
     Object.assign(this, options);

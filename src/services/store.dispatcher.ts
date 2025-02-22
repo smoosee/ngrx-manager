@@ -35,39 +35,12 @@ export class StoreDispatcher {
     const state = this.getStateByName(stateKey);
     const action = state?.actions?.find(x => x.name === actionKey) as StoreAction;
     if (action) {
-      const actionFallback = this.getActionFallback(action);
-      if (actionFallback) {
-        return actionFallback;
-      }
       return action;
+    } else if (!state) {
+      throw new Error(`State ${stateKey} was not found!`);
     } else {
-      const stateFallback = this.getStateFallback(state, actionKey);
-      if (stateFallback) {
-        return stateFallback;
-      }
-      throw new Error(`Action ${actionKey} not found in state ${stateKey}`);
+      throw new Error(`Action ${actionKey} not found in state ${stateKey}!`);
     }
   }
 
-  getActionFallback(action: StoreAction): StoreAction {
-    const fallback = this.getFallbackByName(action.name, action?.fallback || []);
-    return fallback ? this.getActionByName(fallback?.stateKey, fallback?.actionKey) : null as any;
-  }
-
-  getStateFallback(state: StoreState, actionKey: string): StoreAction {
-    const fallback = this.getFallbackByName(actionKey, state?.fallback || []);
-    return fallback ? this.getActionByName(fallback?.stateKey, fallback?.actionKey) : null as any;
-  }
-
-  getFallbackByName(searchKey: string, fallbackKeys: string[]) {
-    const fallback = fallbackKeys
-      .map(key => key.split('::').concat(searchKey))
-      .find(([stateKey, actionKey]) => this.getActionByName(stateKey, actionKey));
-
-    if (fallback?.length) {
-      const [stateKey, actionKey] = fallback;
-      return { stateKey, actionKey };
-    }
-    return null;
-  }
 }

@@ -152,7 +152,7 @@ const config: Config = {
     // slowTestThreshold: 5,
 
     // A custom snapshot paths resolver
-    // snapshotResolver: '<rootDir>/jest.resolver.ts',
+    snapshotResolver: '<rootDir>/jest.resolver.ts',
 
     // A list of paths to snapshot serializer modules Jest should use for snapshot testing
     snapshotSerializers: [

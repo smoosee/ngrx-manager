@@ -1,4 +1,4 @@
-import 'jest-preset-angular/setup-jest';
+import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 
 global.console = {
     ...console,
@@ -9,3 +9,5 @@ global.console = {
     warn: jest.fn(),
     // error: jest.fn(),
 };
+
+setupZoneTestEnv();

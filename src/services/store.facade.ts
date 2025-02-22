@@ -3,7 +3,7 @@ import { exhaustMap, Observable, of } from 'rxjs';
 import { UpdateFlag } from '../models/store.options';
 import { StoreState } from '../models/store.state';
 import { DefaultActions } from '../shared/store.enums';
-import { ActionKey, DeepPartial, DispatchArguments, DispatchPayload, DispatchResponse, State, StateAction, StateActionNames, StateActionPayload, StateData, StateFormatter, StateKey } from '../shared/store.types';
+import { ActionKey, DeepPartial, DispatchArguments, DispatchResponse, State, StateActionNames, StateData, StateFormatter, StateKey } from '../shared/store.types';
 import { isEmpty } from '../shared/store.utils';
 import { StoreDispatcher } from './store.dispatcher';
 import { StoreManager } from './store.manager';
@@ -16,8 +16,6 @@ export class StoreFacade<States extends StoreState[], Keys extends string = Stat
 
   manager = inject(StoreManager);
   dispatcher = inject(StoreDispatcher);
-
-  constructor() { }
 
   selectAsync<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K): Observable<StateData<S>> {
     return this.select(stateKey, true);
@@ -36,7 +34,7 @@ export class StoreFacade<States extends StoreState[], Keys extends string = Stat
     }
   }
 
-  dispatch<K extends Keys, S extends StoreState = State<States, K>, N extends string = StateActionNames<S>>(stateKey: K, actionKey: ActionKey<S, N>, ...[payload, flag]: DispatchArguments<S,N>): Observable<DispatchResponse<S, N>> {
+  dispatch<K extends Keys, S extends StoreState = State<States, K>, N extends string = StateActionNames<S>>(stateKey: K, actionKey: ActionKey<S, N>, ...[payload, flag]: DispatchArguments<S, N>): Observable<DispatchResponse<S, N>> {
     const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flag);
     return this.manager.observable(stateKey, action);
   }
@@ -86,3 +84,6 @@ export class StoreFacade<States extends StoreState[], Keys extends string = Stat
     });
   }
 }
+
+export { StoreFacade as _StoreFacade };
+

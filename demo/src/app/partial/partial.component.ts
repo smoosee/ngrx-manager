@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreFacade } from '../app.facade';
+import { AppStore } from '../app.store';
 
 @Component({
   selector: 'app-partial',
@@ -7,7 +7,7 @@ import { StoreFacade } from '../app.facade';
   standalone: true
 })
 export class PartialComponent implements OnInit {
-  constructor(private store: StoreFacade) { }
+  store = AppStore.facade;
 
   ngOnInit() {
     this.store.set('App', { test: 123 } as any);

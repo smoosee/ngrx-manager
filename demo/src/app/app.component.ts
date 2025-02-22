@@ -1,6 +1,6 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { StoreFacade } from './app.facade';
+import { Component, OnInit } from '@angular/core';
+import { AppStore } from './app.store';
 import { PartialComponent } from './partial/partial.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { PartialComponent } from './partial/partial.component';
 })
 export class AppComponent implements OnInit {
   title = 'ngrx-manager';
-  store = inject(StoreFacade);
+  store = AppStore.facade;
 
   stateValue = this.store.select('App');
   stateObservable = this.store.select('App', true);

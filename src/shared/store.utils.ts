@@ -19,13 +19,13 @@ export function mergeDeep<O extends Input, N extends Input>(oPayload: O, nPayloa
 }
 
 export function isObject(value: any) {
-  return value && typeof (value) === 'object' && !Array.isArray(value);
+  return !!value && typeof (value) === 'object' && !Array.isArray(value);
 }
 
 export function isEmpty(value: any) {
   const emptyString = typeof value === 'string' && value === '';
   const emptyArray = Array.isArray(value) && value.length === 0;
-  const emptyObject = typeof value === 'object' && Object.keys(value).length === 0;
+  const emptyObject = isObject(value) && Object.keys(value).length === 0;
   const nilValue = value === null || value === undefined;
   return nilValue || emptyString || emptyArray || emptyObject;
 }

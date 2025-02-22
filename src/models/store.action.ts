@@ -4,46 +4,42 @@ import { UpdateFlag } from "./store.options";
 
 
 
-type StoreActionInput<K extends string, S extends Service, M extends ServiceMethod<S>, D extends boolean = boolean, F extends string = string> =
-  | RequireOnly<StoreAction<K, S, M, D, F>, 'name' | 'fallback'>
-  | RequireOnly<StoreAction<K, S, M, D, F>, 'name' | 'service' | 'method'>
-  | Partial<StoreAction<K, S, M, D, F>>;
+type StoreActionInput<N extends string, S extends Service, M extends ServiceMethod<S>> =
+  | RequireOnly<StoreAction<N, S, M>, 'name' | 'service' | 'method'>
+  | Partial<StoreAction<N, S, M>>;
 
 
-export class StoreAction<K extends string = string, S extends Service = Service, M extends ServiceMethod<S> = ServiceMethod<S>, D extends boolean = boolean, F extends string = string> {
-  name!: K;
+export class StoreAction<N extends string = string, S extends Service = Service, M extends ServiceMethod<S> = ServiceMethod<S>> {
+  name!: N;
   state?: string;
 
   service!: ServiceClass<S>;
   method!: M;
-  fallback?: F[];
   payload?: MethodArguments<S, M>;
   uuid?: string;
   status?: ActionStatus = undefined as any;
 
   flag?: UpdateFlag;
-  deprecated!: D;
 
 
   get type() {
     return `[${this.state}] ${this.name}_DATA_${this.status}`;
   }
 
-  constructor(action: StoreActionInput<K, S, M, D, F>, state?: string) {
+  constructor(action: string | StoreActionInput<N, S, M>, state?: string) {
     this.state = state;
-    this.uuid = action?.uuid || Math.random().toString(36).substr(2, 9);
 
     if (typeof action === 'string') {
-      this.name = action;
-      this.deprecated = this.deprecated || false as D;
+      this.name = action as N;
+      this.uuid = Math.random().toString(36).substr(2, 9);
+      this.status = ActionStatus.PENDING;
     } else if (action) {
-      this.name = action.name || (DefaultActions.SET as K);
+      this.uuid = action?.uuid || Math.random().toString(36).substr(2, 9);
+      this.name = action.name || (DefaultActions.SET as N);
       this.service = action.service!;
       this.method = action.method!;
-      this.fallback = action.fallback || [];
       this.payload = action.payload;
       this.status = action.status || ActionStatus.PENDING;
-      this.deprecated = action.deprecated || false as D;
       this.flag = action.flag;
     }
 

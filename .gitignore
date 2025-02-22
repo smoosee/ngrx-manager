@@ -48,7 +48,8 @@ package
 .yarn/*
 !.yarn/releases
 
-.tests
+.tests/*
+!.tests/snapshots
 
 lib/package.json
 .env

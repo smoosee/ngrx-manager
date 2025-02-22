@@ -1,3 +1,4 @@
+export * from './models/store';
 export * from './models/store.action';
 export * from './models/store.options';
 export * from './models/store.reducer';
@@ -11,4 +12,3 @@ export * from './shared/store.types';
 export * from './variations/merge.reducer';
 export * from './variations/ngrx.dispatcher';
 export * from './variations/storage.reducer';
-

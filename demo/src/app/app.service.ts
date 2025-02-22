@@ -14,14 +14,14 @@ export type DispatchObject = {
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
 
   appLog(args: LogObject) {
     console.log('###', 'appLog', args);
     return args;
   }
 
-  appDispatch(type: 'app' | 'shared') {
+  appDispatch(type?: 'app' | 'shared') {
     return this.http.get<DispatchObject>(`assets/${type}_dispatch.json`);
   }
 

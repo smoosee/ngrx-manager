@@ -7,19 +7,20 @@ import { DefaultActions } from "./store.enums";
 export type StateKey<S extends StoreState[]> = S[number]['name'];
 export type State<S extends StoreState[], K extends StateKey<S>> = Extract<S[number], { name: K; }>;
 export type StateData<S extends StoreState> = S['initial'];
-export type StateActions<S extends StoreState, SV = InstanceType<S['service']>> = SV extends never ? S['actions'] : ServiceActions<SV> | S['actions'];
-export type StateActionNames<S extends StoreState> = StateActions<S>[number]['name'];
+
+export type StateActions<S extends StoreState> = S['actions'] extends number[] ? [] : S['actions'];
+
+export type AllStateActions<S extends StoreState, SV = InstanceType<S['service']>> = SV extends never ? StateActions<S> : ServiceActions<SV> | StateActions<S>;
+export type StateActionNames<S extends StoreState> = AllStateActions<S>[number]['name'];
 export type ActionKey<S extends StoreState, N extends string> = N extends (StateActionNames<S> | DefaultActions) ? N : never;
-export type StateAction<S extends StoreState, N extends StateActionNames<S>> = Extract<StateActions<S>[number], { name: N }>;
+export type StateAction<S extends StoreState, N extends StateActionNames<S>> = Extract<AllStateActions<S>[number], { name: N }>;
 
-export type StateActionPayload<A extends StoreAction> = MethodArguments<InstanceType<A['service']>, A['method']>;
-export type StateActionReturn<A extends StoreAction> = MethodReturnType<InstanceType<A['service']>, A['method']>;
-export type DeprecatedActions<S extends StoreState> = Extract<StateActions<S>[number], { deprecated: true; }>['name'];
-export type ActiveActions<S extends StoreState> = Exclude<StateActions<S>[number]['name'], DeprecatedActions<S>>;
+export type StateActionPayload<S extends StoreState, A extends StoreAction> = A['name'] extends DefaultActions ? DeepPartial<StateData<S>> | undefined : MethodArguments<InstanceType<A['service']>, A['method']>;
+export type StateActionReturn<S extends StoreState, A extends StoreAction> = MethodReturnType<InstanceType<A['service']>, A['method']>;
 
-export type DispatchArguments<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>> = StateActionPayload<A> extends undefined ? [DispatchPayload<S, N>?, UpdateFlag?] : [DispatchPayload<S, N>, UpdateFlag?];
-export type DispatchPayload<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>> = StateActionPayload<A> extends undefined ? DeepPartial<StateData<S>> | string | number | boolean : StateActionPayload<A>;
-export type DispatchResponse<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>, R = StateActionReturn<A>> = N extends keyof typeof DefaultActions ? StateData<S> : `Object` extends R ? StateData<S> : StateData<S> & R;
+export type DispatchArguments<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>> = undefined extends StateActionPayload<S, A> ? [DispatchPayload<S, N>?, UpdateFlag?] : [DispatchPayload<S, N>, UpdateFlag?];
+export type DispatchPayload<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>> = StateActionPayload<S, A> extends undefined ? DeepPartial<StateData<S>> | string | number | boolean : StateActionPayload<S, A>;
+export type DispatchResponse<S extends StoreState, N extends StateActionNames<S>, A extends StoreAction = StateAction<S, N>, R = StateActionReturn<S, A>> = N extends keyof typeof DefaultActions ? StateData<S> : `Object` extends R ? StateData<S> : StateData<S> & R;
 
 export type StateFormatter<S extends StoreState> = (payload: StateData<S>) => StateData<S>;
 
