@@ -8,6 +8,13 @@ import { StoreReducer } from "./store.reducer";
 
 const DefaultReducers = [StoreReducer, MergeReducer, StorageReducer];
 
+export interface IStoreState<N extends string = string, M extends any = any, S extends Service = Service, A extends any[] = any[]> {
+  name: N;
+  initial: M;
+  service?: ServiceClass<S>;
+  actions?: A;
+}
+
 export class StoreState<N extends string = string, M extends any = any, S extends Service = Service, A extends any[] = any[]> {
   name!: N;
   app?: string;

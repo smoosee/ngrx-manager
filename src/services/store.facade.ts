@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { exhaustMap, Observable, of } from 'rxjs';
 import { UpdateFlag } from '../models/store.options';
-import { StoreState } from '../models/store.state';
+import { IStoreState } from '../models/store.state';
 import { DefaultActions } from '../shared/store.enums';
 import { ActionKey, DeepPartial, DispatchArguments, DispatchResponse, State, StateActionNames, StateData, StateFormatter, StateKey } from '../shared/store.types';
 import { isEmpty } from '../shared/store.utils';
@@ -11,20 +11,20 @@ import { StoreManager } from './store.manager';
 
 
 @Injectable({ providedIn: 'root' })
-export class StoreFacade<States extends StoreState[], Keys extends string = StateKey<States>> {
+export class StoreFacade<States extends readonly IStoreState[] = any, Keys extends string = StateKey<States>> {
   cache: any = {};
 
   manager = inject(StoreManager);
   dispatcher = inject(StoreDispatcher);
 
-  selectAsync<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K): Observable<StateData<S>> {
+  selectAsync<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K): Observable<StateData<S>> {
     return this.select(stateKey, true);
   }
 
-  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K): StateData<S>;
-  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: false): Signal<StateData<S>>;
-  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: true): Observable<StateData<S>>;
-  select<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, async: boolean | null = null) {
+  select<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K): StateData<S>;
+  select<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K, async: false): Signal<StateData<S>>;
+  select<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K, async: true): Observable<StateData<S>>;
+  select<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K, async: boolean | null = null) {
     if (async === null) {
       return this.manager.value(stateKey);
     } else if (async) {
@@ -34,7 +34,7 @@ export class StoreFacade<States extends StoreState[], Keys extends string = Stat
     }
   }
 
-  dispatch<K extends Keys, S extends StoreState = State<States, K>, N extends string = StateActionNames<S>>(stateKey: K, actionKey: ActionKey<S, N>, ...[payload, flag]: DispatchArguments<S, N>): Observable<DispatchResponse<S, N>> {
+  dispatch<K extends Keys, S extends IStoreState = State<States, K>, N extends string = StateActionNames<S>>(stateKey: K, actionKey: ActionKey<S, N>, ...[payload, flag]: DispatchArguments<S, N>): Observable<DispatchResponse<S, N>> {
     const action = this.dispatcher.dispatch(stateKey, actionKey, payload, flag);
     return this.manager.observable(stateKey, action);
   }
@@ -51,11 +51,11 @@ export class StoreFacade<States extends StoreState[], Keys extends string = Stat
     return this.dispatch(stateKey, DefaultActions.UNSET);
   }
 
-  extend<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, payload: DeepPartial<StateData<S>>, flag?: UpdateFlag) {
+  extend<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K, payload: DeepPartial<StateData<S>>, flag?: UpdateFlag) {
     return this.dispatch(stateKey, DefaultActions.EXTEND, payload, flag);
   }
 
-  init<K extends Keys, S extends StoreState = State<States, K>>(stateKey: K, getter: Observable<StateData<S>>, formatter: StateFormatter<S>, force = false) {
+  init<K extends Keys, S extends IStoreState = State<States, K>>(stateKey: K, getter: Observable<StateData<S>>, formatter: StateFormatter<S>, force = false) {
     formatter = formatter || ((payload: StateData<S>) => payload);
     const stateData = this.select(stateKey);
     if (!isEmpty(stateData) && !force) {
