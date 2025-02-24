@@ -7,7 +7,7 @@ import { AppStore } from '../app.store';
   standalone: true
 })
 export class PartialComponent implements OnInit {
-  store = AppStore.facade;
+  store = AppStore.inject();
 
   ngOnInit() {
     this.store.set('App', { test: 123 } as any);

@@ -33,20 +33,20 @@ export class Store<
         }
     };
 
-    get facade() {
+    inject() {
         return inject<StoreFacade<States>>(StoreFacade);
     }
 
-    provideForRoot() {
+    forRoot() {
         return [
             provideStoreOptions(this._options || {}),
-            provideStoreStates(this._states, this._options),
+            provideStoreStates(this._states),
             provideStore({}),
             provideEffects(StoreEffects),
         ];
     }
 
-    provideForChild() {
+    forChild() {
         return [
             provideStoreStates(this._states, this._options),
         ];

@@ -7,6 +7,6 @@ import { AppStore } from './app.store';
 
 export const APP_PROVIDERS = [
     importProvidersFrom(BrowserModule),
-    AppStore.provideForRoot(),
+    AppStore.forRoot(),
     provideHttpClient(withInterceptorsFromDi()),
 ]

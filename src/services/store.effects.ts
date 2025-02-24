@@ -1,5 +1,4 @@
-import { Injectable, Injector, effect, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Actions, createEffect } from '@ngrx/effects';
 import { Observable, catchError, filter, from, map, mergeMap, of } from 'rxjs';
 import { StoreAction } from '../models/store.action';
@@ -9,39 +8,12 @@ import { isObject } from '../shared/store.utils';
 
 @Injectable({ providedIn: 'root' })
 export class StoreEffects {
+  private actions$ = inject(Actions);
+  private injector = inject(Injector);
+
   effect$!: Observable<StoreAction>;
 
-  pipeline = signal<StoreAction[]>([]);
-  pipelineObservable = toObservable(this.pipeline);
-
-  processor = effect(
-    () => {
-      const pipeline = this.pipeline();
-      this.executeAction(this.pipelineObservable as any).subscribe(console.log);
-    },
-    { allowSignalWrites: true }
-  );
-
-  constructor(private actions$: Actions<StoreAction>, private injector: Injector) {
-    this.createEffect();
-    // effect(
-    //   () => {
-    //     const pipeline = state.pipeline();
-    //     pipeline.forEach(action => {
-    //       const status = action.status();
-    //       if (status === ActionStatus.NEW) {
-    //         action.execute(this.injector);
-    //       } else if (status === ActionStatus.SUCCESS) {
-    //         state.update(action);
-    //         state.removeFromPipeline(action);
-    //       }
-    //     });
-    //   },
-    //   { allowSignalWrites: true }
-    // );
-  }
-
-  createEffect() {
+  constructor() {
     this.effect$ = createEffect(() => this.executeAction(this.actions$));
   }
 

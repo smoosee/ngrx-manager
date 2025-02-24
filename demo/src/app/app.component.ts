@@ -12,7 +12,7 @@ import { PartialComponent } from './partial/partial.component';
 })
 export class AppComponent implements OnInit {
   title = 'ngrx-manager';
-  store = AppStore.facade;
+  store = AppStore.inject();
 
   stateValue = this.store.select('App');
   stateObservable = this.store.select('App', true);
