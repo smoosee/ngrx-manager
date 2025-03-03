@@ -12,7 +12,7 @@ export class NgrxStoreDispatcher extends StoreDispatcher {
   override add(state: StoreState) {
     super.add(state);
     this.reducerManager.addReducer(state.name, (data = state.initial, action) => {
-      if (action.state === state.name && state.update) {
+      if (state.update) {
         return state.update(data, action);
       }
       return data;

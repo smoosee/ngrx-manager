@@ -1,16 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-
-export type LogObject = { name: string, age: number };
-export type DispatchObject = {
-  "filename": string;
-  "payload": {
-    "function": string;
-    "state": string;
-    "language": string;
-    "source": string;
-  }
-}
+import { DispatchObject, LogObject } from './app.models';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {

@@ -1,6 +1,6 @@
 {
   "name": "@smoosee/ngrx-manager",
-  "version": "18.0.6",
+  "version": "18.0.7",
   "description": "Plug-N-Play manager for NGRX Stores.",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
   "scripts": {
     "************* DEV ****************": "",
     "start": "ng serve demo",
-    "watch": "yarn build --watch",
+    "start:lib": "yarn build --watch",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "************* BUILD ****************": "",

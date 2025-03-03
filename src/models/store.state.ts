@@ -1,5 +1,6 @@
 import { DefaultActions } from "../shared/store.enums";
 import { Service, ServiceClass, ServiceMethod } from "../shared/store.types";
+import { toCase } from "../shared/store.utils";
 import { MergeReducer } from "../variations/merge.reducer";
 import { StorageReducer } from "../variations/storage.reducer";
 import { StoreAction } from "./store.action";
@@ -38,7 +39,7 @@ export class StoreState<N extends string = string, M extends any = any, S extend
       Object.getOwnPropertyNames(this.service.prototype)
         .forEach(key => {
           const isFunction = key !== 'constructor' && typeof this.service.prototype[key] === 'function';
-          const name = key.split(/(?=[A-Z])/).join('_').toUpperCase();
+          const name = toCase(key, 'snake').toUpperCase();
           const isNew = !this.actions.find(x => x.name == name);
           if (isFunction && isNew) {
             const service = this.service;
@@ -73,7 +74,9 @@ export class StoreState<N extends string = string, M extends any = any, S extend
       state = reducer.prePopulate(this as any, state, action as StoreAction);
     });
     this.reducers?.forEach(reducer => {
-      state = reducer.onPopulate(this as any, state, action as StoreAction);
+      if (this.name === action.state) {
+        state = reducer.onPopulate(this as any, state, action as StoreAction);
+      }
     });
     this.reducers?.forEach(reducer => {
       state = reducer.postPopulate(this as any, state, action as StoreAction);

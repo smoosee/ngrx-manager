@@ -12,3 +12,4 @@ export * from './shared/store.types';
 export * from './variations/merge.reducer';
 export * from './variations/ngrx.dispatcher';
 export * from './variations/storage.reducer';
+export * from './shared/store.utils';

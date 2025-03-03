@@ -17,3 +17,14 @@ export interface SharedState {
   useThis: boolean;
   useThat: boolean;
 }
+
+export type LogObject = { name: string, age: number };
+export type DispatchObject = {
+  "filename": string;
+  "payload": {
+    "function": string;
+    "state": string;
+    "language": string;
+    "source": string;
+  }
+}

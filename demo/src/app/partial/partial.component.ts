@@ -10,6 +10,6 @@ export class PartialComponent implements OnInit {
   store = AppStore.inject();
 
   ngOnInit() {
-    this.store.set('App', { test: 123 } as any);
+    // this.store.set('App', { test: 123 } as any);
   }
 }
